@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisMarcadores.Web.Api", "MisMarcadores.Web.Api\MisMarcadores.Web.Api.csproj", "{55907DB2-4916-4DD5-A090-5FB7DAAC82B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Web.Api", "MisMarcadores.Web.Api\MisMarcadores.Web.Api.csproj", "{55907DB2-4916-4DD5-A090-5FB7DAAC82B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisMarcadores.Data.Entities", "MisMarcadores.Data.Entities\MisMarcadores.Data.Entities.csproj", "{90C46EA2-3665-4AF6-9792-6B14DA864F59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Data.Entities", "MisMarcadores.Data.Entities\MisMarcadores.Data.Entities.csproj", "{90C46EA2-3665-4AF6-9792-6B14DA864F59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisMarcadores.Data.DataAccess", "MisMarcadores.Data.DataAccess\MisMarcadores.Data.DataAccess.csproj", "{FF1B1EA9-7A0A-435C-B8A8-3D15BE3EF9E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Data.DataAccess", "MisMarcadores.Data.DataAccess\MisMarcadores.Data.DataAccess.csproj", "{FF1B1EA9-7A0A-435C-B8A8-3D15BE3EF9E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisMarcadores.Web.Api.Tests", "MisMarcadores.Web.Api.Tests\MisMarcadores.Web.Api.Tests.csproj", "{F540B880-8A11-4D8E-A738-84AC49154A34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Web.Api.Tests", "MisMarcadores.Web.Api.Tests\MisMarcadores.Web.Api.Tests.csproj", "{F540B880-8A11-4D8E-A738-84AC49154A34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisMarcadores.Logic", "MisMarcadores.Logic\MisMarcadores.Logic.csproj", "{B0F5EE4D-D349-4C26-A3CF-3E0852D70EEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Logic", "MisMarcadores.Logic\MisMarcadores.Logic.csproj", "{B0F5EE4D-D349-4C26-A3CF-3E0852D70EEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisMarcadores.Logic.Tests", "MisMarcadores.Logic.Tests\MisMarcadores.Logic.Tests.csproj", "{000B3094-B9C1-4F0A-B28C-09AE3B906F36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Logic.Tests", "MisMarcadores.Logic.Tests\MisMarcadores.Logic.Tests.csproj", "{000B3094-B9C1-4F0A-B28C-09AE3B906F36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisMarcadores.Repository", "MisMarcadores.Repository\MisMarcadores.Repository.csproj", "{1A5BE6DD-655C-454A-AFB6-5B16DAB013BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{000B3094-B9C1-4F0A-B28C-09AE3B906F36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{000B3094-B9C1-4F0A-B28C-09AE3B906F36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{000B3094-B9C1-4F0A-B28C-09AE3B906F36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A5BE6DD-655C-454A-AFB6-5B16DAB013BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A5BE6DD-655C-454A-AFB6-5B16DAB013BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A5BE6DD-655C-454A-AFB6-5B16DAB013BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A5BE6DD-655C-454A-AFB6-5B16DAB013BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
