@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using MisMarcadores.Data.Entities;
 
-namespace MisMarcadores.Repository.Implementaciones
+namespace MisMarcadores.Repository
 {
     public class UsuariosRepository : IUsuariosRepository
     {
