@@ -12,5 +12,10 @@ namespace MisMarcadores.Logic
         {
             this.usuariosRepository = usuariosRepository;
         }
+
+        public void AgregarUsuario(Usuario usuario)
+        {
+            usuariosRepository.Agregar(usuario);
+        }
     }
 }
