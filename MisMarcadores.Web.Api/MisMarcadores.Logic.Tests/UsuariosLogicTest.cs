@@ -11,6 +11,22 @@ namespace MisMarcadores.Logic.Tests
     [TestClass]
     public class UsuariosLogicTest
     {
-        
+        [TestMethod]
+        public void CrearUsuarioOkTest()
+        {
+            //Arrange
+            var fakeUsuario = TestHelper.ObtenerUsuarioFalso();
+
+            var mockUsuariosRepository = new Mock<IUsuariosRepository>();
+
+            mockUsuariosRepository
+                .Setup(r => r.Agregar(fakeUsuario));
+
+            var businessLogic = new UsuariosLogic(mockUsuariosRepository.Object);
+
+            //Act
+            businessLogic.AgregarUsuario(fakeUsuario);
+
+        }
     }
 }
