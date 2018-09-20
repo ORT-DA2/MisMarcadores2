@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MisMarcadores.Data.Entities\MisMarcadores.Data.Entities.csproj" />
+    <ProjectReference Include="..\MisMarcadores.Repository\MisMarcadores.Repository.csproj" />
+  </ItemGroup>
+
 </Project>
