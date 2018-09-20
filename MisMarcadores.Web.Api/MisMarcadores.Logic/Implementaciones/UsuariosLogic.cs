@@ -6,6 +6,11 @@ namespace MisMarcadores.Logic
 {
     public class UsuariosLogic : IUsuariosLogic
     {
-        
+        public IUsuariosRepository usuariosRepository;
+
+        public UsuariosLogic(IUsuariosRepository usuariosRepository)
+        {
+            this.usuariosRepository = usuariosRepository;
+        }
     }
 }
