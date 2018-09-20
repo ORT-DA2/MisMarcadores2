@@ -7,12 +7,9 @@ using System.Threading.Tasks;
 
 namespace MisMarcadores.Repository
 {
-    public interface IUsuariosRepository
+    public interface IUsuariosRepository : IRepository<Usuario>
     {
-        IEnumerable<Usuario> ObtenerUsuarios();
-        Usuario ObtenerPorNombreUsuario(string nombreUsuario);
-        bool Agregar(Usuario usuario);
-        bool Borrar(string nombreUsuario);
-        bool Modificar(string nombreUsuario, Usuario nuevoUsuario);
+        
     }
+
 }

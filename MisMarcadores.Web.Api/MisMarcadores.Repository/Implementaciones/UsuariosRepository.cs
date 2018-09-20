@@ -7,27 +7,22 @@ namespace MisMarcadores.Repository
 {
     public class UsuariosRepository : IUsuariosRepository
     {
-        public bool Agregar(Usuario usuario)
+        public void Agregar(Usuario elemento)
         {
             throw new NotImplementedException();
         }
 
-        public bool Borrar(string nombreUsuario)
+        public void Borrar(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public bool Modificar(string nombreUsuario, Usuario nuevoUsuario)
+        public void Modificar(Usuario elemento)
         {
             throw new NotImplementedException();
         }
 
-        public Usuario ObtenerPorNombreUsuario(string nombreUsuario)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Usuario> ObtenerUsuarios()
+        public Usuario Obtener(Guid id)
         {
             throw new NotImplementedException();
         }
