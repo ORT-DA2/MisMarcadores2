@@ -2,17 +2,19 @@
 
 namespace MisMarcadores.Data.Entities
 {
-    public class Deporte
+    public class Sesion
     {
         public Guid Id { get; set; }
-        public String Nombre { get; set; }
+        public String NombreUsuario { get; set; }
+        public Guid Token { get; set; }
 
         public override bool Equals(object obj)
         {
             bool igual = false;
-            if (obj is Deporte)
+            if (obj is Sesion)
             {
-                igual = Nombre.Equals(((Deporte)obj).Nombre);
+                igual = NombreUsuario.Equals(((Sesion)obj).NombreUsuario)
+                    && Token.Equals(((Sesion)obj).Token);
             }
             return igual;
         }

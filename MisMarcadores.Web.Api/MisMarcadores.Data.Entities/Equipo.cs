@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MisMarcadores.Data.Entities
 {
-    [Table("Equipos")]
     public class Equipo
     {
-        [Key]
+        public Guid Id { get; set; }
         public String Nombre { get; set; }
         public String Foto { get; set; }
+        public Deporte Deporte { get; set; }
+
+        public Equipo() {
+            Deporte = new Deporte();
+        }
 
         public override bool Equals(object obj)
         {
