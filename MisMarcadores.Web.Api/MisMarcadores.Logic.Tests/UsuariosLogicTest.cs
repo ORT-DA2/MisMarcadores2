@@ -114,6 +114,26 @@ namespace MisMarcadores.Logic.Tests
             mockUsuariosRepository.VerifyAll();
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(UsuarioDataException))]
+        public void AgregarUsuarioNombreUsuarioVacio()
+        {
+            var fakeUsuario = TestHelper.ObtenerUsuarioNombreUsuarioVacio();
+            var mockUsuariosRepository = new Mock<IUsuariosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockUsuariosRepository
+                .Setup(r => r.Insert(fakeUsuario));
+
+            var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
+
+            //Act
+            businessLogic.AgregarUsuario(fakeUsuario);
+
+            //Assert
+            mockUsuariosRepository.VerifyAll();
+        }
+
 
     }
 }
