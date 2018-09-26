@@ -47,5 +47,18 @@ namespace MisMarcadores.Logic.Tests
                 }
             };
         }
+
+        public static Usuario ObtenerUsuarioMailFormatoErroneo()
+        {
+            return new Usuario
+            {
+                Nombre = "Andres",
+                Apellido = "Correa",
+                NombreUsuario = "acorrea",
+                Contraseña = "acorrea123",
+                Mail = "abcd",
+                Administrador = true,
+            };
+        }
     }
 }
