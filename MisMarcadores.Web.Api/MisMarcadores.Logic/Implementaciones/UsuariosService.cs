@@ -20,14 +20,20 @@ namespace MisMarcadores.Logic
 
         public void AgregarUsuario(Usuario usuario)
         {
-            if (!validarMail(usuario.Mail))
+            if (!mailValido(usuario.Mail) ||
+                !campoValido(usuario.Nombre))
                 throw new UsuarioDataException();
             _usuariosRepository.Insert(usuario);
             _unitOfWork.Save();
             
         }
 
-        protected bool validarMail(string email)
+        private bool campoValido(string campo)
+        {
+            return !string.IsNullOrWhiteSpace(campo);
+        }
+
+        private bool mailValido(string email)
         {
             try
             {
