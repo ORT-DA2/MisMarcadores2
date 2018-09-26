@@ -56,7 +56,7 @@ namespace MisMarcadores.Logic.Tests
 
         [TestMethod]
         [ExpectedException(typeof(UsuarioDataException))]
-        public void AgregarUsuarioNombreVacio()
+        public void AgregarUsuarioNombreVacioTest()
         {
             var fakeUsuario = TestHelper.ObtenerUsuarioNombreVacio();
             var mockUsuariosRepository = new Mock<IUsuariosRepository>();
@@ -76,7 +76,7 @@ namespace MisMarcadores.Logic.Tests
 
         [TestMethod]
         [ExpectedException(typeof(UsuarioDataException))]
-        public void AgregarUsuarioApellidoVacio()
+        public void AgregarUsuarioApellidoVacioTest()
         {
             var fakeUsuario = TestHelper.ObtenerUsuarioApellidoVacio();
             var mockUsuariosRepository = new Mock<IUsuariosRepository>();
@@ -96,7 +96,7 @@ namespace MisMarcadores.Logic.Tests
 
         [TestMethod]
         [ExpectedException(typeof(UsuarioDataException))]
-        public void AgregarUsuarioContraseñaVacia()
+        public void AgregarUsuarioContraseñaVaciaTest()
         {
             var fakeUsuario = TestHelper.ObtenerUsuarioContraseñaVacia();
             var mockUsuariosRepository = new Mock<IUsuariosRepository>();
@@ -116,9 +116,29 @@ namespace MisMarcadores.Logic.Tests
 
         [TestMethod]
         [ExpectedException(typeof(UsuarioDataException))]
-        public void AgregarUsuarioNombreUsuarioVacio()
+        public void AgregarUsuarioNombreUsuarioVacioTest()
         {
             var fakeUsuario = TestHelper.ObtenerUsuarioNombreUsuarioVacio();
+            var mockUsuariosRepository = new Mock<IUsuariosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockUsuariosRepository
+                .Setup(r => r.Insert(fakeUsuario));
+
+            var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
+
+            //Act
+            businessLogic.AgregarUsuario(fakeUsuario);
+
+            //Assert
+            mockUsuariosRepository.VerifyAll();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ExisteUsuarioException))]
+        public void AgregarUsuarioExistenteTest()
+        {
+            var fakeUsuario = TestHelper.ObtenerUsuarioFalso();
             var mockUsuariosRepository = new Mock<IUsuariosRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
