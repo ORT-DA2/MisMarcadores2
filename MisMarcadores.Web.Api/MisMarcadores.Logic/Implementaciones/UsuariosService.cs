@@ -27,8 +27,16 @@ namespace MisMarcadores.Logic
                 !campoValido(usuario.NombreUsuario)
                 )
                 throw new UsuarioDataException();
-            _usuariosRepository.Insert(usuario);
-            _unitOfWork.Save();
+            try
+            {
+                _usuariosRepository.Insert(usuario);
+                _unitOfWork.Save();
+            }
+            catch (UsuarioRepositoryException)
+            {
+                throw new ExisteUsuarioException();
+            }
+            
         }
 
         private bool campoValido(string campo)
