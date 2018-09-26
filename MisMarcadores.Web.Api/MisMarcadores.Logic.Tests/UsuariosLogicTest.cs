@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Logic;
 using MisMarcadores.Repository;
@@ -18,14 +19,18 @@ namespace MisMarcadores.Logic.Tests
             var fakeUsuario = TestHelper.ObtenerUsuarioFalso();
 
             var mockUsuariosRepository = new Mock<IUsuariosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Agregar(fakeUsuario));
+                .Setup(r => r.Insert(fakeUsuario));
 
-            var businessLogic = new UsuariosLogic(mockUsuariosRepository.Object);
+            var businessLogic = new UsuariosService(mockUnitOfWork.Object,mockUsuariosRepository.Object);
 
             //Act
             businessLogic.AgregarUsuario(fakeUsuario);
+
+            //Assert
+            mockUsuariosRepository.VerifyAll();
 
         }
     }
