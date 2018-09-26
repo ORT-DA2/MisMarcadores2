@@ -22,12 +22,12 @@ namespace MisMarcadores.Logic
         {
             if (!mailValido(usuario.Mail) ||
                 !campoValido(usuario.Nombre) ||
-                !campoValido(usuario.Apellido)
+                !campoValido(usuario.Apellido) ||
+                !campoValido(usuario.Contraseña)
                 )
                 throw new UsuarioDataException();
             _usuariosRepository.Insert(usuario);
             _unitOfWork.Save();
-            
         }
 
         private bool campoValido(string campo)
