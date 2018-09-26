@@ -21,7 +21,9 @@ namespace MisMarcadores.Logic
         public void AgregarUsuario(Usuario usuario)
         {
             if (!mailValido(usuario.Mail) ||
-                !campoValido(usuario.Nombre))
+                !campoValido(usuario.Nombre) ||
+                !campoValido(usuario.Apellido)
+                )
                 throw new UsuarioDataException();
             _usuariosRepository.Insert(usuario);
             _unitOfWork.Save();
