@@ -23,7 +23,8 @@ namespace MisMarcadores.Logic
             if (!mailValido(usuario.Mail) ||
                 !campoValido(usuario.Nombre) ||
                 !campoValido(usuario.Apellido) ||
-                !campoValido(usuario.Contraseña)
+                !campoValido(usuario.Contraseña) ||
+                !campoValido(usuario.NombreUsuario)
                 )
                 throw new UsuarioDataException();
             _usuariosRepository.Insert(usuario);
