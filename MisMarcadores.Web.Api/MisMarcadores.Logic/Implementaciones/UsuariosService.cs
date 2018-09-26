@@ -1,7 +1,9 @@
 ﻿using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Repository;
+using MisMarcadores.Repository.Exceptions;
 using System;
+using System.Net.Mail;
 
 namespace MisMarcadores.Logic
 {
@@ -18,8 +20,24 @@ namespace MisMarcadores.Logic
 
         public void AgregarUsuario(Usuario usuario)
         {
+            if (!validarMail(usuario.Mail))
+                throw new UsuarioDataException();
             _usuariosRepository.Insert(usuario);
             _unitOfWork.Save();
+            
+        }
+
+        protected bool validarMail(string email)
+        {
+            try
+            {
+                var addr = new MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
