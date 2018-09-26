@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MisMarcadores.Data.Entities;
+using System.IO;
 
 namespace MisMarcadores.Web.Api.Models
 {
@@ -13,6 +15,13 @@ namespace MisMarcadores.Web.Api.Models
         public DbSet<Encuentro> Encuentros { get; set; }
         public DbSet<Comentario> Comentarios { get; set; }
         public DbSet<Sesion> Sesiones { get; set; }
-    }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Usuario>().Property(u => u.Id).ValueGeneratedOnAdd();
+        }
+
+    }
 }
