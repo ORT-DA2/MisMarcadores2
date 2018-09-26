@@ -86,5 +86,18 @@ namespace MisMarcadores.Logic.Tests
                 Administrador = true,
             };
         }
+
+        public static Usuario ObtenerUsuarioContraseñaVacia()
+        {
+            return new Usuario
+            {
+                Nombre = "Andres",
+                Apellido = "Correa",
+                NombreUsuario = "acorrea",
+                Contraseña = "",
+                Mail = "abcd@gmail.com",
+                Administrador = true,
+            };
+        }
     }
 }
