@@ -3,6 +3,7 @@ using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Logic;
 using MisMarcadores.Repository;
+using MisMarcadores.Repository.Exceptions;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
@@ -143,7 +144,8 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Insert(fakeUsuario));
+                .Setup(r => r.Insert(fakeUsuario))
+                .Throws(new UsuarioRepositoryException());
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
