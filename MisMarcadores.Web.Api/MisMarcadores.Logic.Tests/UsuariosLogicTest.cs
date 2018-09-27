@@ -107,6 +107,29 @@ namespace MisMarcadores.Logic.Tests
         }
 
         [TestMethod]
+        public void ObtenerUsuarioPorNombreUsuarioErrorNotFoundTest()
+        {
+            //Arrange
+            var fakeNombreUsuario = "pepe";
+
+            var mockUsuariosRepository = new Mock<IUsuariosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockUsuariosRepository
+                .Setup(r => r.ObtenerPorNombreUsuario(fakeNombreUsuario))
+                .Returns((Usuario)null);
+
+            var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
+
+            //Act
+            Usuario obtainedResult = businessLogic.ObtenerPorNombreUsuario(fakeNombreUsuario);
+
+            //Assert
+            mockUsuariosRepository.VerifyAll();
+            Assert.IsNull(obtainedResult);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(UsuarioDataException))]
         public void AgregarUsuarioMailFormatoErroneoTest()
         {
