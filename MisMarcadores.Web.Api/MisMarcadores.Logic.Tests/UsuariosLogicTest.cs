@@ -14,7 +14,7 @@ namespace MisMarcadores.Logic.Tests
     public class UsuariosLogicTest
     {
         [TestMethod]
-        public void CrearUsuarioOkTest()
+        public void AgregarUsuarioOkTest()
         {
             //Arrange
             var fakeUsuario = TestHelper.ObtenerUsuarioFalso();
@@ -64,7 +64,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Insert(fakeUsuario));
+                .Setup(r => r.Insertar(fakeUsuario));
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
@@ -84,7 +84,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Insert(fakeUsuario));
+                .Setup(r => r.Insertar(fakeUsuario));
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
@@ -104,7 +104,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Insert(fakeUsuario));
+                .Setup(r => r.Insertar(fakeUsuario));
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
@@ -124,7 +124,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Insert(fakeUsuario));
+                .Setup(r => r.Insertar(fakeUsuario));
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
@@ -144,7 +144,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Insert(fakeUsuario))
+                .Setup(r => r.Insertar(fakeUsuario))
                 .Throws(new UsuarioRepositoryException());
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
