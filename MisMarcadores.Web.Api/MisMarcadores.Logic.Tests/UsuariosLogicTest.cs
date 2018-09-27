@@ -69,7 +69,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Insert(fakeUsuario));
+                .Setup(r => r.Insertar(fakeUsuario));
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object,mockUsuariosRepository.Object);
 
@@ -82,6 +82,31 @@ namespace MisMarcadores.Logic.Tests
         }
 
         [TestMethod]
+        public void ObtenerUsuarioPorNombreUsuarioOkTest()
+        {
+            //Arrange
+            var fakeUsuario = TestHelper.ObtenerUsuarioFalso();
+            var fakeNombreUsuario = "acorrea";
+
+            var mockUsuariosRepository = new Mock<IUsuariosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockUsuariosRepository
+                .Setup(r => r.ObtenerPorNombreUsuario(fakeNombreUsuario))
+                .Returns(fakeUsuario);
+
+            var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
+
+            //Act
+            Usuario obtainedResult = businessLogic.ObtenerPorNombreUsuario(fakeNombreUsuario);
+
+            //Assert
+            mockUsuariosRepository.VerifyAll();
+            Assert.IsNotNull(obtainedResult);
+            Assert.AreEqual(fakeNombreUsuario, obtainedResult.NombreUsuario);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(UsuarioDataException))]
         public void AgregarUsuarioMailFormatoErroneoTest()
         {
@@ -90,7 +115,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Insert(fakeUsuario));
+                .Setup(r => r.Insertar(fakeUsuario));
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
