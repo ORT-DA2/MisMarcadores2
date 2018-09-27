@@ -38,6 +38,28 @@ namespace MisMarcadores.Logic.Tests
         }
 
         [TestMethod]
+        public void ObtenerUsuariosErrorNotFoundTest()
+        {
+            //Arrange
+            List<Usuario> usuariosEsperados = null;
+
+            var mockUsuariosRepository = new Mock<IUsuariosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockUsuariosRepository
+                .Setup(r => r.ObtenerUsuarios())
+                .Returns(usuariosEsperados);
+
+            var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
+
+            //Act
+            IEnumerable<Usuario> obtainedResult = businessLogic.ObtenerUsuarios();
+
+            //Assert
+            mockUsuariosRepository.VerifyAll();
+            Assert.IsNull(obtainedResult);
+        }
+
+        [TestMethod]
         public void AgregarUsuarioOkTest()
         {
             //Arrange
