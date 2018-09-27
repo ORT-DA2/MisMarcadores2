@@ -19,9 +19,9 @@ namespace MisMarcadores.Logic
             _usuariosRepository = usuariosRepository;
         }
 
-        public List<Usuario> ObtenerUsuarios()
+        public IEnumerable<Usuario> ObtenerUsuarios()
         {
-            return _usuariosRepository.ObtenerUsuarios();
+            return _usuariosRepository.GetAll();
         }
 
         public Usuario ObtenerPorNombreUsuario(string nombreUsuario)
@@ -38,9 +38,13 @@ namespace MisMarcadores.Logic
                 !campoValido(usuario.NombreUsuario)
                 )
                 throw new UsuarioDataException();
+
+            if (_usuariosRepository.ObtenerPorNombreUsuario(usuario.NombreUsuario)!=null)
+                throw new ExisteUsuarioException();
+
             try
             {
-                _usuariosRepository.Insertar(usuario);
+                _usuariosRepository.Insert(usuario);
                 _unitOfWork.Save();
             }
             catch (UsuarioRepositoryException)
