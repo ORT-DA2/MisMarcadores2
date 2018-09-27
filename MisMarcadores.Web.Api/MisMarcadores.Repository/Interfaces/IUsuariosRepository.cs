@@ -8,5 +8,7 @@ namespace MisMarcadores.Repository
 {
     public interface IUsuariosRepository : IGenericRepository<Usuario>
     {
+        void Insertar(Usuario sesion);
+        List<Usuario> ObtenerUsuarios();
     }
 }
