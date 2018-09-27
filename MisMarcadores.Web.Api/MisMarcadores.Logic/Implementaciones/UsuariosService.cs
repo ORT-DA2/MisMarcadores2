@@ -3,6 +3,7 @@ using MisMarcadores.Data.Entities;
 using MisMarcadores.Repository;
 using MisMarcadores.Repository.Exceptions;
 using System;
+using System.Collections.Generic;
 using System.Net.Mail;
 
 namespace MisMarcadores.Logic
@@ -18,6 +19,11 @@ namespace MisMarcadores.Logic
             _usuariosRepository = usuariosRepository;
         }
 
+        public List<Usuario> ObtenerUsuarios()
+        {
+            return null;
+        }
+
         public void AgregarUsuario(Usuario usuario)
         {
             if (!mailValido(usuario.Mail) ||
@@ -29,7 +35,7 @@ namespace MisMarcadores.Logic
                 throw new UsuarioDataException();
             try
             {
-                _usuariosRepository.Insert(usuario);
+                _usuariosRepository.Insertar(usuario);
                 _unitOfWork.Save();
             }
             catch (UsuarioRepositoryException)
