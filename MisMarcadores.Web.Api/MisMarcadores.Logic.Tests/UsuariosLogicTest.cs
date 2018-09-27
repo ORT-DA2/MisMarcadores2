@@ -23,7 +23,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUsuariosRepository = new Mock<IUsuariosRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUsuariosRepository
-                .Setup(r => r.ObtenerUsuarios())
+                .Setup(r => r.GetAll())
                 .Returns(usuariosEsperados);
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
@@ -46,7 +46,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUsuariosRepository = new Mock<IUsuariosRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUsuariosRepository
-                .Setup(r => r.ObtenerUsuarios())
+                .Setup(r => r.GetAll())
                 .Returns(usuariosEsperados);
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
@@ -69,7 +69,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Insertar(fakeUsuario));
+                .Setup(r => r.Insert(fakeUsuario));
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object,mockUsuariosRepository.Object);
 
@@ -129,6 +129,8 @@ namespace MisMarcadores.Logic.Tests
             Assert.IsNull(obtainedResult);
         }
 
+
+
         [TestMethod]
         [ExpectedException(typeof(UsuarioDataException))]
         public void AgregarUsuarioMailFormatoErroneoTest()
@@ -138,7 +140,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Insertar(fakeUsuario));
+                .Setup(r => r.Insert(fakeUsuario));
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
@@ -158,7 +160,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Insertar(fakeUsuario));
+                .Setup(r => r.Insert(fakeUsuario));
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
@@ -178,7 +180,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Insertar(fakeUsuario));
+                .Setup(r => r.Insert(fakeUsuario));
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
@@ -198,7 +200,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Insertar(fakeUsuario));
+                .Setup(r => r.Insert(fakeUsuario));
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
@@ -218,7 +220,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Insertar(fakeUsuario));
+                .Setup(r => r.Insert(fakeUsuario));
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
@@ -238,7 +240,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Insertar(fakeUsuario))
+                .Setup(r => r.Insert(fakeUsuario))
                 .Throws(new UsuarioRepositoryException());
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
