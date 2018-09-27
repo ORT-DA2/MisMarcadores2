@@ -24,6 +24,11 @@ namespace MisMarcadores.Logic
             return _usuariosRepository.ObtenerUsuarios();
         }
 
+        public Usuario ObtenerPorNombreUsuario(string nombreUsuario)
+        {
+            return _usuariosRepository.ObtenerPorNombreUsuario(nombreUsuario);
+        }
+
         public void AgregarUsuario(Usuario usuario)
         {
             if (!mailValido(usuario.Mail) ||
