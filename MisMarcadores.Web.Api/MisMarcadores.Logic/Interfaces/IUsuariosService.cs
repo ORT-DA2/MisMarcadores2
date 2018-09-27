@@ -8,5 +8,6 @@ namespace MisMarcadores.Logic
     {
         void AgregarUsuario(Usuario usuario);
         List<Usuario> ObtenerUsuarios();
+        Usuario ObtenerPorNombreUsuario(string nombreUsuario);
     }
 }
