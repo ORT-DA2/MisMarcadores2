@@ -21,7 +21,7 @@ namespace MisMarcadores.Logic
 
         public List<Usuario> ObtenerUsuarios()
         {
-            return null;
+            return _usuariosRepository.ObtenerUsuarios();
         }
 
         public void AgregarUsuario(Usuario usuario)
