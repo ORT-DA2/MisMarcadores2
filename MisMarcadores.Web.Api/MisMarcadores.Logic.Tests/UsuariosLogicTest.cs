@@ -13,6 +13,30 @@ namespace MisMarcadores.Logic.Tests
     [TestClass]
     public class UsuariosLogicTest
     {
+
+        [TestMethod]
+        public void ObtenerUsuariosOkTest()
+        {
+            //Arrange
+            var usuariosEsperados = TestHelper.ObtenerUsuariosFalsos();
+
+            var mockUsuariosRepository = new Mock<IUsuariosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockUsuariosRepository
+                .Setup(r => r.ObtenerUsuarios())
+                .Returns(usuariosEsperados);
+
+            var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
+
+            //Act
+            IEnumerable<Usuario> obtainedResult = businessLogic.ObtenerUsuarios();
+
+            //Assert
+            mockUsuariosRepository.VerifyAll();
+            Assert.IsNotNull(obtainedResult);
+            Assert.AreEqual(usuariosEsperados, obtainedResult);
+        }
+
         [TestMethod]
         public void AgregarUsuarioOkTest()
         {

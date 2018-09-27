@@ -14,7 +14,7 @@ namespace MisMarcadores.Logic.Tests
             return usuarios.FirstOrDefault();
         }
 
-        public static IEnumerable<Usuario> ObtenerUsuariosFalsos()
+        public static List<Usuario> ObtenerUsuariosFalsos()
         {
             return new List<Usuario>
             {
