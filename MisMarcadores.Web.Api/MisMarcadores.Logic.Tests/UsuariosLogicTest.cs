@@ -261,8 +261,31 @@ namespace MisMarcadores.Logic.Tests
             var mockUsuariosRepository = new Mock<IUsuariosRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
+            mockUsuariosRepository.Setup(r => r.ObtenerPorNombreUsuario(fakeNombreUsuario)).Returns(fakeUsuario);
+            mockUsuariosRepository.Setup(r => r.Modificar(fakeUsuario));
+
+            var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
+
+            //Act
+            businessLogic.Modificar(fakeNombreUsuario, fakeUsuario);
+
+            //Assert
+            mockUsuariosRepository.VerifyAll();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UsuarioDataException))]
+        public void ActualizarUsuarioDatosErroneosTest()
+        {
+            //Arrange
+            var fakeUsuario = TestHelper.ObtenerUsuarioNombreVacio();
+            var fakeNombreUsuario = fakeUsuario.NombreUsuario;
+            var mockUsuariosRepository = new Mock<IUsuariosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
             mockUsuariosRepository
-                .Setup(r => r.Update(fakeUsuario));
+                .Setup(r => r.Update(fakeUsuario))
+                .Throws(new UsuarioDataException());
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
