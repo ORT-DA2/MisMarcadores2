@@ -310,7 +310,7 @@ namespace MisMarcadores.Logic.Tests
             mockUsuariosRepository
                 .Setup(r => r.ObtenerPorNombreUsuario(fakeNombreUsuario)).Returns(fakeUsuario);
             mockUsuariosRepository
-                .Setup(r => r.Borrar(fakeUsuario));
+                .Setup(r => r.Borrar(fakeUsuario.Id));
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
@@ -332,7 +332,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockUsuariosRepository = new Mock<IUsuariosRepository>();
             mockUsuariosRepository
-                .Setup(bl => bl.Borrar(fakeUsuario))
+                .Setup(bl => bl.Borrar(fakeUsuario.Id))
                 .Throws(new NoExisteUsuarioException());
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
