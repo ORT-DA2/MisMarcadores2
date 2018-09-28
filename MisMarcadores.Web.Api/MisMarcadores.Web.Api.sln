@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Web.Api", "MisMarcadores.Web.Api\MisMarcadores.Web.Api.csproj", "{55907DB2-4916-4DD5-A090-5FB7DAAC82B5}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Data.Entities", "MisMarcadores.Data.Entities\MisMarcadores.Data.Entities.csproj", "{90C46EA2-3665-4AF6-9792-6B14DA864F59}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Data.DataAccess", "MisMarcadores.Data.DataAccess\MisMarcadores.Data.DataAccess.csproj", "{FF1B1EA9-7A0A-435C-B8A8-3D15BE3EF9E5}"
@@ -15,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Logic", "MisM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Logic.Tests", "MisMarcadores.Logic.Tests\MisMarcadores.Logic.Tests.csproj", "{000B3094-B9C1-4F0A-B28C-09AE3B906F36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisMarcadores.Repository", "MisMarcadores.Repository\MisMarcadores.Repository.csproj", "{1A5BE6DD-655C-454A-AFB6-5B16DAB013BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Repository", "MisMarcadores.Repository\MisMarcadores.Repository.csproj", "{1A5BE6DD-655C-454A-AFB6-5B16DAB013BE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B7239631-86F8-4BD3-8655-34FDB4AE5AB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisMarcadores.Web.Api", "MisMarcadores.Web.Api\MisMarcadores.Web.Api.csproj", "{12AE8CFC-7AEF-4C4D-B92B-76FCA89DBD37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{55907DB2-4916-4DD5-A090-5FB7DAAC82B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55907DB2-4916-4DD5-A090-5FB7DAAC82B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55907DB2-4916-4DD5-A090-5FB7DAAC82B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55907DB2-4916-4DD5-A090-5FB7DAAC82B5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{90C46EA2-3665-4AF6-9792-6B14DA864F59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{90C46EA2-3665-4AF6-9792-6B14DA864F59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90C46EA2-3665-4AF6-9792-6B14DA864F59}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,6 +49,10 @@ Global
 		{1A5BE6DD-655C-454A-AFB6-5B16DAB013BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A5BE6DD-655C-454A-AFB6-5B16DAB013BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A5BE6DD-655C-454A-AFB6-5B16DAB013BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12AE8CFC-7AEF-4C4D-B92B-76FCA89DBD37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12AE8CFC-7AEF-4C4D-B92B-76FCA89DBD37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12AE8CFC-7AEF-4C4D-B92B-76FCA89DBD37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12AE8CFC-7AEF-4C4D-B92B-76FCA89DBD37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
