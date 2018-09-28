@@ -252,6 +252,27 @@ namespace MisMarcadores.Logic.Tests
             mockUsuariosRepository.VerifyAll();
         }
 
+        [TestMethod]
+        public void ActualizarUsuarioExistenteOkTest()
+        {
+            //Arrange
+            var fakeUsuario = TestHelper.ObtenerUsuarioFalso();
+            var fakeNombreUsuario = fakeUsuario.NombreUsuario;
+            var mockUsuariosRepository = new Mock<IUsuariosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockUsuariosRepository
+                .Setup(r => r.Update(fakeUsuario));
+
+            var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
+
+            //Act
+            businessLogic.Modificar(fakeNombreUsuario, fakeUsuario);
+
+            //Assert
+            mockUsuariosRepository.VerifyAll();
+        }
+
 
     }
 }
