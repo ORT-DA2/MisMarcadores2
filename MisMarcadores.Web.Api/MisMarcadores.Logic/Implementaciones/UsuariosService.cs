@@ -86,7 +86,7 @@ namespace MisMarcadores.Logic
                 throw new NoExisteUsuarioException();
             try
             {
-                _usuariosRepository.Borrar(usuario);
+                _usuariosRepository.Borrar(usuario.Id);
                 _unitOfWork.Save();
             }
             catch (UsuarioRepositoryException)
