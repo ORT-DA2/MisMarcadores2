@@ -232,27 +232,6 @@ namespace MisMarcadores.Logic.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ExisteUsuarioException))]
-        public void AgregarUsuarioExistenteTest()
-        {
-            var fakeUsuario = TestHelper.ObtenerUsuarioFalso();
-            var mockUsuariosRepository = new Mock<IUsuariosRepository>();
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            mockUsuariosRepository
-                .Setup(r => r.Insert(fakeUsuario))
-                .Throws(new UsuarioRepositoryException());
-
-            var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
-
-            //Act
-            businessLogic.AgregarUsuario(fakeUsuario);
-
-            //Assert
-            mockUsuariosRepository.VerifyAll();
-        }
-
-        [TestMethod]
         public void ActualizarUsuarioExistenteOkTest()
         {
             //Arrange
@@ -284,8 +263,31 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Update(fakeUsuario))
+                .Setup(r => r.Modificar(fakeUsuario))
                 .Throws(new UsuarioDataException());
+
+            var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
+
+            //Act
+            businessLogic.Modificar(fakeNombreUsuario, fakeUsuario);
+
+            //Assert
+            mockUsuariosRepository.VerifyAll();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NoExisteUsuarioException))]
+        public void ActualizarUsuarioNoExistenteTest()
+        {
+            //Arrange
+            var fakeUsuario = TestHelper.ObtenerUsuarioFalso();
+            var fakeNombreUsuario = fakeUsuario.NombreUsuario;
+            var mockUsuariosRepository = new Mock<IUsuariosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockUsuariosRepository
+                .Setup(r => r.Modificar(fakeUsuario))
+                .Throws(new NoExisteUsuarioException());
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
