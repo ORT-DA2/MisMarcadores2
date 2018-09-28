@@ -31,11 +31,11 @@ namespace MisMarcadores.Logic
 
         public void AgregarUsuario(Usuario usuario)
         {
-            if (!mailValido(usuario.Mail) ||
-                !campoValido(usuario.Nombre) ||
-                !campoValido(usuario.Apellido) ||
-                !campoValido(usuario.Contraseña) ||
-                !campoValido(usuario.NombreUsuario)
+            if (!MailValido(usuario.Mail) ||
+                !CampoValido(usuario.Nombre) ||
+                !CampoValido(usuario.Apellido) ||
+                !CampoValido(usuario.Contraseña) ||
+                !CampoValido(usuario.NombreUsuario)
                 )
                 throw new UsuarioDataException();
 
@@ -54,12 +54,18 @@ namespace MisMarcadores.Logic
             
         }
 
-        private bool campoValido(string campo)
+        public void Modificar(string nombreUsuario, Usuario usuario)
+        {
+            _usuariosRepository.Modificar(usuario);
+            _unitOfWork.Save();
+        }
+
+        private bool CampoValido(string campo)
         {
             return !string.IsNullOrWhiteSpace(campo);
         }
 
-        private bool mailValido(string email)
+        private bool MailValido(string email)
         {
             try
             {
