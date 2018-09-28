@@ -10,5 +10,6 @@ namespace MisMarcadores.Logic
         IEnumerable<Usuario> ObtenerUsuarios();
         Usuario ObtenerPorNombreUsuario(string nombreUsuario);
         void Modificar(string nombreUsuario, Usuario usuario);
+        void Borrar(string nombreUsuario);
     }
 }
