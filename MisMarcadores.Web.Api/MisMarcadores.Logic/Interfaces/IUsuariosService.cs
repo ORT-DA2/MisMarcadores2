@@ -9,5 +9,6 @@ namespace MisMarcadores.Logic
         void AgregarUsuario(Usuario usuario);
         IEnumerable<Usuario> ObtenerUsuarios();
         Usuario ObtenerPorNombreUsuario(string nombreUsuario);
+        void Modificar(string nombreUsuario, Usuario usuario);
     }
 }
