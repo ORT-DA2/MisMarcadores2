@@ -63,13 +63,29 @@ namespace MisMarcadores.Logic
                 )
                 throw new UsuarioDataException();
 
-            Usuario usuarioActual = _usuariosRepository.ObtenerPorNombreUsuario(nombreUsuario);
-            
+            Usuario usuarioActual = ObtenerPorNombreUsuario(nombreUsuario);
+            if (usuarioActual == null)
+                throw new NoExisteUsuarioException();
             try
             {
                 usuario.NombreUsuario = nombreUsuario;
                 usuario.Id = usuarioActual.Id;
                 _usuariosRepository.Modificar(usuario);
+                _unitOfWork.Save();
+            }
+            catch (UsuarioRepositoryException)
+            {
+                throw new RepositoryException();
+            }
+        }
+
+        public void Borrar(string nombreUsuario)
+        {
+            Usuario usuario = ObtenerPorNombreUsuario(nombreUsuario);
+            
+            try
+            {
+                _usuariosRepository.Borrar(usuario);
                 _unitOfWork.Save();
             }
             catch (UsuarioRepositoryException)
