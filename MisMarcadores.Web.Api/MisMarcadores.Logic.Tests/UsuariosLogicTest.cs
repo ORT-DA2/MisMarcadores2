@@ -298,6 +298,29 @@ namespace MisMarcadores.Logic.Tests
             mockUsuariosRepository.VerifyAll();
         }
 
+        [TestMethod]
+        public void BorrarUsuarioOkTest()
+        {
+            //Arrange
+            var fakeUsuario = TestHelper.ObtenerUsuarioFalso();
+            var fakeNombreUsuario = fakeUsuario.NombreUsuario;
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockUsuariosRepository = new Mock<IUsuariosRepository>();
+            mockUsuariosRepository
+                .Setup(r => r.ObtenerPorNombreUsuario(fakeNombreUsuario)).Returns(fakeUsuario);
+            mockUsuariosRepository
+                .Setup(r => r.Borrar(fakeUsuario));
+
+            var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
+
+            //Act
+            businessLogic.Borrar(fakeNombreUsuario);
+
+            //Assert
+            mockUsuariosRepository.VerifyAll();
+        }
+
 
     }
 }
