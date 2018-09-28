@@ -10,5 +10,6 @@ namespace MisMarcadores.Repository
     {
         Usuario ObtenerPorNombreUsuario(string nombreUsuario);
         void Modificar(Usuario usuario);
+        void Borrar(Guid id);
     }
 }
