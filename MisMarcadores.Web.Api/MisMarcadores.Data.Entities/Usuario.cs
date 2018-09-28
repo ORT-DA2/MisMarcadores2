@@ -12,14 +12,6 @@ namespace MisMarcadores.Data.Entities
         public String Mail { get; set; }
         public String Contraseña { get; set; }
         public bool Administrador { get; set; }
-        public bool Borrado { get; set; }
-        public List<Equipo> Favoritos { get; set; }
-
-        public Usuario()
-        {
-            Borrado = false;
-            Favoritos = new List<Equipo>();
-        }
 
         public override bool Equals(object obj)
         {
