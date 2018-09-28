@@ -82,7 +82,8 @@ namespace MisMarcadores.Logic
         public void Borrar(string nombreUsuario)
         {
             Usuario usuario = ObtenerPorNombreUsuario(nombreUsuario);
-            
+            if (usuario == null)
+                throw new NoExisteUsuarioException();
             try
             {
                 _usuariosRepository.Borrar(usuario);
