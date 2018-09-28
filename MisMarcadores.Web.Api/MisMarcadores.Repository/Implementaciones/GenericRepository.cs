@@ -6,13 +6,13 @@ using System.Linq.Expressions;
 using MisMarcadores.Web.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace MisMarcadores.Data.DataAccess
+namespace MisMarcadores.Repository
 {
 
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        internal MisMarcadoresContext context;
-        internal DbSet<TEntity> dbSet;
+        protected MisMarcadoresContext context;
+        protected DbSet<TEntity> dbSet;
 
         public GenericRepository(MisMarcadoresContext context)
         {

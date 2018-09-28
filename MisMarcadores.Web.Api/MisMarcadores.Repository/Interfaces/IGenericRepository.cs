@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Linq;
 
-namespace MisMarcadores.Data.DataAccess
+namespace MisMarcadores.Repository
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
