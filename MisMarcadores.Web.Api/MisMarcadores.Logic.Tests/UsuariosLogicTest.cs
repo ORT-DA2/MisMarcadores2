@@ -321,6 +321,28 @@ namespace MisMarcadores.Logic.Tests
             mockUsuariosRepository.VerifyAll();
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(NoExisteUsuarioException))]
+        public void BorrarUsuarioNoExistenteErrorTest()
+        {
+            //Arrange
+            var fakeUsuario = TestHelper.ObtenerUsuarioFalso();
+            var fakeNombreUsuario = fakeUsuario.NombreUsuario;
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockUsuariosRepository = new Mock<IUsuariosRepository>();
+            mockUsuariosRepository
+                .Setup(bl => bl.Borrar(fakeUsuario))
+                .Throws(new NoExisteUsuarioException());
+
+            var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
+
+            //Act
+            businessLogic.Borrar(fakeNombreUsuario);
+
+            //Assert
+            mockUsuariosRepository.VerifyAll();
+        }
 
     }
 }
