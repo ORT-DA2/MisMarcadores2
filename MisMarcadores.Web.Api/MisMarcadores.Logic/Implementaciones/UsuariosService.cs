@@ -49,15 +49,33 @@ namespace MisMarcadores.Logic
             }
             catch (UsuarioRepositoryException)
             {
-                throw new ExisteUsuarioException();
+                throw new RepositoryException();
             }
             
         }
 
         public void Modificar(string nombreUsuario, Usuario usuario)
         {
-            _usuariosRepository.Modificar(usuario);
-            _unitOfWork.Save();
+            if (!MailValido(usuario.Mail) ||
+                !CampoValido(usuario.Nombre) ||
+                !CampoValido(usuario.Apellido) ||
+                !CampoValido(usuario.Contraseña)
+                )
+                throw new UsuarioDataException();
+
+            Usuario usuarioActual = _usuariosRepository.ObtenerPorNombreUsuario(nombreUsuario);
+            
+            try
+            {
+                usuario.NombreUsuario = nombreUsuario;
+                usuario.Id = usuarioActual.Id;
+                _usuariosRepository.Modificar(usuario);
+                _unitOfWork.Save();
+            }
+            catch (UsuarioRepositoryException)
+            {
+                throw new RepositoryException();
+            }
         }
 
         private bool CampoValido(string campo)
