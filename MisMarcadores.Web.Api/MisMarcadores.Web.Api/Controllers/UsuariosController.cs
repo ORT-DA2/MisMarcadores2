@@ -75,7 +75,7 @@ namespace MisMarcadores.Web.Api
             if (!ModelState.IsValid) return BadRequest("Datos invalidos");
             try
             {
-                this._usuariosService.Modificar(nombreUsuario, usuario.TransformarAUsuario());
+                this._usuariosService.ModificarUsuario(nombreUsuario, usuario.TransformarAUsuario());
                 return Ok();
             }
             catch (UsuarioDataException)
@@ -94,7 +94,7 @@ namespace MisMarcadores.Web.Api
         {
             try
             {
-                this._usuariosService.Borrar(nombreUsuario);
+                this._usuariosService.BorrarUsuario(nombreUsuario);
                 return Ok();
             }
             catch (NoExisteUsuarioException)
