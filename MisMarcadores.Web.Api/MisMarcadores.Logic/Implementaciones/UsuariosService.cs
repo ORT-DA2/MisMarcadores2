@@ -54,7 +54,7 @@ namespace MisMarcadores.Logic
             
         }
 
-        public void Modificar(string nombreUsuario, Usuario usuario)
+        public void ModificarUsuario(string nombreUsuario, Usuario usuario)
         {
             if (!MailValido(usuario.Mail) ||
                 !CampoValido(usuario.Nombre) ||
@@ -79,7 +79,7 @@ namespace MisMarcadores.Logic
             }
         }
 
-        public void Borrar(string nombreUsuario)
+        public void BorrarUsuario(string nombreUsuario)
         {
             Usuario usuario = ObtenerPorNombreUsuario(nombreUsuario);
             if (usuario == null)
