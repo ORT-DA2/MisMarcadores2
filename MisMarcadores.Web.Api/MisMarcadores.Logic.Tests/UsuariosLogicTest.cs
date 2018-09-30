@@ -246,7 +246,7 @@ namespace MisMarcadores.Logic.Tests
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
             //Act
-            businessLogic.Modificar(fakeNombreUsuario, fakeUsuario);
+            businessLogic.ModificarUsuario(fakeNombreUsuario, fakeUsuario);
 
             //Assert
             mockUsuariosRepository.VerifyAll();
@@ -269,7 +269,7 @@ namespace MisMarcadores.Logic.Tests
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
             //Act
-            businessLogic.Modificar(fakeNombreUsuario, fakeUsuario);
+            businessLogic.ModificarUsuario(fakeNombreUsuario, fakeUsuario);
 
             //Assert
             mockUsuariosRepository.VerifyAll();
@@ -292,7 +292,7 @@ namespace MisMarcadores.Logic.Tests
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
             //Act
-            businessLogic.Modificar(fakeNombreUsuario, fakeUsuario);
+            businessLogic.ModificarUsuario(fakeNombreUsuario, fakeUsuario);
 
             //Assert
             mockUsuariosRepository.VerifyAll();
@@ -315,7 +315,7 @@ namespace MisMarcadores.Logic.Tests
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
             //Act
-            businessLogic.Borrar(fakeNombreUsuario);
+            businessLogic.BorrarUsuario(fakeNombreUsuario);
 
             //Assert
             mockUsuariosRepository.VerifyAll();
@@ -338,7 +338,7 @@ namespace MisMarcadores.Logic.Tests
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
             //Act
-            businessLogic.Borrar(fakeNombreUsuario);
+            businessLogic.BorrarUsuario(fakeNombreUsuario);
 
             //Assert
             mockUsuariosRepository.VerifyAll();
