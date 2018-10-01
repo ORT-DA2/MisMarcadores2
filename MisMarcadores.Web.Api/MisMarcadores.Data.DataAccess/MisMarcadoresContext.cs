@@ -21,6 +21,7 @@ namespace MisMarcadores.Web.Api.Models
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Usuario>().Property(u => u.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Sesion>().HasKey(s => s.NombreUsuario);
         }
 
     }

@@ -4,7 +4,6 @@ namespace MisMarcadores.Data.Entities
 {
     public class Sesion
     {
-        public Guid Id { get; set; }
         public String NombreUsuario { get; set; }
         public Guid Token { get; set; }
 
