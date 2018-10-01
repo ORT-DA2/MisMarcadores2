@@ -152,5 +152,26 @@ namespace MisMarcadores.Logic.Tests
             Assert.AreEqual(fakeUsuario, obtainedResult);
         }
 
+        [TestMethod]
+        public void ObtenerUsuarioPorTokenErrorNotFoundTest()
+        {
+            //Arrange
+            var fakeSesion = TestHelper.ObtenerSesionFalsa();
+            
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockSesionesRepository = new Mock<ISesionesRepository>();
+            mockSesionesRepository
+                .Setup(r => r.ObtenerUsuarioPorToken(fakeSesion.Token))
+                .Returns((Usuario)null);
+
+            var businessLogic = new SesionesService(mockUnitOfWork.Object, mockSesionesRepository.Object);
+
+            //Act
+            Usuario obtainedResult = businessLogic.ObtenerUsuarioPorToken(fakeSesion.Token);
+
+            //Assert
+            mockSesionesRepository.VerifyAll();
+            Assert.IsNull(obtainedResult);
+        }
     }
 }
