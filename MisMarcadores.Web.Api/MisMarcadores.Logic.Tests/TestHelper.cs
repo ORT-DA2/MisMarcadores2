@@ -117,7 +117,7 @@ namespace MisMarcadores.Logic.Tests
         {
             return new Sesion
             {
-                NombreUsuario = "rcaram",
+                NombreUsuario = "acorrea",
                 Token = Guid.NewGuid()
             };
         }

@@ -83,5 +83,29 @@ namespace MisMarcadores.Logic.Tests
             Assert.IsNotNull(obtainedResult);
             Assert.AreEqual(fakeSesion.NombreUsuario, obtainedResult.NombreUsuario);
         }
+
+        [TestMethod]
+        public void IniciarSesionInvalidaErrorTest()
+        {
+            //Arrange
+            var fakeSesion = TestHelper.ObtenerSesionFalsa();
+            var fakeUsuario = fakeSesion.NombreUsuario;
+            var fakeContraseña = "acorrea123";
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockSesionesRepository = new Mock<ISesionesRepository>();
+            mockSesionesRepository
+                .Setup(r => r.CredencialesValidas(fakeUsuario, fakeContraseña))
+                .Returns(false);
+
+            var businessLogic = new SesionesService(mockUnitOfWork.Object, mockSesionesRepository.Object);
+
+            //Act
+            Sesion obtainedResult = businessLogic.Login(fakeUsuario, fakeContraseña);
+
+            //Assert
+            mockSesionesRepository.VerifyAll();
+            Assert.IsNull(obtainedResult);
+        }
     }
 }
