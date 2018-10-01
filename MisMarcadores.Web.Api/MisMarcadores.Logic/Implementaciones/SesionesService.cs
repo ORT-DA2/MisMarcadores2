@@ -20,7 +20,19 @@ namespace MisMarcadores.Logic
 
         public Sesion Login(string nombreUsuario, string contraseña)
         {
-            throw new NotImplementedException();
+            Sesion nuevaSesion = null;
+            bool loginValido = _sesionesRepository.CredencialesValidas(nombreUsuario, contraseña);
+            if (loginValido)
+            {
+                nuevaSesion = new Sesion()
+                {
+                    NombreUsuario = nombreUsuario,
+                    Token = Guid.NewGuid()
+                };
+                _sesionesRepository.AgregarSesion(nuevaSesion);
+                _unitOfWork.Save();
+            }
+            return nuevaSesion;
         }
 
         public void Logout(Guid token)
