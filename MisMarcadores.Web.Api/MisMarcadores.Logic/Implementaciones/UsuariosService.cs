@@ -70,7 +70,7 @@ namespace MisMarcadores.Logic
             {
                 usuario.NombreUsuario = nombreUsuario;
                 usuario.Id = usuarioActual.Id;
-                _usuariosRepository.Modificar(usuario);
+                _usuariosRepository.ModificarUsuario(usuario);
                 _unitOfWork.Save();
             }
             catch (UsuarioRepositoryException)
@@ -86,7 +86,7 @@ namespace MisMarcadores.Logic
                 throw new NoExisteUsuarioException();
             try
             {
-                _usuariosRepository.Borrar(usuario.Id);
+                _usuariosRepository.BorrarUsuario(usuario.Id);
                 _unitOfWork.Save();
             }
             catch (UsuarioRepositoryException)

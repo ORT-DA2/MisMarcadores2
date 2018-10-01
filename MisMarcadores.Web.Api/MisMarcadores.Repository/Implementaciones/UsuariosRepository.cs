@@ -18,7 +18,7 @@ namespace MisMarcadores.Repository
             return context.Usuarios.FirstOrDefault(x => x.NombreUsuario.Equals(nombreUsuario));
         }
 
-        public void Modificar(Usuario usuario)
+        public void ModificarUsuario(Usuario usuario)
         {
             var usuarioOriginal = ObtenerPorNombreUsuario(usuario.NombreUsuario);
             context.Usuarios.Attach(usuarioOriginal);
@@ -26,7 +26,7 @@ namespace MisMarcadores.Repository
             entry.CurrentValues.SetValues(usuario);
         }
 
-        public void Borrar(Guid id) {
+        public void BorrarUsuario(Guid id) {
             Usuario usuario = context.Usuarios.FirstOrDefault(u => u.Id == id);
             context.Usuarios.Remove(usuario);
         }

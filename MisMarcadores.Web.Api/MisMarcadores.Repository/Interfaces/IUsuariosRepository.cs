@@ -9,7 +9,7 @@ namespace MisMarcadores.Repository
     public interface IUsuariosRepository : IGenericRepository<Usuario>
     {
         Usuario ObtenerPorNombreUsuario(string nombreUsuario);
-        void Modificar(Usuario usuario);
-        void Borrar(Guid id);
+        void ModificarUsuario(Usuario usuario);
+        void BorrarUsuario(Guid id);
     }
 }

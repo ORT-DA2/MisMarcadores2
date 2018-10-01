@@ -241,7 +241,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository.Setup(r => r.ObtenerPorNombreUsuario(fakeNombreUsuario)).Returns(fakeUsuario);
-            mockUsuariosRepository.Setup(r => r.Modificar(fakeUsuario));
+            mockUsuariosRepository.Setup(r => r.ModificarUsuario(fakeUsuario));
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
@@ -263,7 +263,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Modificar(fakeUsuario))
+                .Setup(r => r.ModificarUsuario(fakeUsuario))
                 .Throws(new UsuarioDataException());
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
@@ -286,7 +286,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUsuariosRepository
-                .Setup(r => r.Modificar(fakeUsuario))
+                .Setup(r => r.ModificarUsuario(fakeUsuario))
                 .Throws(new NoExisteUsuarioException());
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
@@ -310,7 +310,7 @@ namespace MisMarcadores.Logic.Tests
             mockUsuariosRepository
                 .Setup(r => r.ObtenerPorNombreUsuario(fakeNombreUsuario)).Returns(fakeUsuario);
             mockUsuariosRepository
-                .Setup(r => r.Borrar(fakeUsuario.Id));
+                .Setup(r => r.BorrarUsuario(fakeUsuario.Id));
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
 
@@ -332,7 +332,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockUsuariosRepository = new Mock<IUsuariosRepository>();
             mockUsuariosRepository
-                .Setup(bl => bl.Borrar(fakeUsuario.Id))
+                .Setup(r => r.BorrarUsuario(fakeUsuario.Id))
                 .Throws(new NoExisteUsuarioException());
 
             var businessLogic = new UsuariosService(mockUnitOfWork.Object, mockUsuariosRepository.Object);
