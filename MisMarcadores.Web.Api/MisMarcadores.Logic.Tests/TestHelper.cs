@@ -112,5 +112,14 @@ namespace MisMarcadores.Logic.Tests
                 Administrador = true,
             };
         }
+
+        public static Sesion ObtenerSesionFalsa()
+        {
+            return new Sesion
+            {
+                NombreUsuario = "rcaram",
+                Token = Guid.NewGuid()
+            };
+        }
     }
 }
