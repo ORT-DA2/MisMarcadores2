@@ -107,5 +107,25 @@ namespace MisMarcadores.Logic.Tests
             mockSesionesRepository.VerifyAll();
             Assert.IsNull(obtainedResult);
         }
+
+        [TestMethod]
+        public void CerrarSesionTestOK()
+        {
+            //Arrange
+            var fakeSesion = TestHelper.ObtenerSesionFalsa();
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockSesionesRepository = new Mock<ISesionesRepository>();
+            mockSesionesRepository
+                .Setup(r => r.BorrarSesion(fakeSesion.Token));
+
+            var businessLogic = new SesionesService(mockUnitOfWork.Object, mockSesionesRepository.Object);
+
+            //Act
+            businessLogic.Logout(fakeSesion.Token);
+
+            //Assert
+            mockSesionesRepository.VerifyAll();
+        }
     }
 }
