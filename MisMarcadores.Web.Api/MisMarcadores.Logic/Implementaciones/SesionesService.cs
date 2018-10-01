@@ -37,7 +37,8 @@ namespace MisMarcadores.Logic
 
         public void Logout(Guid token)
         {
-            throw new NotImplementedException();
+            _sesionesRepository.BorrarSesion(token);
+            _unitOfWork.Save();
         }
 
         public Sesion ObtenerPorToken(Guid token)
