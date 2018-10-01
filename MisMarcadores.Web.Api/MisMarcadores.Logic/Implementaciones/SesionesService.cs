@@ -48,7 +48,7 @@ namespace MisMarcadores.Logic
 
         public Usuario ObtenerUsuarioPorToken(Guid token)
         {
-            throw new NotImplementedException();
+            return _sesionesRepository.ObtenerUsuarioPorToken(token);
         }
     }
 }
