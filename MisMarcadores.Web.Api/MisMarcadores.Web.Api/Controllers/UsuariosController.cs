@@ -9,6 +9,7 @@ using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Logic;
 using MisMarcadores.Repository.Exceptions;
+using MisMarcadores.Web.Api.Filters;
 using MisMarcadores.Web.Api.Models;
 
 namespace MisMarcadores.Web.Api
@@ -16,6 +17,7 @@ namespace MisMarcadores.Web.Api
     [Produces("application/json")]
     [Route("api/Usuarios")]
 
+    [ServiceFilter(typeof(AutenticacionFilter))]
     public class UsuariosController : Controller
     {
         private IUsuariosService _usuariosService { get; set; }
@@ -38,7 +40,7 @@ namespace MisMarcadores.Web.Api
         }
 
         // GET: api/Usuarios
-        [HttpGet("{nombreUsuario}")]
+        [HttpGet("{nombreUsuario}", Name = nameof(Get))]
         public IActionResult Get(string nombreUsuario)
         {
             Usuario usuario = _usuariosService.ObtenerPorNombreUsuario(nombreUsuario);
@@ -56,7 +58,7 @@ namespace MisMarcadores.Web.Api
             try
             {
                 this._usuariosService.AgregarUsuario(usuario.TransformarAUsuario());
-                return CreatedAtRoute("DefaultApi", new { nombre = usuario.NombreUsuario }, usuario);
+                return CreatedAtRoute(nameof(UsuariosController.Get), new { nombreUsuario = usuario.NombreUsuario }, usuario);
             }
             catch (UsuarioDataException)
             {
@@ -64,7 +66,7 @@ namespace MisMarcadores.Web.Api
             }
             catch (ExisteUsuarioException)
             {
-                return StatusCode(409, "El usuario ya existe en la BD.");
+                return StatusCode(409, "El nombre de usuario ya existe en la BD.");
             }
         }
 
