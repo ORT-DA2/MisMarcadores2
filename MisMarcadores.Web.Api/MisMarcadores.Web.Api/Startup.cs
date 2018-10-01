@@ -14,6 +14,7 @@ using MisMarcadores.Logic;
 using MisMarcadores.Web.Api.Models;
 using MisMarcadores.Repository;
 using MisMarcadores.Data.DataAccess;
+using MisMarcadores.Web.Api.Filters;
 
 namespace MisMarcadores.Web.Api
 {
@@ -30,22 +31,21 @@ namespace MisMarcadores.Web.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            //Ejemplo de EF en Memoria
-            //services.AddDbContext<DomainContext>(options => options.UseInMemoryDatabase(Configuration.GetConnectionString("WACDatabase")));
-            //Ejemplo de EF con SQLServer
             services.AddDbContext<MisMarcadoresContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MisMarcadoresDB")));
             services.AddScoped<DbContext, MisMarcadoresContext>();
 
-            services.AddScoped<IUsuariosService, UsuariosService>();
-            services.AddScoped<IUsuariosRepository, UsuariosRepository>();
-
             //SERVICES
             services.AddScoped<IUsuariosService, UsuariosService>();
-            
+            services.AddScoped<ISesionesService, SesionesService>();
+
             //DATA ACCESS
             services.AddScoped<IUsuariosRepository, UsuariosRepository>();
+            services.AddScoped<ISesionesRepository, SesionesRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            //FILTERS
+            services.AddScoped<AutenticacionFilter>();
 
         }
 
