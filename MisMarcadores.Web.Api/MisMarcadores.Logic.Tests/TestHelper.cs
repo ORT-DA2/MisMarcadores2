@@ -121,5 +121,24 @@ namespace MisMarcadores.Logic.Tests
                 Token = Guid.NewGuid()
             };
         }
+
+        public static List<Deporte> ObtenerDeportesFalsos()
+        {
+            return new List<Deporte>
+            {
+                new Deporte
+                {
+                    Nombre = "Futbol"
+                },
+                new Deporte
+                {
+                    Nombre = "Basket"
+                },
+                new Deporte
+                {
+                    Nombre = "Tenis"
+                }
+            };
+        }
     }
 }
