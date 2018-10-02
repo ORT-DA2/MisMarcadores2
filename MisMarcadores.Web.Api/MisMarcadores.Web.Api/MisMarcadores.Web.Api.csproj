@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MisMarcadores.Data.DataAccess\MisMarcadores.Data.DataAccess.csproj" />
+    <ProjectReference Include="..\MisMarcadores.Data.Entities\MisMarcadores.Data.Entities.csproj" />
     <ProjectReference Include="..\MisMarcadores.Logic\MisMarcadores.Logic.csproj" />
   </ItemGroup>
 
