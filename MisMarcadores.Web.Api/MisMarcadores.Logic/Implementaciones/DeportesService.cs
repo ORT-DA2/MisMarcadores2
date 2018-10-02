@@ -21,6 +21,9 @@ namespace MisMarcadores.Logic
 
         public void AgregarDeporte(Deporte deporte)
         {
+            if (!CampoValido(deporte.Nombre))
+                throw new DeporteDataException();
+
             try
             {
                 _deportesRepository.Insert(deporte);
