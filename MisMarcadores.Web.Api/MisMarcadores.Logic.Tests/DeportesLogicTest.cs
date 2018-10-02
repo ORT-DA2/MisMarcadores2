@@ -145,5 +145,28 @@ namespace MisMarcadores.Logic.Tests
             Assert.AreEqual(fakeNombreDeporte, obtainedResult.Nombre);
         }
 
+        [TestMethod]
+        public void ObtenerDeportePorNombreErrorNotFoundTest()
+        {
+            //Arrange
+            var fakeNombreDeporte = "PingPong";
+
+            var mockDeportesRepository = new Mock<IDeportesRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockDeportesRepository
+                .Setup(r => r.ObtenerDeportePorNombre(fakeNombreDeporte))
+                .Returns((Deporte)null);
+
+            var businessLogic = new DeportesService(mockUnitOfWork.Object, mockDeportesRepository.Object);
+
+            //Act
+            Deporte obtainedResult = businessLogic.ObtenerDeportePorNombre(fakeNombreDeporte);
+
+            //Assert
+            mockDeportesRepository.VerifyAll();
+            Assert.IsNull(obtainedResult);
+        }
+
     }
 }
