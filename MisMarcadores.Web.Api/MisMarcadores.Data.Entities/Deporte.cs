@@ -4,7 +4,6 @@ namespace MisMarcadores.Data.Entities
 {
     public class Deporte
     {
-        public Guid Id { get; set; }
         public String Nombre { get; set; }
 
         public override bool Equals(object obj)
