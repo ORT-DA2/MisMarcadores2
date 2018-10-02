@@ -4,6 +4,7 @@ using System.Text;
 using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Repository;
+using MisMarcadores.Repository.Exceptions;
 
 namespace MisMarcadores.Logic
 {
@@ -20,7 +21,15 @@ namespace MisMarcadores.Logic
 
         public void AgregarDeporte(Deporte deporte)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _deportesRepository.Insert(deporte);
+                _unitOfWork.Save();
+            }
+            catch (RepositoryException)
+            {
+                throw new RepositoryException();
+            }
         }
 
         public void BorrarDeporte(string nombre)
@@ -41,6 +50,11 @@ namespace MisMarcadores.Logic
         public IEnumerable<Deporte> ObtenerDeportes()
         {
             return _deportesRepository.GetAll();
+        }
+
+        private bool CampoValido(string campo)
+        {
+            return !string.IsNullOrWhiteSpace(campo);
         }
     }
 }
