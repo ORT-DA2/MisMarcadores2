@@ -56,7 +56,7 @@ namespace MisMarcadores.Logic
 
         public void ModificarUsuario(string nombreUsuario, Usuario usuario)
         {
-            if (!MailValido(usuario.NombreUsuario) ||
+            if (!CampoValido(usuario.NombreUsuario) ||
                 !MailValido(usuario.Mail) ||
                 !CampoValido(usuario.Nombre) ||
                 !CampoValido(usuario.Apellido) ||
