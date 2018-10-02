@@ -16,6 +16,9 @@ namespace MisMarcadores.Web.Api.Models
         public string Nombre { get; set; }
 
         [Required]
+        public string NombreUsuario { get; set; }
+
+        [Required]
         public string Apellido { get; set; }
 
         [Required]
@@ -28,6 +31,7 @@ namespace MisMarcadores.Web.Api.Models
         {
             return new Usuario
             {
+                NombreUsuario = this.NombreUsuario,
                 Nombre = this.Nombre,
                 Apellido = this.Apellido,
                 Mail = this.Mail,
