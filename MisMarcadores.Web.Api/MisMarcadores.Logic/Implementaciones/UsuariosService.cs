@@ -56,7 +56,8 @@ namespace MisMarcadores.Logic
 
         public void ModificarUsuario(string nombreUsuario, Usuario usuario)
         {
-            if (!MailValido(usuario.Mail) ||
+            if (!MailValido(usuario.NombreUsuario) ||
+                !MailValido(usuario.Mail) ||
                 !CampoValido(usuario.Nombre) ||
                 !CampoValido(usuario.Apellido) ||
                 !CampoValido(usuario.Contraseña)
@@ -66,9 +67,10 @@ namespace MisMarcadores.Logic
             Usuario usuarioActual = ObtenerPorNombreUsuario(nombreUsuario);
             if (usuarioActual == null)
                 throw new NoExisteUsuarioException();
+            if (usuarioActual.NombreUsuario != usuario.NombreUsuario)
+                throw new UsuarioDataException();
             try
             {
-                usuario.NombreUsuario = nombreUsuario;
                 usuario.Id = usuarioActual.Id;
                 _usuariosRepository.ModificarUsuario(usuario);
                 _unitOfWork.Save();
