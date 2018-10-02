@@ -120,5 +120,30 @@ namespace MisMarcadores.Logic.Tests
             mockDeportesRepository.VerifyAll();
         }
 
+        [TestMethod]
+        public void ObtenerDeportePorNombreOkTest()
+        {
+            //Arrange
+            var fakeDeporte = TestHelper.ObtenerDeporteFalso();
+            var fakeNombreDeporte = "Futbol";
+
+            var mockDeportesRepository = new Mock<IDeportesRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockDeportesRepository
+                .Setup(r => r.ObtenerDeportePorNombre(fakeNombreDeporte))
+                .Returns(fakeDeporte);
+
+            var businessLogic = new DeportesService(mockUnitOfWork.Object, mockDeportesRepository.Object);
+
+            //Act
+            Deporte obtainedResult = businessLogic.ObtenerDeportePorNombre(fakeNombreDeporte);
+
+            //Assert
+            mockDeportesRepository.VerifyAll();
+            Assert.IsNotNull(obtainedResult);
+            Assert.AreEqual(fakeNombreDeporte, obtainedResult.Nombre);
+        }
+
     }
 }
