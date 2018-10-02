@@ -44,6 +44,10 @@ namespace MisMarcadores.Logic
 
         public void ModificarDeporte(string nombre, Deporte deporte)
         {
+            if (!CampoValido(deporte.Nombre) ||
+                !CampoValido(nombre))
+                throw new DeporteDataException();
+
             Deporte deporteActual = ObtenerDeportePorNombre(nombre);
             if (deporteActual == null)
                 throw new NoExisteDeporteException();
