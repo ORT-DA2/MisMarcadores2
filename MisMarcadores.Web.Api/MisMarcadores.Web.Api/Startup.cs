@@ -37,10 +37,12 @@ namespace MisMarcadores.Web.Api
             //SERVICES
             services.AddScoped<IUsuariosService, UsuariosService>();
             services.AddScoped<ISesionesService, SesionesService>();
+            services.AddScoped<IDeportesService, DeportesService>();
 
             //DATA ACCESS
             services.AddScoped<IUsuariosRepository, UsuariosRepository>();
             services.AddScoped<ISesionesRepository, SesionesRepository>();
+            services.AddScoped<IDeportesRepository, DeportesRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -57,7 +59,12 @@ namespace MisMarcadores.Web.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            app.UseMvc(routes => {
+                routes.MapRoute(
+                    name: "Default",
+                    template: "api/{controller}/{id?}"
+                );
+            });
         }
     }
 }
