@@ -146,5 +146,13 @@ namespace MisMarcadores.Logic.Tests
                 }
             };
         }
+
+        public static Deporte ObtenerDeporteNombreVacio()
+        {
+            return new Deporte
+            {
+                Nombre = "",
+            };
+        }
     }
 }

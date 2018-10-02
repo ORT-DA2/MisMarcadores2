@@ -79,5 +79,25 @@ namespace MisMarcadores.Logic.Tests
             mockDeportesRepository.VerifyAll();
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(DeporteDataException))]
+        public void AgregarDeporteNombreVacioTest()
+        {
+            var fakeDeporte = TestHelper.ObtenerDeporteNombreVacio();
+            var mockDeportesRepository = new Mock<IDeportesRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockDeportesRepository
+                .Setup(r => r.Insert(fakeDeporte));
+
+            var businessLogic = new DeportesService(mockUnitOfWork.Object, mockDeportesRepository.Object);
+
+            //Act
+            businessLogic.AgregarDeporte(fakeDeporte);
+
+            //Assert
+            mockDeportesRepository.VerifyAll();
+        }
+
     }
 }
