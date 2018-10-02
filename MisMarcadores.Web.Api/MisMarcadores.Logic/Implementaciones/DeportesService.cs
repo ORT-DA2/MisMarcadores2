@@ -49,7 +49,7 @@ namespace MisMarcadores.Logic
 
         public Deporte ObtenerDeportePorNombre(string nombre)
         {
-            throw new NotImplementedException();
+            return _deportesRepository.ObtenerDeportePorNombre(nombre);
         }
 
         public IEnumerable<Deporte> ObtenerDeportes()
