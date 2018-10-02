@@ -24,6 +24,8 @@ namespace MisMarcadores.Logic
             if (!CampoValido(deporte.Nombre))
                 throw new DeporteDataException();
 
+            if (_deportesRepository.ObtenerDeportePorNombre(deporte.Nombre) != null)
+                throw new ExisteDeporteException();
             try
             {
                 _deportesRepository.Insert(deporte);
