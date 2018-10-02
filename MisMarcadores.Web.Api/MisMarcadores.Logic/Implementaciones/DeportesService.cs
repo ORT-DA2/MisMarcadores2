@@ -40,7 +40,7 @@ namespace MisMarcadores.Logic
 
         public IEnumerable<Deporte> ObtenerDeportes()
         {
-            throw new NotImplementedException();
+            return _deportesRepository.GetAll();
         }
     }
 }
