@@ -22,6 +22,7 @@ namespace MisMarcadores.Web.Api.Models
 
             modelBuilder.Entity<Usuario>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Sesion>().HasKey(s => s.NombreUsuario);
+            modelBuilder.Entity<Deporte>().HasKey(d => d.Nombre);
         }
 
     }
