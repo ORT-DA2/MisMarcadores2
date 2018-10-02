@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using MisMarcadores.Data.Entities;
-using System.IO;
 
-namespace MisMarcadores.Web.Api.Models
+namespace MisMarcadores.Data.DataAccess
 {
     public class MisMarcadoresContext : DbContext
     {

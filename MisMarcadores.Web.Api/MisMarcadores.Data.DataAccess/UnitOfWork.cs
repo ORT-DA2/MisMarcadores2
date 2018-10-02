@@ -1,6 +1,4 @@
-﻿using MisMarcadores.Data.Entities;
-using MisMarcadores.Web.Api.Models;
-using System;
+﻿using System;
 
 namespace MisMarcadores.Data.DataAccess
 {
