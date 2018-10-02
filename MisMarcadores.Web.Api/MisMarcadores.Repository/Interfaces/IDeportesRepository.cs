@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MisMarcadores.Repository
 {
-    public interface IDeportesRepository
+    public interface IDeportesRepository : IGenericRepository<Deporte>
     {
         Deporte ObtenerDeportePorNombre(String nombre);
         void ModificarDeporte(Deporte deporte);
