@@ -168,26 +168,6 @@ namespace MisMarcadores.Logic.Tests
             Assert.IsNull(obtainedResult);
         }
 
-        [TestMethod]
-        public void ActualizarDeporteExistenteOkTest()
-        {
-            //Arrange
-            var fakeDeporte = TestHelper.ObtenerDeporteFalso();
-            var fakeNombreDeporte = fakeDeporte.Nombre;
-            var mockDeportesRepository = new Mock<IDeportesRepository>();
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            mockDeportesRepository.Setup(r => r.ObtenerDeportePorNombre(fakeNombreDeporte)).Returns(fakeDeporte);
-            mockDeportesRepository.Setup(r => r.ModificarDeporte(fakeDeporte));
-
-            var businessLogic = new DeportesService(mockUnitOfWork.Object, mockDeportesRepository.Object);
-
-            //Act
-            businessLogic.ModificarDeporte(fakeNombreDeporte, fakeDeporte);
-
-            //Assert
-            mockDeportesRepository.VerifyAll();
-        }
 
         [TestMethod]
         [ExpectedException(typeof(NoExisteDeporteException))]

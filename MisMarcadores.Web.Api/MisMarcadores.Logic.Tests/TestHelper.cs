@@ -134,6 +134,7 @@ namespace MisMarcadores.Logic.Tests
             {
                 new Deporte
                 {
+                    Id = Guid.NewGuid(),
                     Nombre = "Futbol"
                 },
                 new Deporte
