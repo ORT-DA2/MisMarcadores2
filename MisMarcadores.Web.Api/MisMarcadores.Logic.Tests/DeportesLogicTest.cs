@@ -199,9 +199,24 @@ namespace MisMarcadores.Logic.Tests
             var mockDeportesRepository = new Mock<IDeportesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            mockDeportesRepository
-                .Setup(r => r.ModificarDeporte(fakeDeporte))
-                .Throws(new NoExisteDeporteException());
+            var businessLogic = new DeportesService(mockUnitOfWork.Object, mockDeportesRepository.Object);
+
+            //Act
+            businessLogic.ModificarDeporte(fakeNombreDeporte, fakeDeporte);
+
+            //Assert
+            mockDeportesRepository.VerifyAll();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(DeporteDataException))]
+        public void ActualizarDeporteDatosErroneosTest()
+        {
+            //Arrange
+            var fakeDeporte = TestHelper.ObtenerDeporteFalso();
+            var fakeNombreDeporte = "";
+            var mockDeportesRepository = new Mock<IDeportesRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             var businessLogic = new DeportesService(mockUnitOfWork.Object, mockDeportesRepository.Object);
 
