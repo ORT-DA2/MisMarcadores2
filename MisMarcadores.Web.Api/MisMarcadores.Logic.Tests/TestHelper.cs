@@ -14,6 +14,12 @@ namespace MisMarcadores.Logic.Tests
             return usuarios.FirstOrDefault();
         }
 
+        public static Deporte ObtenerDeporteFalso()
+        {
+            List<Deporte> deportes = ObtenerDeportesFalsos().ToList();
+            return deportes.FirstOrDefault();
+        }
+
         public static List<Usuario> ObtenerUsuariosFalsos()
         {
             return new List<Usuario>
