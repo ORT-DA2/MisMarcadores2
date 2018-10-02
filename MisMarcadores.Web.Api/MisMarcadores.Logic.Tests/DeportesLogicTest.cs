@@ -35,5 +35,27 @@ namespace MisMarcadores.Logic.Tests
             Assert.IsNotNull(obtainedResult);
             Assert.AreEqual(deportesEsperados, obtainedResult);
         }
+
+        [TestMethod]
+        public void ObtenerDeportesNullTest()
+        {
+            //Arrange
+            List<Deporte> deportesEsperados = null;
+
+            var mockDeportesRepository = new Mock<IDeportesRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockDeportesRepository
+                .Setup(r => r.GetAll())
+                .Returns(deportesEsperados);
+
+            var businessLogic = new DeportesService(mockUnitOfWork.Object, mockDeportesRepository.Object);
+
+            //Act
+            IEnumerable<Deporte> obtainedResult = businessLogic.ObtenerDeportes();
+
+            //Assert
+            mockDeportesRepository.VerifyAll();
+            Assert.IsNull(obtainedResult);
+        }
     }
 }
