@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data;
 using System.Linq.Expressions;
-using MisMarcadores.Web.Api.Models;
 using Microsoft.EntityFrameworkCore;
+using MisMarcadores.Data.DataAccess;
 
 namespace MisMarcadores.Repository
 {

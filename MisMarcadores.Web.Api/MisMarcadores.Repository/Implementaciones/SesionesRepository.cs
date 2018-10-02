@@ -1,5 +1,5 @@
-﻿using MisMarcadores.Data.Entities;
-using MisMarcadores.Web.Api.Models;
+﻿using MisMarcadores.Data.DataAccess;
+using MisMarcadores.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

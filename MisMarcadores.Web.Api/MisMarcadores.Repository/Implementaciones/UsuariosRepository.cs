@@ -1,7 +1,6 @@
 ﻿using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Repository.Exceptions;
-using MisMarcadores.Web.Api.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
