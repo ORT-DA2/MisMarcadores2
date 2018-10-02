@@ -39,7 +39,18 @@ namespace MisMarcadores.Logic
 
         public void BorrarDeporte(string nombre)
         {
-            throw new NotImplementedException();
+            Deporte deporte = ObtenerDeportePorNombre(nombre);
+            if (deporte == null)
+                throw new NoExisteDeporteException();
+            try
+            {
+                _deportesRepository.BorrarDeporte(nombre);
+                _unitOfWork.Save();
+            }
+            catch (RepositoryException)
+            {
+                throw new RepositoryException();
+            }
         }
 
         public void ModificarDeporte(string nombre, Deporte deporte)
