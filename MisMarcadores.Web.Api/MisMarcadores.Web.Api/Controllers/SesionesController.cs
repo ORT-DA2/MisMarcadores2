@@ -8,7 +8,7 @@ using MisMarcadores.Web.Api.Models;
 namespace MisMarcadores.Web.Api.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Sesiones")]
+    [Route("api/[controller]")]
     public class SesionesController : Controller
     {
         private ISesionesService _sesionesService { get; set; }

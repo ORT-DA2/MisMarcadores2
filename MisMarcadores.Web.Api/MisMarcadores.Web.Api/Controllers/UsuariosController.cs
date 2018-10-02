@@ -9,7 +9,7 @@ using MisMarcadores.Web.Api.Models;
 namespace MisMarcadores.Web.Api
 {
     [Produces("application/json")]
-    [Route("api/Usuarios")]
+    [Route("api/[controller]")]
 
     [ServiceFilter(typeof(AutenticacionFilter))]
     public class UsuariosController : Controller
@@ -33,8 +33,8 @@ namespace MisMarcadores.Web.Api
             return Ok(usuarios);
         }
 
-        // GET: api/Usuarios
-        [HttpGet("{nombreUsuario}", Name = nameof(Get))]
+        // GET: api/Usuarios/juanperez
+        [HttpGet("{nombreUsuario}", Name = "GetUsuario")]
         public IActionResult Get(string nombreUsuario)
         {
             Usuario usuario = _usuariosService.ObtenerPorNombreUsuario(nombreUsuario);
@@ -52,7 +52,7 @@ namespace MisMarcadores.Web.Api
             try
             {
                 this._usuariosService.AgregarUsuario(usuario.TransformarAUsuario());
-                return CreatedAtRoute(nameof(UsuariosController.Get), new { nombreUsuario = usuario.NombreUsuario }, usuario);
+                return CreatedAtRoute("GetUsuario", new { nombreUsuario = usuario.NombreUsuario }, usuario);
             }
             catch (UsuarioDataException)
             {
@@ -64,7 +64,7 @@ namespace MisMarcadores.Web.Api
             }
         }
 
-        // PUT: api/Usuarios/5
+        // PUT: api/Usuarios/juanperez
         [HttpPut("{nombreUsuario}")]
         public IActionResult Put(string nombreUsuario, [FromBody]ActualizarUsuario usuario)
         {
@@ -84,7 +84,7 @@ namespace MisMarcadores.Web.Api
             }
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/Usuarios/juanperez
         [HttpDelete("{nombreUsuario}")]
         public IActionResult Delete(string nombreUsuario)
         {
