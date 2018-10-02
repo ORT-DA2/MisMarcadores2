@@ -19,7 +19,7 @@ namespace MisMarcadores.Repository
 
         public void ModificarDeporte(Deporte deporte)
         {
-            var deporteOriginal = ObtenerDeportePorNombre(deporte.Nombre);
+            var deporteOriginal = GetByID(deporte.Id);
             context.Deportes.Attach(deporteOriginal);
             var entry = context.Entry(deporteOriginal);
             entry.CurrentValues.SetValues(deporte);
