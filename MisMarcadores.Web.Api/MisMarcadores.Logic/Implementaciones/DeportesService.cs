@@ -62,8 +62,11 @@ namespace MisMarcadores.Logic
             Deporte deporteActual = ObtenerDeportePorNombre(nombre);
             if (deporteActual == null)
                 throw new NoExisteDeporteException();
+            if (ObtenerDeportePorNombre(deporte.Nombre) != null)
+                throw new ExisteDeporteException();
             try
             {
+                deporte.Id = deporteActual.Id;
                 _deportesRepository.ModificarDeporte(deporte);
                 _unitOfWork.Save();
             }
