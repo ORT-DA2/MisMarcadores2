@@ -53,16 +53,21 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // DELETE: api/sesiones/5
-        [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpDelete("{token}")]
         public IActionResult Delete(Guid token)
         {
-            var headers = Request.Headers;
-            string tokenStr = headers["tokenSesion"];
-            if (tokenStr.Equals(token.ToString()))
+            try
             {
-                _sesionesService.Logout(token);
-                return Ok();
+                var headers = Request.Headers;
+                string tokenStr = headers["tokenSesion"];
+                if (tokenStr.Equals(token.ToString()))
+                {
+                    _sesionesService.Logout(token);
+                    return Ok();
+                }
+            }
+            catch (ArgumentNullException) {
+                return Unauthorized();
             }
             return Unauthorized();
         }
