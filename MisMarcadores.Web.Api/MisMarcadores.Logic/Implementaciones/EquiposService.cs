@@ -50,7 +50,19 @@ namespace MisMarcadores.Logic
 
         public void ModificarEquipo(string nombre, Equipo equipo)
         {
-            throw new NotImplementedException();
+            Equipo equipoActual = ObtenerEquipoPorNombre(nombre);
+            if (equipoActual == null)
+                throw new NoExisteEquipoException();
+            try
+            {
+                equipo.Id = equipoActual.Id;
+                _equiposRepository.ModificarEquipo(equipo);
+                _unitOfWork.Save();
+            }
+            catch (RepositoryException)
+            {
+                throw new RepositoryException();
+            }
         }
 
         public Equipo ObtenerEquipoPorNombre(string nombre)
