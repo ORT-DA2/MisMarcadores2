@@ -16,12 +16,17 @@ namespace MisMarcadores.Repository
             throw new NotImplementedException();
         }
 
+        public bool ExisteEquipo(string nombreDeporte, string nombreEquipo)
+        {
+            throw new NotImplementedException();
+        }
+
         public void ModificarEquipo(Equipo equipo)
         {
             throw new NotImplementedException();
         }
 
-        public Deporte ObtenerEquipoPorNombre(string nombre)
+        public Equipo ObtenerEquipoPorNombre(string nombre)
         {
             throw new NotImplementedException();
         }
