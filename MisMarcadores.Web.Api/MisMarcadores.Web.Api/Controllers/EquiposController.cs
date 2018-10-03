@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Logic;
@@ -34,10 +35,10 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // GET: api/Equipos
-        [HttpGet("{nombreEquipo}", Name = "GetEquipo")]
-        public IActionResult Get(string nombreEquipo)
+        [HttpGet("{id}", Name = "GetEquipo")]
+        public IActionResult Get(Guid id)
         {
-            Equipo equipo = _equiposService.ObtenerEquipoPorNombre(nombreEquipo);
+            Equipo equipo = _equiposService.ObtenerEquipoPorId(id);
             if (equipo == null)
             {
                 return NotFound();
@@ -46,13 +47,15 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // POST: api/equipos
-        public IActionResult Post([FromBody]AgregarEquipo equipo)
+        public IActionResult Post([FromBody]AgregarEquipo equipoModelo)
         {
             if (!ModelState.IsValid) return BadRequest("Datos invalidos");
             try
             {
-                this._equiposService.AgregarEquipo(equipo.TransformarAEquipo());
-                return CreatedAtRoute("GetEquipo", new { nombreEquipo = equipo.Nombre }, equipo);
+                Equipo equipo = equipoModelo.TransformarAEquipo();
+                Guid idCreado = this._equiposService.AgregarEquipo(equipo);
+                equipo.Id = idCreado;
+                return CreatedAtRoute("GetEquipo", new { id = idCreado }, equipo);
             }
             catch (EquipoDataExceptiom)
             {
@@ -69,13 +72,13 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // PUT: api/Equipos/Rampla
-        [HttpPut("{nombreEquipo}")]
-        public IActionResult Put(string nombreEquipo, [FromBody]ActualizarEquipo equipo)
+        [HttpPut("{id}")]
+        public IActionResult Put(Guid id, [FromBody]ActualizarEquipo equipo)
         {
             if (!ModelState.IsValid) return BadRequest("Datos invalidos");
             try
             {
-                this._equiposService.ModificarEquipo(nombreEquipo, equipo.TransformarAEquipo());
+                this._equiposService.ModificarEquipo(id, equipo.TransformarAEquipo());
                 return Ok();
             }
             catch (EquipoDataExceptiom)
@@ -94,12 +97,12 @@ namespace MisMarcadores.Web.Api.Controllers
 
 
         // DELETE: api/Equipos/Rampla
-        [HttpDelete("{nombreEquipo}")]
-        public IActionResult Delete(string nombreEquipo)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(Guid id)
         {
             try
             {
-                this._equiposService.BorrarEquipo(nombreEquipo);
+                this._equiposService.BorrarEquipo(id);
                 return Ok();
             }
             catch (NoExisteEquipoException)

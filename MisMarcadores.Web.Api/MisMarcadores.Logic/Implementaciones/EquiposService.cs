@@ -20,7 +20,7 @@ namespace MisMarcadores.Logic
             _deportesRepository = deportesRepository;
         }
 
-        public void AgregarEquipo(Equipo equipo)
+        public Guid AgregarEquipo(Equipo equipo)
         {
             if (!CampoValido(equipo.Nombre) ||
                 !CampoValido(equipo.Deporte.Nombre))
@@ -39,6 +39,7 @@ namespace MisMarcadores.Logic
                 equipo.Deporte.Nombre = deporte.Nombre;
                 _equiposRepository.Insert(equipo);
                 _unitOfWork.Save();
+                return equipo.Id;
             }
             catch (RepositoryException)
             {
@@ -46,14 +47,14 @@ namespace MisMarcadores.Logic
             }
         }
 
-        public void BorrarEquipo(string nombre)
+        public void BorrarEquipo(Guid id)
         {
-            Equipo equipo = ObtenerEquipoPorNombre(nombre);
+            Equipo equipo = ObtenerEquipoPorId(id);
             if (equipo == null)
                 throw new NoExisteEquipoException();
             try
             {
-                _equiposRepository.BorrarEquipo(nombre);
+                _equiposRepository.BorrarEquipo(id);
                 _unitOfWork.Save();
             }
             catch (RepositoryException)
@@ -62,16 +63,15 @@ namespace MisMarcadores.Logic
             }
         }
 
-        public void ModificarEquipo(string nombre, Equipo equipo)
+        public void ModificarEquipo(Guid id, Equipo equipo)
         {
-            if (!CampoValido(equipo.Nombre) ||
-                !CampoValido(nombre))
+            if (!CampoValido(equipo.Nombre))
                 throw new EquipoDataExceptiom();
 
-            Equipo equipoActual = ObtenerEquipoPorNombre(nombre);
+            Equipo equipoActual = ObtenerEquipoPorId(id);
             if (equipoActual == null)
                 throw new NoExisteEquipoException();
-            if (ObtenerEquipoPorNombre(equipo.Nombre) != null)
+            if (_equiposRepository.ExisteEquipo(equipo.Deporte.Nombre, equipo.Nombre))
                 throw new ExisteEquipoException();
 
             try
@@ -86,9 +86,9 @@ namespace MisMarcadores.Logic
             }
         }
 
-        public Equipo ObtenerEquipoPorNombre(string nombre)
+        public Equipo ObtenerEquipoPorId(Guid id)
         {
-            return _equiposRepository.ObtenerEquipoPorNombre(nombre);
+            return _equiposRepository.ObtenerEquipoPorId(id);
         }
 
         public IEnumerable<Equipo> ObtenerEquipos()

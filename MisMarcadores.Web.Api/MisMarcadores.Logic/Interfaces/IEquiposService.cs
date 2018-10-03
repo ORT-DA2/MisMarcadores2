@@ -6,10 +6,10 @@ namespace MisMarcadores.Logic
 {
     public interface IEquiposService
     {
-        void AgregarEquipo(Equipo equipo);
+        Guid AgregarEquipo(Equipo equipo);
         IEnumerable<Equipo> ObtenerEquipos();
-        Equipo ObtenerEquipoPorNombre(String nombre);
-        void ModificarEquipo(String nombre, Equipo equipo);
-        void BorrarEquipo(String nombre);
+        Equipo ObtenerEquipoPorId(Guid id);
+        void ModificarEquipo(Guid id, Equipo equipo);
+        void BorrarEquipo(Guid id);
     }
 }

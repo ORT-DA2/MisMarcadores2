@@ -152,47 +152,47 @@ namespace MisMarcadores.Logic.Tests
         }
 
         [TestMethod]
-        public void ObtenerEquipoPorNombreOkTest()
+        public void ObtenerEquipoPorIdOkTest()
         {
             //Arrange
             var fakeEquipo = TestHelper.ObtenerEquipoFalso();
-            var fakeNombreEquipo = "Defensor";
+            var fakeId = fakeEquipo.Id;
 
             var mockEquiposRepository = new Mock<IEquiposRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockEquiposRepository
-                .Setup(r => r.ObtenerEquipoPorNombre(fakeNombreEquipo))
+                .Setup(r => r.ObtenerEquipoPorId(fakeId))
                 .Returns(fakeEquipo);
 
             var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
 
             //Act
-            Equipo obtainedResult = businessLogic.ObtenerEquipoPorNombre(fakeNombreEquipo);
+            Equipo obtainedResult = businessLogic.ObtenerEquipoPorId(fakeId);
 
             //Assert
             mockEquiposRepository.VerifyAll();
             Assert.IsNotNull(obtainedResult);
-            Assert.AreEqual(fakeNombreEquipo, obtainedResult.Nombre);
+            Assert.AreEqual(fakeId, obtainedResult.Id);
         }
 
         [TestMethod]
-        public void ObtenerEquipoPorNombreErrorNotFoundTest()
+        public void ObtenerEquipoPorIdErrorNotFoundTest()
         {
             //Arrange
-            var fakeNombreEquipo = "Nacional";
+            var fakeId = System.Guid.NewGuid();
 
             var mockEquiposRepository = new Mock<IEquiposRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockEquiposRepository
-                .Setup(r => r.ObtenerEquipoPorNombre(fakeNombreEquipo))
+                .Setup(r => r.ObtenerEquipoPorId(fakeId))
                 .Returns((Equipo)null);
 
             var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
 
             //Act
-            Equipo obtainedResult = businessLogic.ObtenerEquipoPorNombre(fakeNombreEquipo);
+            Equipo obtainedResult = businessLogic.ObtenerEquipoPorId(fakeId);
 
             //Assert
             mockEquiposRepository.VerifyAll();
@@ -205,18 +205,18 @@ namespace MisMarcadores.Logic.Tests
         {
             //Arrange
             var fakeEquipo = TestHelper.ObtenerEquipoFalso();
-            var fakeNombreEquipo = fakeEquipo.Nombre;
+            var fakeEquipoId = fakeEquipo.Id;
             var mockEquiposRepository = new Mock<IEquiposRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockEquiposRepository
-                .Setup(r => r.ObtenerEquipoPorNombre(fakeNombreEquipo))
+                .Setup(r => r.ObtenerEquipoPorId(fakeEquipoId))
                 .Returns((Equipo)null);
 
             var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
 
             //Act
-            businessLogic.ModificarEquipo(fakeNombreEquipo, fakeEquipo);
+            businessLogic.ModificarEquipo(fakeEquipoId, fakeEquipo);
 
             //Assert
             mockEquiposRepository.VerifyAll();
@@ -228,18 +228,20 @@ namespace MisMarcadores.Logic.Tests
         {
             //Arrange
             var fakeEquipo = TestHelper.ObtenerEquipoFalso();
-            var fakeNombreEquipo = "Defensor";
             var mockEquiposRepository = new Mock<IEquiposRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockEquiposRepository
-                .Setup(r => r.ObtenerEquipoPorNombre(fakeEquipo.Nombre))
+                .Setup(r => r.ObtenerEquipoPorId(fakeEquipo.Id))
                 .Returns(fakeEquipo);
+            mockEquiposRepository
+                .Setup(r => r.ExisteEquipo(fakeEquipo.Deporte.Nombre, fakeEquipo.Nombre))
+                .Throws(new ExisteEquipoException());
 
             var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
 
             //Act
-            businessLogic.ModificarEquipo(fakeNombreEquipo, fakeEquipo);
+            businessLogic.ModificarEquipo(fakeEquipo.Id, fakeEquipo);
 
             //Assert
             mockEquiposRepository.VerifyAll();
@@ -250,15 +252,14 @@ namespace MisMarcadores.Logic.Tests
         public void ActualizarEquipoDatosErroneosTest()
         {
             //Arrange
-            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
-            var fakeNombreEquipo = "";
+            var fakeEquipo = TestHelper.ObtenerEquipoNombreVacio();
             var mockEquiposRepository = new Mock<IEquiposRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
 
             //Act
-            businessLogic.ModificarEquipo(fakeNombreEquipo, fakeEquipo);
+            businessLogic.ModificarEquipo(fakeEquipo.Id, fakeEquipo);
 
             //Assert
             mockEquiposRepository.VerifyAll();
@@ -269,19 +270,19 @@ namespace MisMarcadores.Logic.Tests
         {
             //Arrange
             var fakeEquipo = TestHelper.ObtenerEquipoFalso();
-            var fakeNombreEquipo = fakeEquipo.Nombre;
+            var fakeEquipoId = fakeEquipo.Id;
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockEquiposRepository = new Mock<IEquiposRepository>();
             mockEquiposRepository
-                .Setup(r => r.ObtenerEquipoPorNombre(fakeNombreEquipo)).Returns(fakeEquipo);
+                .Setup(r => r.ObtenerEquipoPorId(fakeEquipoId)).Returns(fakeEquipo);
             mockEquiposRepository
-                .Setup(r => r.BorrarEquipo(fakeNombreEquipo));
+                .Setup(r => r.BorrarEquipo(fakeEquipoId));
 
             var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
 
             //Act
-            businessLogic.BorrarEquipo(fakeNombreEquipo);
+            businessLogic.BorrarEquipo(fakeEquipoId);
 
             //Assert
             mockEquiposRepository.VerifyAll();
@@ -292,17 +293,17 @@ namespace MisMarcadores.Logic.Tests
         public void BorrarEquipoNoExistenteErrorTest()
         {
             var fakeEquipo = TestHelper.ObtenerEquipoFalso();
-            var fakeNombreEquipo = fakeEquipo.Nombre;
+            var fakeEquipoId = fakeEquipo.Id;
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockEquiposRepository = new Mock<IEquiposRepository>();
             mockEquiposRepository
-                .Setup(r => r.ObtenerEquipoPorNombre(fakeNombreEquipo)).Returns((Equipo)null);
+                .Setup(r => r.ObtenerEquipoPorId(fakeEquipoId)).Returns((Equipo)null);
 
             var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
 
             //Act
-            businessLogic.BorrarEquipo(fakeNombreEquipo);
+            businessLogic.BorrarEquipo(fakeEquipoId);
 
             //Assert
             mockEquiposRepository.VerifyAll();

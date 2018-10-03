@@ -145,10 +145,12 @@ namespace MisMarcadores.Logic.Tests
                 },
                 new Deporte
                 {
+                    Id = Guid.NewGuid(),
                     Nombre = "Basket"
                 },
                 new Deporte
                 {
+                    Id = Guid.NewGuid(),
                     Nombre = "Tenis"
                 }
             };
@@ -158,6 +160,7 @@ namespace MisMarcadores.Logic.Tests
         {
             return new Deporte
             {
+                Id = Guid.NewGuid(),
                 Nombre = "",
             };
         }
@@ -168,36 +171,42 @@ namespace MisMarcadores.Logic.Tests
             {
                 new Equipo
                 {
+                    Id = Guid.NewGuid(),
                     Nombre = "Defensor",
                     Foto = "",
                     Deporte = new Deporte {Nombre = "Futbol"}
                 },
                 new Equipo
                 {
+                    Id = Guid.NewGuid(),
                     Nombre = "Capitol",
                     Foto = "",
                     Deporte = new Deporte {Nombre = "Basket"}
                 },
                 new Equipo
                 {
+                    Id = Guid.NewGuid(),
                     Nombre = "Atenas",
                     Foto = "",
                     Deporte = new Deporte {Nombre = "Basket"}
                 },
                 new Equipo
                 {
+                    Id = Guid.NewGuid(),
                     Nombre = "Liverpool",
                     Foto = "",
                     Deporte = new Deporte {Nombre = "Futbol"}
                 },
                 new Equipo
                 {
+                    Id = Guid.NewGuid(),
                     Nombre = "Miramar",
                     Foto = "",
                     Deporte = new Deporte {Nombre = "Futbol"}
                 },
                 new Equipo
                 {
+                    Id = Guid.NewGuid(),
                     Nombre = "Champagnat",
                     Foto = "",
                     Deporte = new Deporte {Nombre = "Rugby"}

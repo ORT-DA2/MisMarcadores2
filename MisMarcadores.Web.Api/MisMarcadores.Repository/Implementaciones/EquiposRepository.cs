@@ -12,9 +12,9 @@ namespace MisMarcadores.Repository
     {
         public EquiposRepository(MisMarcadoresContext context) : base(context) { }
 
-        public void BorrarEquipo(string nombre)
+        public void BorrarEquipo(Guid id)
         {
-            Equipo equipo = context.Equipos.FirstOrDefault(d => d.Nombre == nombre);
+            Equipo equipo = context.Equipos.FirstOrDefault(d => d.Id == id);
             context.Equipos.Remove(equipo);
         }
 
@@ -32,9 +32,9 @@ namespace MisMarcadores.Repository
             entry.CurrentValues.SetValues(equipo);
         }
 
-        public Equipo ObtenerEquipoPorNombre(string nombre)
+        public Equipo ObtenerEquipoPorId(Guid id)
         {
-            return context.Equipos.Include(e => e.Deporte).FirstOrDefault(e => e.Nombre.Equals(nombre));
+            return context.Equipos.Include(e => e.Deporte).FirstOrDefault(e => e.Id.Equals(id));
         }
 
         public List<Equipo> ObtenerEquipos()

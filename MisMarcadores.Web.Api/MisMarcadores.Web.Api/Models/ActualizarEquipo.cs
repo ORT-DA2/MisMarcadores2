@@ -11,12 +11,16 @@ namespace MisMarcadores.Web.Api.Models
         [Required(AllowEmptyStrings = true)]
         public string Foto { get; set; }
 
+        [Required]
+        public string NombreDeporte { get; set; }
+
         public Equipo TransformarAEquipo()
         {
             return new Equipo
             {
                 Nombre = this.Nombre,
                 Foto = this.Foto,
+                Deporte = new Deporte { Nombre = this.NombreDeporte }
             };
         }
     }
