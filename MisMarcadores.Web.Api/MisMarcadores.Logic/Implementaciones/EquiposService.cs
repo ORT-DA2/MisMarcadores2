@@ -20,6 +20,10 @@ namespace MisMarcadores.Logic
 
         public void AgregarEquipo(Equipo equipo)
         {
+            if (!CampoValido(equipo.Nombre) ||
+                !CampoValido(equipo.Deporte.Nombre))
+                throw new EquipoDataExceptiom();
+
             try
             {
                 _equiposRepository.Insert(equipo);
@@ -49,6 +53,11 @@ namespace MisMarcadores.Logic
         public IEnumerable<Equipo> ObtenerEquipos()
         {
             return _equiposRepository.GetAll();
+        }
+
+        private bool CampoValido(string campo)
+        {
+            return !string.IsNullOrWhiteSpace(campo);
         }
     }
 }
