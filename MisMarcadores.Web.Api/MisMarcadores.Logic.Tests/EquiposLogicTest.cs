@@ -222,6 +222,25 @@ namespace MisMarcadores.Logic.Tests
             mockEquiposRepository.VerifyAll();
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(EquipoDataExceptiom))]
+        public void ActualizarEquipoDatosErroneosTest()
+        {
+            //Arrange
+            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
+            var fakeNombreEquipo = "";
+            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+
+            //Act
+            businessLogic.ModificarEquipo(fakeNombreEquipo, fakeEquipo);
+
+            //Assert
+            mockEquiposRepository.VerifyAll();
+        }
+
 
     }
 }
