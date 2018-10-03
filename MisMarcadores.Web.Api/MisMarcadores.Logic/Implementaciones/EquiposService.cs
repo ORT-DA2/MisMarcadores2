@@ -9,13 +9,15 @@ namespace MisMarcadores.Logic
 {
     public class EquiposService : IEquiposService
     {
-        IUnitOfWork _unitOfWork;
-        IEquiposRepository _equiposRepository;
+        private IUnitOfWork _unitOfWork;
+        private IEquiposRepository _equiposRepository;
+        private IDeportesRepository _deportesRepository;
 
-        public EquiposService(IUnitOfWork unitOfWork, IEquiposRepository equiposRepository)
+        public EquiposService(IUnitOfWork unitOfWork, IEquiposRepository equiposRepository, IDeportesRepository deportesRepository)
         {
             _unitOfWork = unitOfWork;
             _equiposRepository = equiposRepository;
+            _deportesRepository = deportesRepository;
         }
 
         public void AgregarEquipo(Equipo equipo)
