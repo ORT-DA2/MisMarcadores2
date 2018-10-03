@@ -56,5 +56,27 @@ namespace MisMarcadores.Logic.Tests
             mockEquiposRepository.VerifyAll();
             Assert.IsNull(obtainedResult);
         }
+
+        [TestMethod]
+        public void AgregarEquipoOkTest()
+        {
+            //Arrange
+            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
+
+            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockEquiposRepository
+                .Setup(r => r.Insert(fakeEquipo));
+
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object);
+
+            //Act
+            businessLogic.AgregarEquipo(fakeEquipo);
+
+            //Assert
+            mockEquiposRepository.VerifyAll();
+        }
+
     }
 }
