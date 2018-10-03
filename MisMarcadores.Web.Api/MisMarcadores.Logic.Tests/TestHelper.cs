@@ -275,5 +275,29 @@ namespace MisMarcadores.Logic.Tests
                 }
             };
         }
+
+        public static Encuentro ObtenerEncuentroEquipoNombreVacio()
+        {
+            return new Encuentro
+            {
+                Id = Guid.NewGuid(),
+                FechaHora = DateTime.Today,
+                EquipoLocal = new Equipo
+                {
+                    Id = Guid.NewGuid(),
+                    Nombre = "",
+                    Foto = "",
+                    Deporte = new Deporte { Nombre = "Basket" }
+                },
+                EquipoVisitante = new Equipo
+                {
+                    Id = Guid.NewGuid(),
+                    Nombre = "Atenas",
+                    Foto = "",
+                    Deporte = new Deporte { Nombre = "Basket" }
+                },
+                Deporte = new Deporte { Nombre = "Basket" }
+            };
+        }
     }
 }
