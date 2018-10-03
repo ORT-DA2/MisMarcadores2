@@ -34,5 +34,27 @@ namespace MisMarcadores.Logic.Tests
             Assert.IsNotNull(obtainedResult);
             Assert.AreEqual(equiposEsperados, obtainedResult);
         }
+
+        [TestMethod]
+        public void ObtenerEquiposNullTest()
+        {
+            //Arrange
+            List<Equipo> equiposEsperados = null;
+
+            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockEquiposRepository
+                .Setup(r => r.GetAll())
+                .Returns(equiposEsperados);
+
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object);
+
+            //Act
+            IEnumerable<Equipo> obtainedResult = businessLogic.ObtenerEquipos();
+
+            //Assert
+            mockEquiposRepository.VerifyAll();
+            Assert.IsNull(obtainedResult);
+        }
     }
 }
