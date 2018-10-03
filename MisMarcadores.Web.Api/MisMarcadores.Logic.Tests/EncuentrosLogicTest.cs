@@ -34,5 +34,27 @@ namespace MisMarcadores.Logic.Tests
             Assert.IsNotNull(obtainedResult);
             Assert.AreEqual(encuentrosEsperados, obtainedResult);
         }
+
+        [TestMethod]
+        public void ObtenerEncuentrosNullTest()
+        {
+            //Arrange
+            List<Encuentro> encuentrosEsperados = null;
+
+            var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockEncuentrosRepository
+                .Setup(r => r.ObtenerEncuentros())
+                .Returns(encuentrosEsperados);
+
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object);
+
+            //Act
+            IEnumerable<Encuentro> obtainedResult = businessLogic.ObtenerEncuentros();
+
+            //Assert
+            mockEncuentrosRepository.VerifyAll();
+            Assert.IsNull(obtainedResult);
+        }
     }
 }
