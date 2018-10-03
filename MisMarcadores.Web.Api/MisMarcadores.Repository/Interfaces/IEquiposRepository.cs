@@ -11,5 +11,6 @@ namespace MisMarcadores.Repository
         bool ExisteEquipo(String nombreDeporte, String nombreEquipo);
         void ModificarEquipo(Equipo equipo);
         void BorrarEquipo(String nombre);
+        List<Equipo> ObtenerEquipos();
     }
 }
