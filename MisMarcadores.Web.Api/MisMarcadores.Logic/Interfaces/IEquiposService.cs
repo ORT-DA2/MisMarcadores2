@@ -9,6 +9,7 @@ namespace MisMarcadores.Logic
         Guid AgregarEquipo(Equipo equipo);
         IEnumerable<Equipo> ObtenerEquipos();
         Equipo ObtenerEquipoPorId(Guid id);
+        Equipo ObtenerEquipoPorNombre(String nombre);
         void ModificarEquipo(Guid id, Equipo equipo);
         void BorrarEquipo(Guid id);
     }
