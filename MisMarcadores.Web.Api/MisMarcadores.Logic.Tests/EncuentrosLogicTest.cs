@@ -104,5 +104,27 @@ namespace MisMarcadores.Logic.Tests
             mockEncuentrosRepository.VerifyAll();
             Assert.IsNull(obtainedResult);
         }
+
+        [TestMethod]
+        public void AgregarEncuentroOkTest()
+        {
+            //Arrange
+            var fakeEncuentro = TestHelper.ObtenerEncuentroFalso();
+
+            var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockEncuentrosRepository
+                .Setup(r => r.Insert(fakeEncuentro));
+
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object);
+
+            //Act
+            businessLogic.AgregarEncuentro(fakeEncuentro);
+
+            //Assert
+            mockEncuentrosRepository.VerifyAll();
+        }
+
     }
 }
