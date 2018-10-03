@@ -56,5 +56,30 @@ namespace MisMarcadores.Logic.Tests
             mockEncuentrosRepository.VerifyAll();
             Assert.IsNull(obtainedResult);
         }
+
+        [TestMethod]
+        public void ObtenerEncuentroPorIdOkTest()
+        {
+            //Arrange
+            var fakeEncuentro = TestHelper.ObtenerEncuentroFalso();
+            var fakeId = fakeEncuentro.Id;
+
+            var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockEncuentrosRepository
+                .Setup(r => r.ObtenerEncuentroPorId(fakeId))
+                .Returns(fakeEncuentro);
+
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object);
+
+            //Act
+            Encuentro obtainedResult = businessLogic.ObtenerEncuentroPorId(fakeId);
+
+            //Assert
+            mockEncuentrosRepository.VerifyAll();
+            Assert.IsNotNull(obtainedResult);
+            Assert.AreEqual(fakeId, obtainedResult.Id);
+        }
     }
 }
