@@ -137,6 +137,9 @@ namespace MisMarcadores.Logic.Tests
             mockDeportesRepository
                  .Setup(r => r.ObtenerDeportePorNombre(fakeEquipo.Deporte.Nombre))
                  .Returns(fakeEquipo.Deporte);
+            mockEquiposRepository
+                 .Setup(r => r.ExisteEquipo(fakeEquipo.Deporte.Nombre, fakeEquipo.Nombre))
+                 .Returns(true);
             mockEquiposRepository.Setup(r => r.Insert(fakeEquipo));
 
             var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, mockDeportesRepository.Object);
