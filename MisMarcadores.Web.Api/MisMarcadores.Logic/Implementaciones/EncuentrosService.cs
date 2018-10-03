@@ -27,13 +27,19 @@ namespace MisMarcadores.Logic
         public Guid AgregarEncuentro(Encuentro encuentro)
         {
             if (!CampoValido(encuentro.EquipoLocal.Nombre) ||
+                !CampoValido(encuentro.EquipoLocal.Deporte.Nombre) ||
                 !CampoValido(encuentro.EquipoVisitante.Nombre) ||
+                !CampoValido(encuentro.EquipoVisitante.Deporte.Nombre) ||
                 !CampoValido(encuentro.Deporte.Nombre))
                     throw new EncuentroDataException();
 
             Deporte deporte = _deportesRepository.ObtenerDeportePorNombre(encuentro.Deporte.Nombre);
             if (deporte == null)
                 throw new NoExisteDeporteException();
+
+            if (!_equiposRepository.ExisteEquipo(encuentro.Deporte.Nombre, encuentro.EquipoLocal.Nombre) ||
+                !_equiposRepository.ExisteEquipo(encuentro.Deporte.Nombre, encuentro.EquipoVisitante.Nombre))
+                throw new NoExisteEquipoException();
 
             try
             {
