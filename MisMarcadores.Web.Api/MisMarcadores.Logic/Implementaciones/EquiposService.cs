@@ -25,7 +25,6 @@ namespace MisMarcadores.Logic
             if (!CampoValido(equipo.Nombre) ||
                 !CampoValido(equipo.Deporte.Nombre))
                 throw new EquipoDataExceptiom();
-            
             if (_deportesRepository.ObtenerDeportePorNombre(equipo.Deporte.Nombre) == null)
                 throw new NoExisteDeporteException();
 
@@ -87,7 +86,7 @@ namespace MisMarcadores.Logic
 
         public IEnumerable<Equipo> ObtenerEquipos()
         {
-            return _equiposRepository.GetAll();
+            return _equiposRepository.ObtenerEquipos();
         }
 
         private bool CampoValido(string campo)
