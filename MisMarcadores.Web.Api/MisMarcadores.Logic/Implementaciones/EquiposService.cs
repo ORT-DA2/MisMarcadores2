@@ -25,7 +25,9 @@ namespace MisMarcadores.Logic
             if (!CampoValido(equipo.Nombre) ||
                 !CampoValido(equipo.Deporte.Nombre))
                 throw new EquipoDataExceptiom();
-            if (_deportesRepository.ObtenerDeportePorNombre(equipo.Deporte.Nombre) == null)
+
+            Deporte deporte = _deportesRepository.ObtenerDeportePorNombre(equipo.Deporte.Nombre);
+            if (deporte == null)
                 throw new NoExisteDeporteException();
 
             if (_equiposRepository.ExisteEquipo(equipo.Deporte.Nombre, equipo.Nombre))
@@ -33,6 +35,8 @@ namespace MisMarcadores.Logic
 
             try
             {
+                equipo.Deporte.Id = deporte.Id;
+                equipo.Deporte.Nombre = deporte.Nombre;
                 _equiposRepository.Insert(equipo);
                 _unitOfWork.Save();
             }
@@ -67,6 +71,7 @@ namespace MisMarcadores.Logic
             Equipo equipoActual = ObtenerEquipoPorNombre(nombre);
             if (equipoActual == null)
                 throw new NoExisteEquipoException();
+
             try
             {
                 equipo.Id = equipoActual.Id;
