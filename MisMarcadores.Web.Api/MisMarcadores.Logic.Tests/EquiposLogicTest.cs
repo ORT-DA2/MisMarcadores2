@@ -78,5 +78,25 @@ namespace MisMarcadores.Logic.Tests
             mockEquiposRepository.VerifyAll();
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(EquipoDataExceptiom))]
+        public void AgregarEquipoNombreVacioTest()
+        {
+            var fakeEquipo = TestHelper.ObtenerEquipoNombreVacio();
+            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockEquiposRepository
+                .Setup(r => r.Insert(fakeEquipo));
+
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object);
+
+            //Act
+            businessLogic.AgregarEquipo(fakeEquipo);
+
+            //Assert
+            mockEquiposRepository.VerifyAll();
+        }
+
     }
 }
