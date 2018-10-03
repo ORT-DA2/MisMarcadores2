@@ -7,7 +7,8 @@ namespace MisMarcadores.Repository
 {
     public interface IEquiposRepository : IGenericRepository<Equipo>
     {
-        Deporte ObtenerEquipoPorNombre(String nombre);
+        Equipo ObtenerEquipoPorNombre(String nombre);
+        bool ExisteEquipo(String nombreDeporte, String nombreEquipo);
         void ModificarEquipo(Equipo equipo);
         void BorrarEquipo(String nombre);
     }
