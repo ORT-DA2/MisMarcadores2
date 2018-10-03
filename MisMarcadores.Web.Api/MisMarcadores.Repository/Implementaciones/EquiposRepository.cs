@@ -37,6 +37,11 @@ namespace MisMarcadores.Repository
             return context.Equipos.Include(e => e.Deporte).FirstOrDefault(e => e.Id.Equals(id));
         }
 
+        public Equipo ObtenerEquipoPorNombre(string nombre)
+        {
+            return context.Equipos.Include(e => e.Deporte).FirstOrDefault(e => e.Nombre.Equals(nombre));
+        }
+
         public List<Equipo> ObtenerEquipos()
         {
             return context.Equipos.Include(e => e.Deporte).ToList();

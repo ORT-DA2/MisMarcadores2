@@ -91,6 +91,11 @@ namespace MisMarcadores.Logic
             return _equiposRepository.ObtenerEquipoPorId(id);
         }
 
+        public Equipo ObtenerEquipoPorNombre(string nombre)
+        {
+            return _equiposRepository.ObtenerEquipoPorNombre(nombre);
+        }
+
         public IEnumerable<Equipo> ObtenerEquipos()
         {
             return _equiposRepository.ObtenerEquipos();
