@@ -50,6 +50,10 @@ namespace MisMarcadores.Logic
 
         public void ModificarEquipo(string nombre, Equipo equipo)
         {
+            if (!CampoValido(equipo.Nombre) ||
+                !CampoValido(nombre))
+                throw new EquipoDataExceptiom();
+
             Equipo equipoActual = ObtenerEquipoPorNombre(nombre);
             if (equipoActual == null)
                 throw new NoExisteEquipoException();
