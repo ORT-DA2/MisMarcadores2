@@ -263,5 +263,26 @@ namespace MisMarcadores.Logic.Tests
             //Assert
             mockEquiposRepository.VerifyAll();
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(NoExisteEquipoException))]
+        public void BorrarEquipoNoExistenteErrorTest()
+        {
+            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
+            var fakeNombreEquipo = fakeEquipo.Nombre;
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            mockEquiposRepository
+                .Setup(r => r.ObtenerEquipoPorNombre(fakeNombreEquipo)).Returns((Equipo)null);
+
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+
+            //Act
+            businessLogic.BorrarEquipo(fakeNombreEquipo);
+
+            //Assert
+            mockEquiposRepository.VerifyAll();
+        }
     }
 }
