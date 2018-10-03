@@ -55,7 +55,7 @@ namespace MisMarcadores.Logic
 
         public Equipo ObtenerEquipoPorNombre(string nombre)
         {
-            throw new NotImplementedException();
+            return _equiposRepository.ObtenerEquipoPorNombre(nombre);
         }
 
         public IEnumerable<Equipo> ObtenerEquipos()
