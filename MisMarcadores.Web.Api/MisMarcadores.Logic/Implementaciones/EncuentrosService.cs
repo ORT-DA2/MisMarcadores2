@@ -34,6 +34,11 @@ namespace MisMarcadores.Logic
             throw new NotImplementedException();
         }
 
+        public Encuentro ObtenerEncuentroPorId(Guid id)
+        {
+            return _encuentrosRepository.ObtenerEncuentroPorId(id);
+        }
+
         public IEnumerable<Encuentro> ObtenerEncuentros()
         {
             return _encuentrosRepository.ObtenerEncuentros();
