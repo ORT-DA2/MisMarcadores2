@@ -9,6 +9,7 @@ namespace MisMarcadores.Logic
     {
         Guid AgregarEncuentro(Encuentro encuentro);
         IEnumerable<Encuentro> ObtenerEncuentros();
+        Encuentro ObtenerEncuentroPorId(Guid id);
         IEnumerable<Encuentro> ObtenerEncuentrosDeEquipo(Guid id);
         void ModificarEncuentro(Guid id, Encuentro encuentro);
         void BorrarEncuentro(Guid id);
