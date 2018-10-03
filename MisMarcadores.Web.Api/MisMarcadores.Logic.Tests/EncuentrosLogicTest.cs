@@ -197,5 +197,34 @@ namespace MisMarcadores.Logic.Tests
             //Assert
             mockEquiposRepository.VerifyAll();
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(NoExisteEquipoException))]
+        public void AgregarEncuentroEquipoVisitanteNoExistenteErrorTest()
+        {
+            var fakeEncuentro = TestHelper.ObtenerEncuentroFalso();
+
+            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            var mockDeportesRepository = new Mock<IDeportesRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockDeportesRepository
+                 .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre))
+                 .Returns(fakeEncuentro.Deporte);
+            mockEquiposRepository
+                 .Setup(r => r.ExisteEquipo(fakeEncuentro.Deporte.Nombre, fakeEncuentro.EquipoVisitante.Nombre))
+                 .Returns(false);
+            mockEncuentrosRepository.Setup(r => r.Insert(fakeEncuentro));
+
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object,
+                mockDeportesRepository.Object, mockEquiposRepository.Object);
+
+            //Act
+            businessLogic.AgregarEncuentro(fakeEncuentro);
+
+            //Assert
+            mockEquiposRepository.VerifyAll();
+        }
     }
 }
