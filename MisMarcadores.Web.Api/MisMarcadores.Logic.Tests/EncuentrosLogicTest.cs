@@ -24,7 +24,7 @@ namespace MisMarcadores.Logic.Tests
                 .Setup(r => r.ObtenerEncuentros())
                 .Returns(encuentrosEsperados);
 
-            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object);
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, null);
 
             //Act
             IEnumerable<Encuentro> obtainedResult = businessLogic.ObtenerEncuentros();
@@ -47,7 +47,7 @@ namespace MisMarcadores.Logic.Tests
                 .Setup(r => r.ObtenerEncuentros())
                 .Returns(encuentrosEsperados);
 
-            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object);
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, null);
 
             //Act
             IEnumerable<Encuentro> obtainedResult = businessLogic.ObtenerEncuentros();
@@ -71,7 +71,7 @@ namespace MisMarcadores.Logic.Tests
                 .Setup(r => r.ObtenerEncuentroPorId(fakeId))
                 .Returns(fakeEncuentro);
 
-            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object);
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, null);
 
             //Act
             Encuentro obtainedResult = businessLogic.ObtenerEncuentroPorId(fakeId);
@@ -95,7 +95,7 @@ namespace MisMarcadores.Logic.Tests
                 .Setup(r => r.ObtenerEncuentroPorId(fakeId))
                 .Returns((Encuentro)null);
 
-            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object);
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, null);
 
             //Act
             Encuentro obtainedResult = businessLogic.ObtenerEncuentroPorId(fakeId);
@@ -117,7 +117,7 @@ namespace MisMarcadores.Logic.Tests
             mockEncuentrosRepository
                 .Setup(r => r.Insert(fakeEncuentro));
 
-            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object);
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, null);
 
             //Act
             businessLogic.AgregarEncuentro(fakeEncuentro);
@@ -137,7 +137,7 @@ namespace MisMarcadores.Logic.Tests
             mockEncuentrosRepository
                 .Setup(r => r.Insert(fakeEncuentro));
 
-            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object);
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, null);
 
             //Act
             businessLogic.AgregarEncuentro(fakeEncuentro);
@@ -146,5 +146,27 @@ namespace MisMarcadores.Logic.Tests
             mockEncuentrosRepository.VerifyAll();
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(NoExisteDeporteException))]
+        public void AgregarEncuentroDeporteNoExistenteErrorTest()
+        {
+            var fakeEncuentro = TestHelper.ObtenerEncuentroFalso();
+
+            var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            var mockDeportesRepository = new Mock<IDeportesRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockDeportesRepository
+                 .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre)).Returns((Deporte)null);
+            mockEncuentrosRepository.Setup(r => r.Insert(fakeEncuentro));
+
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, mockDeportesRepository.Object, null);
+
+            //Act
+            businessLogic.AgregarEncuentro(fakeEncuentro);
+
+            //Assert
+            mockEncuentrosRepository.VerifyAll();
+        }
     }
 }
