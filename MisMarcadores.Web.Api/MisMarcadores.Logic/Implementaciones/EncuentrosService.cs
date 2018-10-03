@@ -21,7 +21,16 @@ namespace MisMarcadores.Logic
 
         public Guid AgregarEncuentro(Encuentro encuentro)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _encuentrosRepository.Insert(encuentro);
+                _unitOfWork.Save();
+                return encuentro.Id;
+            }
+            catch (RepositoryException)
+            {
+                throw new RepositoryException();
+            }
         }
 
         public void BorrarEncuentro(Guid id)
