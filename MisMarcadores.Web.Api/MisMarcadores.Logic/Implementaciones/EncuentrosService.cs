@@ -21,6 +21,11 @@ namespace MisMarcadores.Logic
 
         public Guid AgregarEncuentro(Encuentro encuentro)
         {
+            if (!CampoValido(encuentro.EquipoLocal.Nombre) ||
+                !CampoValido(encuentro.EquipoVisitante.Nombre) ||
+                !CampoValido(encuentro.Deporte.Nombre))
+                    throw new EncuentroDataException();
+
             try
             {
                 _encuentrosRepository.Insert(encuentro);
@@ -56,6 +61,11 @@ namespace MisMarcadores.Logic
         public IEnumerable<Encuentro> ObtenerEncuentrosDeEquipo(Guid id)
         {
             throw new NotImplementedException();
+        }
+
+        private bool CampoValido(string campo)
+        {
+            return !string.IsNullOrWhiteSpace(campo);
         }
     }
 }
