@@ -151,5 +151,30 @@ namespace MisMarcadores.Logic.Tests
             mockEquiposRepository.VerifyAll();
         }
 
+        [TestMethod]
+        public void ObtenerEquipoPorNombreOkTest()
+        {
+            //Arrange
+            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
+            var fakeNombreEquipo = "Defensor";
+
+            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockEquiposRepository
+                .Setup(r => r.ObtenerEquipoPorNombre(fakeNombreEquipo))
+                .Returns(fakeEquipo);
+
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+
+            //Act
+            Equipo obtainedResult = businessLogic.ObtenerEquipoPorNombre(fakeNombreEquipo);
+
+            //Assert
+            mockEquiposRepository.VerifyAll();
+            Assert.IsNotNull(obtainedResult);
+            Assert.AreEqual(fakeNombreEquipo, obtainedResult.Nombre);
+        }
+
     }
 }
