@@ -24,7 +24,7 @@ namespace MisMarcadores.Logic.Tests
                 .Setup(r => r.GetAll())
                 .Returns(equiposEsperados);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
 
             //Act
             IEnumerable<Equipo> obtainedResult = businessLogic.ObtenerEquipos();
@@ -47,7 +47,7 @@ namespace MisMarcadores.Logic.Tests
                 .Setup(r => r.GetAll())
                 .Returns(equiposEsperados);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
 
             //Act
             IEnumerable<Equipo> obtainedResult = businessLogic.ObtenerEquipos();
@@ -64,12 +64,15 @@ namespace MisMarcadores.Logic.Tests
             var fakeEquipo = TestHelper.ObtenerEquipoFalso();
 
             var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockDeportesRepository = new Mock<IDeportesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
+            mockDeportesRepository
+                .Setup(r => r.ObtenerDeportePorNombre(fakeEquipo.Deporte.Nombre)).Returns(fakeEquipo.Deporte);
             mockEquiposRepository
                 .Setup(r => r.Insert(fakeEquipo));
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, mockDeportesRepository.Object);
 
             //Act
             businessLogic.AgregarEquipo(fakeEquipo);
@@ -89,7 +92,7 @@ namespace MisMarcadores.Logic.Tests
             mockEquiposRepository
                 .Setup(r => r.Insert(fakeEquipo));
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
 
             //Act
             businessLogic.AgregarEquipo(fakeEquipo);
@@ -97,6 +100,7 @@ namespace MisMarcadores.Logic.Tests
             //Assert
             mockEquiposRepository.VerifyAll();
         }
+
 
     }
 }
