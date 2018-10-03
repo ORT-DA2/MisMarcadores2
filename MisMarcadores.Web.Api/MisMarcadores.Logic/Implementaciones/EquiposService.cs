@@ -25,9 +25,12 @@ namespace MisMarcadores.Logic
             if (!CampoValido(equipo.Nombre) ||
                 !CampoValido(equipo.Deporte.Nombre))
                 throw new EquipoDataExceptiom();
-
+            
             if (_deportesRepository.ObtenerDeportePorNombre(equipo.Deporte.Nombre) == null)
                 throw new NoExisteDeporteException();
+
+            if (_equiposRepository.ExisteEquipo(equipo.Deporte.Nombre, equipo.Nombre))
+                throw new ExisteEquipoException();
 
             try
             {
