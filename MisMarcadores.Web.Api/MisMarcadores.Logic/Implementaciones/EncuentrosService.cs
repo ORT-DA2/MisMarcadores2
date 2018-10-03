@@ -11,11 +11,16 @@ namespace MisMarcadores.Logic
     public class EncuentrosService : IEncuentrosService
     {
         private IUnitOfWork _unitOfWork;
+        private IDeportesRepository _deportesRepository;
+        private IEquiposRepository _equiposRepository;
         private IEncuentrosRepository _encuentrosRepository;
         
-        public EncuentrosService(IUnitOfWork unitOfWork, IEncuentrosRepository encuentrosRepository)
+        public EncuentrosService(IUnitOfWork unitOfWork, IEncuentrosRepository encuentrosRepository, IDeportesRepository deportesRepository,
+            IEquiposRepository equiposRepository)
         {
             _unitOfWork = unitOfWork;
+            _deportesRepository = deportesRepository;
+            _equiposRepository = equiposRepository;
             _encuentrosRepository = encuentrosRepository;
         }
 
@@ -25,6 +30,10 @@ namespace MisMarcadores.Logic
                 !CampoValido(encuentro.EquipoVisitante.Nombre) ||
                 !CampoValido(encuentro.Deporte.Nombre))
                     throw new EncuentroDataException();
+
+            Deporte deporte = _deportesRepository.ObtenerDeportePorNombre(encuentro.Deporte.Nombre);
+            if (deporte == null)
+                throw new NoExisteDeporteException();
 
             try
             {
