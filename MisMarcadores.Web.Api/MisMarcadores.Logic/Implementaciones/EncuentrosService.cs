@@ -5,7 +5,8 @@ using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Repository;
 using MisMarcadores.Repository.Exceptions;
-namespace MisMarcadores.Logic.Implementaciones
+
+namespace MisMarcadores.Logic
 {
     public class EncuentrosService : IEncuentrosService
     {
@@ -35,7 +36,7 @@ namespace MisMarcadores.Logic.Implementaciones
 
         public IEnumerable<Encuentro> ObtenerEncuentros()
         {
-            throw new NotImplementedException();
+            return _encuentrosRepository.ObtenerEncuentros();
         }
 
         public IEnumerable<Encuentro> ObtenerEncuentrosDeEquipo(Guid id)
