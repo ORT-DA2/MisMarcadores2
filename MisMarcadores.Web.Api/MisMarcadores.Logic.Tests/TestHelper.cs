@@ -26,6 +26,12 @@ namespace MisMarcadores.Logic.Tests
             return equipos.FirstOrDefault();
         }
 
+        public static Encuentro ObtenerEncuentroFalso()
+        {
+            List<Encuentro> encuentros = ObtenerEncuentrosFalsos().ToList();
+            return encuentros.FirstOrDefault();
+        }
+
         public static List<Usuario> ObtenerUsuariosFalsos()
         {
             return new List<Usuario>
@@ -221,6 +227,52 @@ namespace MisMarcadores.Logic.Tests
                 Nombre = "",
                 Foto = "",
                 Deporte = new Deporte { Nombre = "Rugby" }
+            };
+        }
+        public static List<Encuentro> ObtenerEncuentrosFalsos()
+        {
+            return new List<Encuentro>
+            {
+                new Encuentro
+                {
+                    Id = Guid.NewGuid(),
+                    FechaHora = DateTime.Today,
+                    EquipoLocal = new Equipo
+                        {
+                            Id = Guid.NewGuid(),
+                            Nombre = "Capitol",
+                            Foto = "",
+                            Deporte = new Deporte {Nombre = "Basket"}
+                        },
+                    EquipoVisitante = new Equipo
+                        {
+                            Id = Guid.NewGuid(),
+                            Nombre = "Atenas",
+                            Foto = "",
+                            Deporte = new Deporte {Nombre = "Basket"}
+                        },
+                    Deporte = new Deporte {Nombre = "Basket"}
+                },
+                new Encuentro
+                {
+                    Id = Guid.NewGuid(),
+                    FechaHora = DateTime.Today,
+                    EquipoLocal = new Equipo
+                        {
+                            Id = Guid.NewGuid(),
+                            Nombre = "Defensor",
+                            Foto = "",
+                            Deporte = new Deporte {Nombre = "Futbol"}
+                        },
+                    EquipoVisitante = new Equipo
+                        {
+                            Id = Guid.NewGuid(),
+                            Nombre = "Danubio",
+                            Foto = "",
+                            Deporte = new Deporte {Nombre = "Futbol"}
+                        },
+                    Deporte = new Deporte {Nombre = "Futbol"}
+                }
             };
         }
     }
