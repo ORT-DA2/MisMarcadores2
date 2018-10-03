@@ -71,6 +71,8 @@ namespace MisMarcadores.Logic
             Equipo equipoActual = ObtenerEquipoPorNombre(nombre);
             if (equipoActual == null)
                 throw new NoExisteEquipoException();
+            if (ObtenerEquipoPorNombre(equipo.Nombre) != null)
+                throw new ExisteEquipoException();
 
             try
             {
