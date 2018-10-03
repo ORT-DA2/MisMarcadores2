@@ -20,6 +20,12 @@ namespace MisMarcadores.Logic.Tests
             return deportes.FirstOrDefault();
         }
 
+        public static Equipo ObtenerEquipoFalso()
+        {
+            List<Equipo> equipos = ObtenerEquiposFalsos().ToList();
+            return equipos.FirstOrDefault();
+        }
+
         public static List<Usuario> ObtenerUsuariosFalsos()
         {
             return new List<Usuario>
@@ -153,6 +159,59 @@ namespace MisMarcadores.Logic.Tests
             return new Deporte
             {
                 Nombre = "",
+            };
+        }
+
+        public static List<Equipo> ObtenerEquiposFalsos()
+        {
+            return new List<Equipo>
+            {
+                new Equipo
+                {
+                    Nombre = "Defensor",
+                    Foto = "",
+                    Deporte = new Deporte {Nombre = "Futbol"}
+                },
+                new Equipo
+                {
+                    Nombre = "Capitol",
+                    Foto = "",
+                    Deporte = new Deporte {Nombre = "Basket"}
+                },
+                new Equipo
+                {
+                    Nombre = "Atenas",
+                    Foto = "",
+                    Deporte = new Deporte {Nombre = "Basket"}
+                },
+                new Equipo
+                {
+                    Nombre = "Liverpool",
+                    Foto = "",
+                    Deporte = new Deporte {Nombre = "Futbol"}
+                },
+                new Equipo
+                {
+                    Nombre = "Miramar",
+                    Foto = "",
+                    Deporte = new Deporte {Nombre = "Futbol"}
+                },
+                new Equipo
+                {
+                    Nombre = "Champagnat",
+                    Foto = "",
+                    Deporte = new Deporte {Nombre = "Rugby"}
+                },
+            };
+        }
+
+        public static Equipo ObtenerEquipoNombreVacio()
+        {
+            return new Equipo
+            {
+                Nombre = "",
+                Foto = "",
+                Deporte = new Deporte { Nombre = "Rugby" }
             };
         }
     }
