@@ -21,7 +21,7 @@ namespace MisMarcadores.Logic.Tests
             var mockEquiposRepository = new Mock<IEquiposRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockEquiposRepository
-                .Setup(r => r.GetAll())
+                .Setup(r => r.ObtenerEquipos())
                 .Returns(equiposEsperados);
 
             var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
@@ -44,7 +44,7 @@ namespace MisMarcadores.Logic.Tests
             var mockEquiposRepository = new Mock<IEquiposRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockEquiposRepository
-                .Setup(r => r.GetAll())
+                .Setup(r => r.ObtenerEquipos())
                 .Returns(equiposEsperados);
 
             var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
