@@ -88,7 +88,7 @@ namespace MisMarcadores.Web.Api
             }
         }
 
-        // DELETE: api/Usuarios/Futbol
+        // DELETE: api/Deportes/Futbol
         [HttpDelete("{nombreDeporte}")]
         public IActionResult Delete(string nombreDeporte)
         {
