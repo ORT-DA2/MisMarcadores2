@@ -176,5 +176,28 @@ namespace MisMarcadores.Logic.Tests
             Assert.AreEqual(fakeNombreEquipo, obtainedResult.Nombre);
         }
 
+        [TestMethod]
+        public void ObtenerEquipoPorNombreErrorNotFoundTest()
+        {
+            //Arrange
+            var fakeNombreEquipo = "Nacional";
+
+            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockEquiposRepository
+                .Setup(r => r.ObtenerEquipoPorNombre(fakeNombreEquipo))
+                .Returns((Equipo)null);
+
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+
+            //Act
+            Equipo obtainedResult = businessLogic.ObtenerEquipoPorNombre(fakeNombreEquipo);
+
+            //Assert
+            mockEquiposRepository.VerifyAll();
+            Assert.IsNull(obtainedResult);
+        }
+
     }
 }
