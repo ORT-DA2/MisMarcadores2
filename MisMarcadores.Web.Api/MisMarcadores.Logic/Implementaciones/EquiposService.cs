@@ -20,7 +20,15 @@ namespace MisMarcadores.Logic
 
         public void AgregarEquipo(Equipo equipo)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _equiposRepository.Insert(equipo);
+                _unitOfWork.Save();
+            }
+            catch (RepositoryException)
+            {
+                throw new RepositoryException();
+            }
         }
 
         public void BorrarEquipo(string nombre)
