@@ -40,7 +40,7 @@ namespace MisMarcadores.Logic
 
         public IEnumerable<Equipo> ObtenerEquipos()
         {
-            throw new NotImplementedException();
+            return _equiposRepository.GetAll();
         }
     }
 }
