@@ -81,5 +81,28 @@ namespace MisMarcadores.Logic.Tests
             Assert.IsNotNull(obtainedResult);
             Assert.AreEqual(fakeId, obtainedResult.Id);
         }
+
+        [TestMethod]
+        public void ObtenerEncuentroPorIdErrorNotFoundTest()
+        {
+            //Arrange
+            var fakeId = System.Guid.NewGuid();
+
+            var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockEncuentrosRepository
+                .Setup(r => r.ObtenerEncuentroPorId(fakeId))
+                .Returns((Encuentro)null);
+
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object);
+
+            //Act
+            Encuentro obtainedResult = businessLogic.ObtenerEncuentroPorId(fakeId);
+
+            //Assert
+            mockEncuentrosRepository.VerifyAll();
+            Assert.IsNull(obtainedResult);
+        }
     }
 }
