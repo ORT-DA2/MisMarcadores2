@@ -199,5 +199,29 @@ namespace MisMarcadores.Logic.Tests
             Assert.IsNull(obtainedResult);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(NoExisteEquipoException))]
+        public void ActualizarEquipoNoExistenteTest()
+        {
+            //Arrange
+            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
+            var fakeNombreEquipo = fakeEquipo.Nombre;
+            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockEquiposRepository
+                .Setup(r => r.ObtenerEquipoPorNombre(fakeNombreEquipo))
+                .Returns((Equipo)null);
+
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+
+            //Act
+            businessLogic.ModificarEquipo(fakeNombreEquipo, fakeEquipo);
+
+            //Assert
+            mockEquiposRepository.VerifyAll();
+        }
+
+
     }
 }
