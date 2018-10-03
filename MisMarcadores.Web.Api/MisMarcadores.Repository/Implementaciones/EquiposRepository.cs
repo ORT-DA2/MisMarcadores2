@@ -1,4 +1,5 @@
-﻿using MisMarcadores.Data.DataAccess;
+﻿using Microsoft.EntityFrameworkCore;
+using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -13,22 +14,32 @@ namespace MisMarcadores.Repository
 
         public void BorrarEquipo(string nombre)
         {
-            throw new NotImplementedException();
+            Equipo equipo = context.Equipos.FirstOrDefault(d => d.Nombre == nombre);
+            context.Equipos.Remove(equipo);
         }
 
         public bool ExisteEquipo(string nombreDeporte, string nombreEquipo)
         {
-            throw new NotImplementedException();
+            Deporte deporte = context.Deportes.FirstOrDefault(x => x.Nombre.Equals(nombreDeporte));
+            return context.Equipos.Any(x => x.Deporte.Nombre.Equals(nombreDeporte) && x.Nombre.Equals(nombreEquipo));
         }
 
         public void ModificarEquipo(Equipo equipo)
         {
-            throw new NotImplementedException();
+            var equipoOriginal = GetByID(equipo.Id);
+            context.Equipos.Attach(equipoOriginal);
+            var entry = context.Entry(equipoOriginal);
+            entry.CurrentValues.SetValues(equipo);
         }
 
         public Equipo ObtenerEquipoPorNombre(string nombre)
         {
-            throw new NotImplementedException();
+            return context.Equipos.Include(e => e.Deporte).FirstOrDefault(e => e.Nombre.Equals(nombre));
+        }
+
+        public List<Equipo> ObtenerEquipos()
+        {
+            return context.Equipos.Include(e => e.Deporte).ToList();
         }
     }
 }
