@@ -9,6 +9,15 @@ namespace MisMarcadores.Logic
 {
     public class EquiposService : IEquiposService
     {
+        IUnitOfWork _unitOfWork;
+        IEquiposRepository _equiposRepository;
+
+        public EquiposService(IUnitOfWork unitOfWork, IEquiposRepository equiposRepository)
+        {
+            _unitOfWork = unitOfWork;
+            _equiposRepository = equiposRepository;
+        }
+
         public void AgregarEquipo(Equipo equipo)
         {
             throw new NotImplementedException();
