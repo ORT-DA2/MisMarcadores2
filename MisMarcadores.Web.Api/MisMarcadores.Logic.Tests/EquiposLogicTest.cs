@@ -124,5 +124,29 @@ namespace MisMarcadores.Logic.Tests
             mockEquiposRepository.VerifyAll();
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ExisteEquipoException))]
+        public void AgregarEquipoExistenteErrorTest()
+        {
+            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
+
+            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockDeportesRepository = new Mock<IDeportesRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockDeportesRepository
+                 .Setup(r => r.ObtenerDeportePorNombre(fakeEquipo.Deporte.Nombre))
+                 .Returns(fakeEquipo.Deporte);
+            mockEquiposRepository.Setup(r => r.Insert(fakeEquipo));
+
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, mockDeportesRepository.Object);
+
+            //Act
+            businessLogic.AgregarEquipo(fakeEquipo);
+
+            //Assert
+            mockEquiposRepository.VerifyAll();
+        }
+
     }
 }
