@@ -45,7 +45,18 @@ namespace MisMarcadores.Logic
 
         public void BorrarEquipo(string nombre)
         {
-            throw new NotImplementedException();
+            Equipo equipo = ObtenerEquipoPorNombre(nombre);
+            if (equipo == null)
+                throw new NoExisteEquipoException();
+            try
+            {
+                _equiposRepository.BorrarEquipo(nombre);
+                _unitOfWork.Save();
+            }
+            catch (RepositoryException)
+            {
+                throw new RepositoryException();
+            }
         }
 
         public void ModificarEquipo(string nombre, Equipo equipo)
