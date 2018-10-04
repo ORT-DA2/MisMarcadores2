@@ -26,13 +26,8 @@ namespace MisMarcadores.Logic
 
         public Guid AgregarEncuentro(Encuentro encuentro)
         {
-            if (!CampoValido(encuentro.EquipoLocal.Nombre) ||
-                !CampoValido(encuentro.EquipoLocal.Deporte.Nombre) ||
-                !CampoValido(encuentro.EquipoVisitante.Nombre) ||
-                !CampoValido(encuentro.EquipoVisitante.Deporte.Nombre) ||
-                !CampoValido(encuentro.Deporte.Nombre) ||
-                (encuentro.EquipoLocal.Nombre == encuentro.EquipoVisitante.Nombre))
-                    throw new EncuentroDataException();
+            if (DatosInvalidosEncuentro(encuentro))
+                throw new EncuentroDataException();
 
             Deporte deporte = _deportesRepository.ObtenerDeportePorNombre(encuentro.Deporte.Nombre);
             if (deporte == null)
@@ -81,7 +76,8 @@ namespace MisMarcadores.Logic
 
         public void ModificarEncuentro(Guid id, Encuentro encuentro)
         {
-            throw new NotImplementedException();
+            if (DatosInvalidosEncuentro(encuentro))
+                throw new EncuentroDataException();
         }
 
         public Encuentro ObtenerEncuentroPorId(Guid id)
@@ -97,6 +93,15 @@ namespace MisMarcadores.Logic
         public IEnumerable<Encuentro> ObtenerEncuentrosDeEquipo(Guid id)
         {
             throw new NotImplementedException();
+        }
+
+        private bool DatosInvalidosEncuentro(Encuentro encuentro) {
+            return (!CampoValido(encuentro.EquipoLocal.Nombre) ||
+               !CampoValido(encuentro.EquipoLocal.Deporte.Nombre) ||
+               !CampoValido(encuentro.EquipoVisitante.Nombre) ||
+               !CampoValido(encuentro.EquipoVisitante.Deporte.Nombre) ||
+               !CampoValido(encuentro.Deporte.Nombre) ||
+               (encuentro.EquipoLocal.Nombre == encuentro.EquipoVisitante.Nombre));
         }
 
         private bool CampoValido(string campo)
