@@ -284,5 +284,28 @@ namespace MisMarcadores.Logic.Tests
             //Assert
             mockEquiposRepository.VerifyAll();
         }
+
+        [TestMethod]
+        public void BorrarEncuentroOkTest()
+        {
+            //Arrange
+            var fakeEncuentro = TestHelper.ObtenerEncuentroFalso();
+            var fakeEncuentroId = fakeEncuentro.Id;
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            mockEncuentrosRepository
+                .Setup(r => r.ObtenerEncuentroPorId(fakeEncuentroId)).Returns(fakeEncuentro);
+            mockEncuentrosRepository
+                .Setup(r => r.BorrarEncuentro(fakeEncuentroId));
+
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, null);
+
+            //Act
+            businessLogic.BorrarEncuentro(fakeEncuentroId);
+
+            //Assert
+            mockEncuentrosRepository.VerifyAll();
+        }
     }
 }
