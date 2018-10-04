@@ -65,7 +65,18 @@ namespace MisMarcadores.Logic
 
         public void BorrarEncuentro(Guid id)
         {
-            throw new NotImplementedException();
+            Encuentro encuentro = ObtenerEncuentroPorId(id);
+            if (encuentro == null)
+                throw new NoExisteEncuentroException();
+            try
+            {
+                _encuentrosRepository.BorrarEncuentro(id);
+                _unitOfWork.Save();
+            }
+            catch (RepositoryException)
+            {
+                throw new RepositoryException();
+            }
         }
 
         public void ModificarEncuentro(Guid id, Encuentro encuentro)
