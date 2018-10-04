@@ -78,6 +78,12 @@ namespace MisMarcadores.Logic
         {
             if (DatosInvalidosEncuentro(encuentro))
                 throw new EncuentroDataException();
+
+            Equipo equipoLocal = _equiposRepository.ObtenerEquipoPorDeporte(encuentro.Deporte.Nombre, encuentro.EquipoLocal.Nombre);
+            Equipo equipoVisitante = _equiposRepository.ObtenerEquipoPorDeporte(encuentro.Deporte.Nombre, encuentro.EquipoVisitante.Nombre);
+
+            if (equipoLocal == null || equipoVisitante == null)
+                throw new NoExisteEquipoException();
         }
 
         public Encuentro ObtenerEncuentroPorId(Guid id)
