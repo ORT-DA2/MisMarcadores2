@@ -138,8 +138,8 @@ namespace MisMarcadores.Logic.Tests
                  .Setup(r => r.ObtenerDeportePorNombre(fakeEquipo.Deporte.Nombre))
                  .Returns(fakeEquipo.Deporte);
             mockEquiposRepository
-                 .Setup(r => r.ExisteEquipo(fakeEquipo.Deporte.Nombre, fakeEquipo.Nombre))
-                 .Returns(true);
+                 .Setup(r => r.ObtenerEquipoPorDeporte(fakeEquipo.Deporte.Nombre, fakeEquipo.Nombre))
+                 .Returns(fakeEquipo);
             mockEquiposRepository.Setup(r => r.Insert(fakeEquipo));
 
             var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, mockDeportesRepository.Object);
@@ -260,7 +260,7 @@ namespace MisMarcadores.Logic.Tests
                 .Setup(r => r.ObtenerEquipoPorId(fakeEquipo.Id))
                 .Returns(fakeEquipo);
             mockEquiposRepository
-                .Setup(r => r.ExisteEquipo(fakeEquipo.Deporte.Nombre, fakeEquipo.Nombre))
+                .Setup(r => r.ObtenerEquipoPorDeporte(fakeEquipo.Deporte.Nombre, fakeEquipo.Nombre))
                 .Throws(new ExisteEquipoException());
 
             var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
