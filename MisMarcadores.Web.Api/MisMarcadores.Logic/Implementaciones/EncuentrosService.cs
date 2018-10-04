@@ -30,23 +30,29 @@ namespace MisMarcadores.Logic
                 !CampoValido(encuentro.EquipoLocal.Deporte.Nombre) ||
                 !CampoValido(encuentro.EquipoVisitante.Nombre) ||
                 !CampoValido(encuentro.EquipoVisitante.Deporte.Nombre) ||
-                !CampoValido(encuentro.Deporte.Nombre))
+                !CampoValido(encuentro.Deporte.Nombre) ||
+                (encuentro.EquipoLocal.Nombre == encuentro.EquipoVisitante.Nombre))
                     throw new EncuentroDataException();
 
             Deporte deporte = _deportesRepository.ObtenerDeportePorNombre(encuentro.Deporte.Nombre);
             if (deporte == null)
                 throw new NoExisteDeporteException();
 
-            if (!_equiposRepository.ExisteEquipo(encuentro.Deporte.Nombre, encuentro.EquipoLocal.Nombre) ||
-                !_equiposRepository.ExisteEquipo(encuentro.Deporte.Nombre, encuentro.EquipoVisitante.Nombre))
+            Equipo equipoLocal = _equiposRepository.ObtenerEquipoPorDeporte(encuentro.Deporte.Nombre, encuentro.EquipoLocal.Nombre);
+            Equipo equipoVisitante = _equiposRepository.ObtenerEquipoPorDeporte(encuentro.Deporte.Nombre, encuentro.EquipoVisitante.Nombre);
+
+            if (equipoLocal == null || equipoVisitante == null)
                 throw new NoExisteEquipoException();
 
-            if (!_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, encuentro.EquipoLocal.Id) ||
-                !_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, encuentro.EquipoVisitante.Id))
+            if (_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, encuentro.EquipoLocal.Id) ||
+                _encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, encuentro.EquipoVisitante.Id))
                 throw new ExisteEncuentroEnFecha();
 
             try
             {
+                encuentro.EquipoLocal.Id = equipoLocal.Id;
+                encuentro.EquipoVisitante.Id = equipoVisitante.Id;
+                encuentro.Deporte.Id = deporte.Id;
                 _encuentrosRepository.Insert(encuentro);
                 _unitOfWork.Save();
                 return encuentro.Id;
