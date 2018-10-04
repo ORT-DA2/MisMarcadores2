@@ -11,5 +11,6 @@ namespace MisMarcadores.Repository
         void ModificarEncuentro(Encuentro encuentro);
         void BorrarEncuentro(Guid id);
         List<Encuentro> ObtenerEncuentros();
+        bool ExisteEncuentroEnFecha(DateTime fecha, Guid idEquipo);
     }
 }
