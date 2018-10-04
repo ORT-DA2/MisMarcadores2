@@ -41,6 +41,10 @@ namespace MisMarcadores.Logic
                 !_equiposRepository.ExisteEquipo(encuentro.Deporte.Nombre, encuentro.EquipoVisitante.Nombre))
                 throw new NoExisteEquipoException();
 
+            if (!_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, encuentro.EquipoLocal.Id) ||
+                !_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, encuentro.EquipoVisitante.Id))
+                throw new ExisteEncuentroEnFecha();
+
             try
             {
                 _encuentrosRepository.Insert(encuentro);
