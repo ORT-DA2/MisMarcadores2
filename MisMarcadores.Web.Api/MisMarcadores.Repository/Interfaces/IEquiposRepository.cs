@@ -9,7 +9,7 @@ namespace MisMarcadores.Repository
     {
         Equipo ObtenerEquipoPorId(Guid id);
         Equipo ObtenerEquipoPorNombre(String nombre);
-        bool ExisteEquipo(String nombreDeporte, String nombreEquipo);
+        Equipo ObtenerEquipoPorDeporte(String nombreDeporte, String nombreEquipo);
         void ModificarEquipo(Equipo equipo);
         void BorrarEquipo(Guid id);
         List<Equipo> ObtenerEquipos();

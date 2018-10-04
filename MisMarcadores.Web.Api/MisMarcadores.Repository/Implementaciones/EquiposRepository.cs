@@ -18,10 +18,9 @@ namespace MisMarcadores.Repository
             context.Equipos.Remove(equipo);
         }
 
-        public bool ExisteEquipo(string nombreDeporte, string nombreEquipo)
+        public Equipo ObtenerEquipoPorDeporte(string nombreDeporte, string nombreEquipo)
         {
-            Deporte deporte = context.Deportes.FirstOrDefault(x => x.Nombre.Equals(nombreDeporte));
-            return context.Equipos.Any(x => x.Deporte.Nombre.Equals(nombreDeporte) && x.Nombre.Equals(nombreEquipo));
+            return context.Equipos.Include(e => e.Deporte).FirstOrDefault(x => x.Deporte.Nombre.Equals(nombreDeporte) && x.Nombre.Equals(nombreEquipo));
         }
 
         public void ModificarEquipo(Equipo equipo)
