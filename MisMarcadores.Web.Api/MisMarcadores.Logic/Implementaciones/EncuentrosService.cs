@@ -79,6 +79,10 @@ namespace MisMarcadores.Logic
             if (DatosInvalidosEncuentro(encuentro))
                 throw new EncuentroDataException();
 
+            Deporte deporte = _deportesRepository.ObtenerDeportePorNombre(encuentro.Deporte.Nombre);
+            if (deporte == null)
+                throw new NoExisteDeporteException();
+
             Equipo equipoLocal = _equiposRepository.ObtenerEquipoPorDeporte(encuentro.Deporte.Nombre, encuentro.EquipoLocal.Nombre);
             Equipo equipoVisitante = _equiposRepository.ObtenerEquipoPorDeporte(encuentro.Deporte.Nombre, encuentro.EquipoVisitante.Nombre);
 
