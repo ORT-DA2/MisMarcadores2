@@ -21,6 +21,7 @@ namespace MisMarcadores.Data.DataAccess
             modelBuilder.Entity<Usuario>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Deporte>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Equipo>().Property(u => u.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Encuentro>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Sesion>().HasKey(s => s.NombreUsuario);
         }
 
