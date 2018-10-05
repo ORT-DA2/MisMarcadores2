@@ -39,8 +39,8 @@ namespace MisMarcadores.Logic
             if (equipoLocal == null || equipoVisitante == null)
                 throw new NoExisteEquipoException();
 
-            if (_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, encuentro.EquipoLocal.Id) ||
-                _encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, encuentro.EquipoVisitante.Id))
+            if (_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, equipoLocal.Id) ||
+                _encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, equipoVisitante.Id))
                 throw new ExisteEncuentroEnFecha();
 
             try
@@ -88,6 +88,41 @@ namespace MisMarcadores.Logic
 
             if (equipoLocal == null || equipoVisitante == null)
                 throw new NoExisteEquipoException();
+
+            Encuentro encuentroActual = ObtenerEncuentroPorId(id);
+            if (encuentroActual == null)
+                throw new NoExisteEncuentroException();
+
+            if (encuentro.FechaHora.Date != encuentroActual.FechaHora.Date)
+            {
+                if ((_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, equipoLocal.Id) ||
+               _encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, equipoVisitante.Id)))
+                    throw new ExisteEncuentroEnFecha();
+            }
+            else
+            {
+                if (EquipoDistintoAlActual(equipoLocal.Nombre, encuentroActual))
+                    if ((_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, equipoLocal.Id)))
+                        throw new ExisteEncuentroEnFecha();
+
+                if (EquipoDistintoAlActual(equipoVisitante.Nombre, encuentroActual))
+                    if ((_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, equipoVisitante.Id)))
+                        throw new ExisteEncuentroEnFecha();
+            }
+
+            try
+            {
+                encuentro = encuentroActual;
+                encuentro.EquipoLocal = equipoLocal;
+                encuentro.EquipoVisitante = equipoVisitante;
+                encuentro.Deporte = deporte;
+                _encuentrosRepository.ModificarEncuentro(encuentro);
+                _unitOfWork.Save();
+            }
+            catch (RepositoryException)
+            {
+                throw new RepositoryException();
+            }
         }
 
         public Encuentro ObtenerEncuentroPorId(Guid id)
@@ -107,9 +142,7 @@ namespace MisMarcadores.Logic
 
         private bool DatosInvalidosEncuentro(Encuentro encuentro) {
             return (!CampoValido(encuentro.EquipoLocal.Nombre) ||
-               !CampoValido(encuentro.EquipoLocal.Deporte.Nombre) ||
                !CampoValido(encuentro.EquipoVisitante.Nombre) ||
-               !CampoValido(encuentro.EquipoVisitante.Deporte.Nombre) ||
                !CampoValido(encuentro.Deporte.Nombre) ||
                (encuentro.EquipoLocal.Nombre == encuentro.EquipoVisitante.Nombre));
         }
@@ -118,5 +151,11 @@ namespace MisMarcadores.Logic
         {
             return !string.IsNullOrWhiteSpace(campo);
         }
+
+        private bool EquipoDistintoAlActual(string nombreEquipo, Encuentro encuentroActual)
+        {
+            return (nombreEquipo != encuentroActual.EquipoLocal.Nombre) && (nombreEquipo != encuentroActual.EquipoVisitante.Nombre);
+        }
+
     }
 }
