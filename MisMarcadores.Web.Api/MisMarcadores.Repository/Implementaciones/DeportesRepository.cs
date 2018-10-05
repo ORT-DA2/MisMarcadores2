@@ -14,6 +14,11 @@ namespace MisMarcadores.Repository
         public void BorrarDeporte(string nombre)
         {
             Deporte deporte = context.Deportes.FirstOrDefault(d => d.Nombre == nombre);
+            var encuentros = context.Encuentros.Where(e => e.Deporte.Nombre.Equals(deporte.Nombre));
+            foreach (var encuentro in encuentros)
+            {
+                context.Encuentros.Remove(encuentro);
+            }
             var equipos = context.Equipos.Where(e => e.Deporte.Nombre.Equals(deporte.Nombre));
             foreach (var equipo in equipos)
             {
