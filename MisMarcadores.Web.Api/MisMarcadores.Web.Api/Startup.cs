@@ -39,12 +39,14 @@ namespace MisMarcadores.Web.Api
             services.AddScoped<ISesionesService, SesionesService>();
             services.AddScoped<IDeportesService, DeportesService>();
             services.AddScoped<IEquiposService, EquiposService>();
+            services.AddScoped<IEncuentrosService, EncuentrosService>();
 
             //DATA ACCESS
             services.AddScoped<IUsuariosRepository, UsuariosRepository>();
             services.AddScoped<ISesionesRepository, SesionesRepository>();
             services.AddScoped<IDeportesRepository, DeportesRepository>();
             services.AddScoped<IEquiposRepository, EquiposRepository>();
+            services.AddScoped<IEncuentrosRepository, EncuentrosRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
