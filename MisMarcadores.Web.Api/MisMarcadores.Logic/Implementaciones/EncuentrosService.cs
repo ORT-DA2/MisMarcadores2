@@ -226,5 +226,10 @@ namespace MisMarcadores.Logic
                 throw new RepositoryException();
             }
         }
+
+        public IEnumerable<Encuentro> ObtenerEncuentrosPorDeporte(string nombre)
+        {
+            return _encuentrosRepository.ObtenerEncuentrosPorDeporte(nombre);
+        }
     }
 }
