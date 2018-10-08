@@ -27,6 +27,16 @@ namespace MisMarcadores.Repository
 
         public void BorrarUsuario(Guid id) {
             Usuario usuario = context.Usuarios.FirstOrDefault(u => u.Id == id);
+            var favoritos = context.Favoritos.Where(f => f.NombreUsuario == usuario.NombreUsuario);
+            foreach (var favorito in favoritos)
+            {
+                context.Favoritos.Remove(favorito);
+            }
+            var comentarios = context.Comentarios.Where(f => f.NombreUsuario == usuario.NombreUsuario);
+            foreach (var comentario in comentarios)
+            {
+                context.Comentarios.Remove(comentario);
+            }
             context.Usuarios.Remove(usuario);
         }
 
