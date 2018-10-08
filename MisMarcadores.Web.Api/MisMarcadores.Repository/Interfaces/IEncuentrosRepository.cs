@@ -12,6 +12,8 @@ namespace MisMarcadores.Repository
         void BorrarEncuentro(Guid id);
         void BorrarTodos();
         List<Encuentro> ObtenerEncuentros();
+        List<Encuentro> ObtenerEncuentrosPorDeporte(String nombre);
+        List<Encuentro> ObtenerEncuentrosPorEquipo(Guid id);
         bool ExisteEncuentroEnFecha(DateTime fecha, Guid idEquipo);
     }
 }
