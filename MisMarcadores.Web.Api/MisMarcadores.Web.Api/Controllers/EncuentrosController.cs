@@ -12,17 +12,19 @@ namespace MisMarcadores.Web.Api.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
 
-    [ServiceFilter(typeof(AutenticacionFilter))]
     public class EncuentrosController : Controller
     {
         private IEncuentrosService _encuentrosService { get; set; }
+        private ISesionesService _sesionesService { get; set; }
 
-        public EncuentrosController(IEncuentrosService encuentrosService)
+        public EncuentrosController(IEncuentrosService encuentrosService, ISesionesService sesionesService)
         {
             _encuentrosService = encuentrosService;
+            _sesionesService = sesionesService;
         }
 
         // GET: api/Encuentros
+        [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpGet]
         public IActionResult Get()
         {
@@ -35,6 +37,7 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // GET: api/Encuentros
+        [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpGet("{id}", Name = "GetEncuentro")]
         public IActionResult Get(Guid id)
         {
@@ -47,6 +50,7 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // GET: api/Encuentros
+        [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpGet("deporte/{nombre}", Name = "GetEncuentrosPorDeporte")]
         public IActionResult GetEncuentrosPorDeporte(String nombre)
         {
@@ -59,6 +63,7 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // GET: api/Encuentros
+        [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpGet("equipo/{id}", Name = "GetEncuentrosPorEquipo")]
         public IActionResult GetEncuentrosPorEquipo(Guid id)
         {
@@ -71,6 +76,7 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // POST: api/Encuentros
+        [ServiceFilter(typeof(AutenticacionFilter))]
         public IActionResult Post([FromBody]AgregarEncuentro encuentroModelo)
         {
             if (!ModelState.IsValid) return BadRequest("Datos invalidos");
@@ -99,7 +105,31 @@ namespace MisMarcadores.Web.Api.Controllers
             }
         }
 
+        // POST: api/Encuentros/{idEncuentro}/comentario
+        [HttpPost("{idEncuentro}/comentario")]
+        public IActionResult PostComentario(Guid idEncuentro, [FromBody]AgregarComentario comentarioModelo)
+        {
+            if (!ModelState.IsValid) return BadRequest("Datos invalidos");
+            var headers = Request.Headers;
+            Guid token = new Guid(headers["tokenSesion"]);
+            Usuario usuario = _sesionesService.ObtenerUsuarioPorToken(token);
+            if (usuario == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                this._encuentrosService.AgregarComentario(idEncuentro, usuario.NombreUsuario, comentarioModelo.Comentario);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(409, "Ya existe un encuentro en esa fecha para el/los equipos seleccionados.");
+            }
+        }
+
         // PUT: api/Encuentros/id
+        [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpPut("{id}")]
         public IActionResult Put(Guid id, [FromBody]ActualizarEncuentro encuentro)
         {
@@ -129,6 +159,7 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // DELETE: api/Encuentros/id
+        [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
@@ -147,6 +178,7 @@ namespace MisMarcadores.Web.Api.Controllers
             }
         }
 
+        [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpDelete]
         public IActionResult Delete()
         {
