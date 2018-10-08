@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Logic;
@@ -25,14 +26,43 @@ namespace MisMarcadores.Web.Api.Controllers
 
         // GET: api/Equipos
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery]FiltroOrden filtroOrden)
         {
             IEnumerable<Equipo> equipos = _equiposService.ObtenerEquipos();
             if (equipos == null)
             {
                 return NotFound();
             }
+            string filtro = filtroOrden.Filtro;
+            string orden = filtroOrden.Orden;
+            if (!EsValido(filtro) && !EsValido(orden))
+                return Ok(equipos);
+            if (!EsValido(filtro)) {
+                filtro = "";
+            }
+            else
+            {
+                equipos = equipos.Where(e => e.Nombre.IndexOf(filtro, StringComparison.OrdinalIgnoreCase) >=0);
+            }
+            if (EsValido(orden)) { 
+                if (orden.ToUpper() != "ASC" && orden.ToUpper() != "DESC") {
+                    return BadRequest("El valor del orden debe ser ASC o DESC");
+                }
+                else {
+                    if (orden.ToUpper() == "ASC") {
+                        equipos = equipos.OrderBy(e => e.Nombre);
+                    }
+                    else {
+                        equipos = equipos.OrderByDescending(e => e.Nombre);
+                    }
+                }
+            }
             return Ok(equipos);
+        }
+
+        private bool EsValido(string campo)
+        {
+            return !string.IsNullOrEmpty(campo);
         }
 
         // GET: api/Equipos
