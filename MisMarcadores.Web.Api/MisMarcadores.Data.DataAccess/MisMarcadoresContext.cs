@@ -12,6 +12,7 @@ namespace MisMarcadores.Data.DataAccess
         public DbSet<Deporte> Deportes { get; set; }
         public DbSet<Encuentro> Encuentros { get; set; }
         public DbSet<Comentario> Comentarios { get; set; }
+        public DbSet<Favorito> Favoritos { get; set; }
         public DbSet<Sesion> Sesiones { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -22,6 +23,8 @@ namespace MisMarcadores.Data.DataAccess
             modelBuilder.Entity<Deporte>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Equipo>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Encuentro>().Property(u => u.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Comentario>().Property(u => u.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Favorito>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Sesion>().HasKey(s => s.NombreUsuario);
         }
 
