@@ -24,7 +24,7 @@ namespace MisMarcadores.Logic.Tests
                 .Setup(r => r.ObtenerEquipos())
                 .Returns(equiposEsperados);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
 
             //Act
             IEnumerable<Equipo> obtainedResult = businessLogic.ObtenerEquipos();
@@ -47,7 +47,7 @@ namespace MisMarcadores.Logic.Tests
                 .Setup(r => r.ObtenerEquipos())
                 .Returns(equiposEsperados);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
 
             //Act
             IEnumerable<Equipo> obtainedResult = businessLogic.ObtenerEquipos();
@@ -72,7 +72,7 @@ namespace MisMarcadores.Logic.Tests
             mockEquiposRepository
                 .Setup(r => r.Insert(fakeEquipo));
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, mockDeportesRepository.Object);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, mockDeportesRepository.Object, null);
 
             //Act
             businessLogic.AgregarEquipo(fakeEquipo);
@@ -92,7 +92,7 @@ namespace MisMarcadores.Logic.Tests
             mockEquiposRepository
                 .Setup(r => r.Insert(fakeEquipo));
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
 
             //Act
             businessLogic.AgregarEquipo(fakeEquipo);
@@ -115,7 +115,7 @@ namespace MisMarcadores.Logic.Tests
                  .Setup(r => r.ObtenerDeportePorNombre(fakeEquipo.Deporte.Nombre)).Returns((Deporte)null);
             mockEquiposRepository.Setup(r => r.Insert(fakeEquipo));
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, mockDeportesRepository.Object);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, mockDeportesRepository.Object, null);
 
             //Act
             businessLogic.AgregarEquipo(fakeEquipo);
@@ -142,7 +142,7 @@ namespace MisMarcadores.Logic.Tests
                  .Returns(fakeEquipo);
             mockEquiposRepository.Setup(r => r.Insert(fakeEquipo));
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, mockDeportesRepository.Object);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, mockDeportesRepository.Object, null);
 
             //Act
             businessLogic.AgregarEquipo(fakeEquipo);
@@ -165,7 +165,7 @@ namespace MisMarcadores.Logic.Tests
                 .Setup(r => r.ObtenerEquipoPorId(fakeId))
                 .Returns(fakeEquipo);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
 
             //Act
             Equipo obtainedResult = businessLogic.ObtenerEquipoPorId(fakeId);
@@ -190,7 +190,7 @@ namespace MisMarcadores.Logic.Tests
                 .Setup(r => r.ObtenerEquipoPorNombre(fakeNombre))
                 .Returns(fakeEquipo);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
 
             //Act
             Equipo obtainedResult = businessLogic.ObtenerEquipoPorNombre(fakeNombre);
@@ -214,7 +214,7 @@ namespace MisMarcadores.Logic.Tests
                 .Setup(r => r.ObtenerEquipoPorId(fakeId))
                 .Returns((Equipo)null);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
 
             //Act
             Equipo obtainedResult = businessLogic.ObtenerEquipoPorId(fakeId);
@@ -238,7 +238,7 @@ namespace MisMarcadores.Logic.Tests
                 .Setup(r => r.ObtenerEquipoPorId(fakeEquipoId))
                 .Returns((Equipo)null);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
 
             //Act
             businessLogic.ModificarEquipo(fakeEquipoId, fakeEquipo);
@@ -263,7 +263,7 @@ namespace MisMarcadores.Logic.Tests
                 .Setup(r => r.ObtenerEquipoPorDeporte(fakeEquipo.Deporte.Nombre, fakeEquipo.Nombre))
                 .Throws(new ExisteEquipoException());
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
 
             //Act
             businessLogic.ModificarEquipo(fakeEquipo.Id, fakeEquipo);
@@ -281,7 +281,7 @@ namespace MisMarcadores.Logic.Tests
             var mockEquiposRepository = new Mock<IEquiposRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
 
             //Act
             businessLogic.ModificarEquipo(fakeEquipo.Id, fakeEquipo);
@@ -304,7 +304,7 @@ namespace MisMarcadores.Logic.Tests
             mockEquiposRepository
                 .Setup(r => r.BorrarEquipo(fakeEquipoId));
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
 
             //Act
             businessLogic.BorrarEquipo(fakeEquipoId);
@@ -325,7 +325,7 @@ namespace MisMarcadores.Logic.Tests
             mockEquiposRepository
                 .Setup(r => r.ObtenerEquipoPorId(fakeEquipoId)).Returns((Equipo)null);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null);
+            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
 
             //Act
             businessLogic.BorrarEquipo(fakeEquipoId);
