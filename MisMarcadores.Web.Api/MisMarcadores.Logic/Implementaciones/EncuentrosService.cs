@@ -14,7 +14,7 @@ namespace MisMarcadores.Logic
         private IDeportesRepository _deportesRepository;
         private IEquiposRepository _equiposRepository;
         private IEncuentrosRepository _encuentrosRepository;
-        
+
         public EncuentrosService(IUnitOfWork unitOfWork, IEncuentrosRepository encuentrosRepository, IDeportesRepository deportesRepository,
             IEquiposRepository equiposRepository)
         {
@@ -140,7 +140,8 @@ namespace MisMarcadores.Logic
             throw new NotImplementedException();
         }
 
-        private bool DatosInvalidosEncuentro(Encuentro encuentro) {
+        private bool DatosInvalidosEncuentro(Encuentro encuentro)
+        {
             return (!CampoValido(encuentro.EquipoLocal.Nombre) ||
                !CampoValido(encuentro.EquipoVisitante.Nombre) ||
                !CampoValido(encuentro.Deporte.Nombre) ||
@@ -157,5 +158,73 @@ namespace MisMarcadores.Logic
             return (nombreEquipo != encuentroActual.EquipoLocal.Nombre) && (nombreEquipo != encuentroActual.EquipoVisitante.Nombre);
         }
 
+        public bool FixtureGenerado(DateTime fechaInicio, string deporte, string tipo)
+        {
+            if (!CampoValido(deporte) || !CampoValido(tipo) || (tipo != "Liga" && tipo != "Grupos"))
+                throw new EncuentroDataException();
+            Deporte deporteActual = _deportesRepository.ObtenerDeportePorNombre(deporte);
+            if (deporteActual == null)
+                throw new NoExisteDeporteException();
+            List<Equipo> equipos = _equiposRepository.ObtenerEquiposPorDeporte(deporte);
+            if (equipos == null || equipos.Count == 1)
+                throw new NoExistenEquiposException();
+            IFixture fixture = GenerarFixture(fechaInicio, tipo, equipos);
+            List<Encuentro> encuentros = fixture.GenerarFixture();
+            bool generado = true;
+            foreach (Encuentro encuentro in encuentros)
+            {
+                if (ExisteEncuentroEquipo(encuentro.FechaHora, equipos))
+                    generado = false;
+                    break;
+            }
+            if (generado)
+            {
+                foreach (Encuentro encuentro in encuentros)
+                {
+                    encuentro.Deporte = deporteActual;
+                    _encuentrosRepository.Insert(encuentro);
+                    _unitOfWork.Save();
+                }
+            }
+            return generado;
+        }
+
+        private bool ExisteEncuentroEquipo(DateTime fecha, List<Equipo> equipos)
+        {
+            List<Encuentro> encuentros = _encuentrosRepository.ObtenerEncuentros();
+            foreach (Equipo equipo in equipos)
+            {
+                if (_encuentrosRepository.ExisteEncuentroEnFecha(fecha, equipo.Id))
+                    return true;
+            }
+            return false;
+        }
+
+        private IFixture GenerarFixture(DateTime fechaInicio, string tipo, List<Equipo> equipos)
+        {
+            switch (tipo)
+            {
+                case "Liga":
+                    return new FixtureLiga(fechaInicio, equipos);
+                case "Grupos":
+                    if (equipos.Count % 4 != 0)
+                        throw new FixtureGruposDataException();
+                    return new FixtureGrupos(fechaInicio, equipos);
+            }
+            return null;
+        }
+
+        public void BorrarTodos()
+        {
+            try
+            {
+                _encuentrosRepository.BorrarTodos();
+                _unitOfWork.Save();
+            }
+            catch (RepositoryException)
+            {
+                throw new RepositoryException();
+            }
+        }
     }
 }
