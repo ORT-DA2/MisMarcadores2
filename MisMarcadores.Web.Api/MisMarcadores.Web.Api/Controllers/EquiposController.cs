@@ -90,6 +90,10 @@ namespace MisMarcadores.Web.Api.Controllers
                 equipo.Id = idCreado;
                 return CreatedAtRoute("GetEquipo", new { id = idCreado }, equipo);
             }
+            catch (FormatException)
+            {
+                return BadRequest("La imagen debe tener un formato de base 64.");
+            }
             catch (EquipoDataExceptiom)
             {
                 return BadRequest("Datos invalidos");
@@ -114,6 +118,10 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 this._equiposService.ModificarEquipo(id, equipo.TransformarAEquipo());
                 return Ok();
+            }
+            catch (FormatException)
+            {
+                return BadRequest("La imagen debe tener un formato de base 64.");
             }
             catch (EquipoDataExceptiom)
             {
