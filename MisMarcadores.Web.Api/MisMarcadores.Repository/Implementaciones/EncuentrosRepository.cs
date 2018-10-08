@@ -12,9 +12,19 @@ namespace MisMarcadores.Repository
     {
         public EncuentrosRepository(MisMarcadoresContext context) : base(context) { }
 
+        public void AgregarComentario(Comentario comentario)
+        {
+            context.Comentarios.Add(comentario);
+        }
+
         public void BorrarEncuentro(Guid id)
         {
             Encuentro encuentro = context.Encuentros.FirstOrDefault(e => e.Id == id);
+            var comentarios = context.Comentarios.Where(c => c.IdEncuentro.Equals(id));
+            foreach (var comentario in comentarios)
+            {
+                context.Comentarios.Remove(comentario);
+            }
             context.Encuentros.Remove(encuentro);
         }
 
@@ -37,6 +47,11 @@ namespace MisMarcadores.Repository
             context.Encuentros.Attach(encuentroOriginal);
             var entry = context.Entry(encuentroOriginal);
             entry.CurrentValues.SetValues(encuentro);
+        }
+
+        public List<Comentario> ObtenerComentarios(Guid idEncuentro)
+        {
+            return context.Comentarios.Where(c => c.IdEncuentro == idEncuentro).ToList();
         }
 
         public Encuentro ObtenerEncuentroPorId(Guid id)
