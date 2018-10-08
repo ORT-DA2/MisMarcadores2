@@ -50,5 +50,10 @@ namespace MisMarcadores.Repository
         {
             return context.Equipos.Include(e => e.Deporte).ToList();
         }
+
+        public List<Equipo> ObtenerEquiposPorDeporte(string deporte)
+        {
+            return context.Equipos.Where(x => x.Deporte.Nombre.Equals(deporte)).ToList();
+        }
     }
 }
