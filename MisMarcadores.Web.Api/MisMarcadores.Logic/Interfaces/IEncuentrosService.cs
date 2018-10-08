@@ -13,5 +13,8 @@ namespace MisMarcadores.Logic
         IEnumerable<Encuentro> ObtenerEncuentrosDeEquipo(Guid id);
         void ModificarEncuentro(Guid id, Encuentro encuentro);
         void BorrarEncuentro(Guid id);
+        void BorrarTodos();
+        bool FixtureGenerado(DateTime fechaInicio, String deporte, String tipo);
+        IFixture GenerarFixture(DateTime fechaInicio, string tipo, List<Equipo> equipos);
     }
 }
