@@ -13,6 +13,8 @@ namespace MisMarcadores.Logic
         IEnumerable<Encuentro> ObtenerEncuentrosPorEquipo(Guid id);
         Encuentro ObtenerEncuentroPorId(Guid id);
         IEnumerable<Encuentro> ObtenerEncuentrosDeEquipo(Guid id);
+        List<Comentario> ObtenerComentarios(Guid idEncuentro);
+        void AgregarComentario(Guid idEncuentro, String nombreUsuario, String texto);
         void ModificarEncuentro(Guid id, Encuentro encuentro);
         void BorrarEncuentro(Guid id);
         void BorrarTodos();
