@@ -46,6 +46,30 @@ namespace MisMarcadores.Web.Api.Controllers
             return Ok(encuentro);
         }
 
+        // GET: api/Encuentros
+        [HttpGet("deporte/{nombre}", Name = "GetEncuentrosPorDeporte")]
+        public IActionResult GetEncuentrosPorDeporte(String nombre)
+        {
+            IEnumerable<Encuentro> encuentros = _encuentrosService.ObtenerEncuentrosPorDeporte(nombre);
+            if (encuentros == null)
+            {
+                return NotFound();
+            }
+            return Ok(encuentros);
+        }
+
+        // GET: api/Encuentros
+        [HttpGet("equipo/{id}", Name = "GetEncuentrosPorEquipo")]
+        public IActionResult GetEncuentrosPorEquipo(Guid id)
+        {
+            IEnumerable<Encuentro> encuentros = _encuentrosService.ObtenerEncuentrosPorEquipo(id);
+            if (encuentros == null)
+            {
+                return NotFound();
+            }
+            return Ok(encuentros);
+        }
+
         // POST: api/Encuentros
         public IActionResult Post([FromBody]AgregarEncuentro encuentroModelo)
         {
