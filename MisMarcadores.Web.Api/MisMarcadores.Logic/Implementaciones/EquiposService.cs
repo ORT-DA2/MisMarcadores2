@@ -36,6 +36,14 @@ namespace MisMarcadores.Logic
             if (_equiposRepository.ObtenerEquipoPorDeporte(equipo.Deporte.Nombre, equipo.Nombre) !=null)
                 throw new ExisteEquipoException();
 
+            if (equipo.Foto != null) {
+                try {
+                    Convert.FromBase64String(equipo.Foto);
+                }
+                catch (FormatException e) {
+                    throw e;
+                }
+            }
             try
             {
                 equipo.Deporte.Id = deporte.Id;
@@ -117,7 +125,17 @@ namespace MisMarcadores.Logic
                 throw new NoExisteEquipoException();
             if (_equiposRepository.ObtenerEquipoPorDeporte(equipo.Deporte.Nombre, equipo.Nombre) != null)
                 throw new ExisteEquipoException();
-
+            if (equipo.Foto != null)
+            {
+                try
+                {
+                    Convert.FromBase64String(equipo.Foto);
+                }
+                catch (FormatException e)
+                {
+                    throw e;
+                }
+            }
             try
             {
                 equipo.Id = equipoActual.Id;
