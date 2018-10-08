@@ -458,5 +458,29 @@ namespace MisMarcadores.Logic.Tests
             Assert.IsNotNull(obtainedResult);
             Assert.AreEqual(encuentrosEsperados, obtainedResult);
         }
+
+        [TestMethod]
+        public void ObtenerEncuentrosPorEquipoOkTest()
+        {
+            //Arrange
+            var encuentrosEsperados = TestHelper.ObtenerEncuentrosFalsos();
+            var equipoFalso = TestHelper.ObtenerEquipoFalso();
+
+            var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockEncuentrosRepository
+                .Setup(r => r.ObtenerEncuentrosPorEquipo(equipoFalso.Id))
+                .Returns(encuentrosEsperados);
+
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, null);
+
+            //Act
+            IEnumerable<Encuentro> obtainedResult = businessLogic.ObtenerEncuentrosPorEquipo(equipoFalso.Id);
+
+            //Assert
+            mockEncuentrosRepository.VerifyAll();
+            Assert.IsNotNull(obtainedResult);
+            Assert.AreEqual(encuentrosEsperados, obtainedResult);
+        }
     }
 }
