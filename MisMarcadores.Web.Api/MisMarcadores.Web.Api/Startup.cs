@@ -47,6 +47,7 @@ namespace MisMarcadores.Web.Api
             services.AddScoped<IDeportesRepository, DeportesRepository>();
             services.AddScoped<IEquiposRepository, EquiposRepository>();
             services.AddScoped<IEncuentrosRepository, EncuentrosRepository>();
+            services.AddScoped<IFavoritosRepository, FavoritosRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
