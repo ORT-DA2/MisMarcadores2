@@ -48,5 +48,15 @@ namespace MisMarcadores.Repository
         {
             return context.Encuentros.Include(e => e.Deporte).Include(e => e.EquipoLocal).Include(e => e.EquipoVisitante).ToList();
         }
+
+        public List<Encuentro> ObtenerEncuentrosPorDeporte(string nombre)
+        {
+            return context.Encuentros.Include(e => e.Deporte).Include(e => e.EquipoLocal).Include(e => e.EquipoVisitante).Where(x => x.Deporte.Nombre.Equals(nombre)).ToList();
+        }
+
+        public List<Encuentro> ObtenerEncuentrosPorEquipo(Guid idEquipo)
+        {
+            return context.Encuentros.Include(e => e.Deporte).Include(e => e.EquipoLocal).Include(e => e.EquipoVisitante).Where(x => (x.EquipoLocal.Id == idEquipo || x.EquipoVisitante.Id == idEquipo)).ToList();
+        }
     }
 }
