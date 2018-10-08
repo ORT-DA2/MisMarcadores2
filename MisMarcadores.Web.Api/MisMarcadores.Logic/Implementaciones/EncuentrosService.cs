@@ -231,5 +231,10 @@ namespace MisMarcadores.Logic
         {
             return _encuentrosRepository.ObtenerEncuentrosPorDeporte(nombre);
         }
+
+        public IEnumerable<Encuentro> ObtenerEncuentrosPorEquipo(Guid id)
+        {
+            return _encuentrosRepository.ObtenerEncuentrosPorEquipo(id);
+        }
     }
 }
