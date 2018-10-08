@@ -13,5 +13,6 @@ namespace MisMarcadores.Repository
         void ModificarEquipo(Equipo equipo);
         void BorrarEquipo(Guid id);
         List<Equipo> ObtenerEquipos();
+        List<Equipo> ObtenerEquiposPorDeporte(String deporte);
     }
 }
