@@ -15,6 +15,11 @@ namespace MisMarcadores.Repository
         public void BorrarEquipo(Guid id)
         {
             Equipo equipo = context.Equipos.FirstOrDefault(d => d.Id == id);
+            var favoritos = context.Favoritos.Where(f => f.IdEquipo == equipo.Id);
+            foreach (var favorito in favoritos)
+            {
+                context.Favoritos.Remove(favorito);
+            }
             var encuentros = context.Encuentros.Where(e => e.EquipoLocal.Nombre.Equals(equipo.Nombre) || e.EquipoVisitante.Nombre.Equals(equipo.Nombre));
             foreach (var encuentro in encuentros)
             {
