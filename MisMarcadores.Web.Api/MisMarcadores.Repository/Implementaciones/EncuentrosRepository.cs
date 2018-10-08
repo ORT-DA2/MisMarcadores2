@@ -18,6 +18,14 @@ namespace MisMarcadores.Repository
             context.Encuentros.Remove(encuentro);
         }
 
+        public void BorrarTodos()
+        {
+            foreach (Encuentro encuentro in context.Encuentros)
+            {
+                context.Encuentros.Remove(encuentro);
+            }
+        }
+
         public bool ExisteEncuentroEnFecha(DateTime fecha, Guid idEquipo)
         {
             return context.Encuentros.Any(x => (x.EquipoLocal.Id == idEquipo || x.EquipoVisitante.Id == idEquipo ) && x.FechaHora.Date.Equals(fecha.Date));
