@@ -137,7 +137,7 @@ namespace MisMarcadores.Logic
 
         public IEnumerable<Encuentro> ObtenerEncuentrosDeEquipo(Guid id)
         {
-            throw new NotImplementedException();
+            return _encuentrosRepository.ObtenerEncuentrosPorEquipo(id);
         }
 
         private bool DatosInvalidosEncuentro(Encuentro encuentro)
@@ -235,6 +235,33 @@ namespace MisMarcadores.Logic
         public IEnumerable<Encuentro> ObtenerEncuentrosPorEquipo(Guid id)
         {
             return _encuentrosRepository.ObtenerEncuentrosPorEquipo(id);
+        }
+
+        public void AgregarComentario(Guid idEncuentro, string nombreUsuario, string texto)
+        {
+            Encuentro encuentroActual = ObtenerEncuentroPorId(idEncuentro);
+            if (encuentroActual == null)
+                throw new NoExisteEncuentroException();
+            try
+            {
+                Comentario comentario = new Comentario
+                {
+                    IdEncuentro = idEncuentro,
+                    NombreUsuario = nombreUsuario,
+                    Texto = texto
+                };
+                _encuentrosRepository.AgregarComentario(comentario);
+                _unitOfWork.Save();
+            }
+            catch (RepositoryException)
+            {
+                throw new RepositoryException();
+            }
+        }
+
+        public List<Comentario> ObtenerComentarios(Guid idEncuentro)
+        {
+            return _encuentrosRepository.ObtenerComentarios(idEncuentro);
         }
     }
 }
