@@ -434,5 +434,29 @@ namespace MisMarcadores.Logic.Tests
             //Assert
             mockEquiposRepository.VerifyAll();
         }
+
+        [TestMethod]
+        public void ObtenerEncuentrosPorDeporteOkTest()
+        {
+            //Arrange
+            var encuentrosEsperados = TestHelper.ObtenerEncuentrosFalsos();
+            var deporteFalso = TestHelper.ObtenerDeporteFalso();
+
+            var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockEncuentrosRepository
+                .Setup(r => r.ObtenerEncuentrosPorDeporte(deporteFalso.Nombre))
+                .Returns(encuentrosEsperados);
+
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, null);
+
+            //Act
+            IEnumerable<Encuentro> obtainedResult = businessLogic.ObtenerEncuentrosPorDeporte(deporteFalso.Nombre);
+
+            //Assert
+            mockEncuentrosRepository.VerifyAll();
+            Assert.IsNotNull(obtainedResult);
+            Assert.AreEqual(encuentrosEsperados, obtainedResult);
+        }
     }
 }
