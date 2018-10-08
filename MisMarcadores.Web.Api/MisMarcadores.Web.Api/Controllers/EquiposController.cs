@@ -12,14 +12,15 @@ namespace MisMarcadores.Web.Api.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
 
-    [ServiceFilter(typeof(AutenticacionFilter))]
     public class EquiposController : Controller
     {
         private IEquiposService _equiposService { get; set; }
+        private ISesionesService _sesionesService { get; set; }
 
-        public EquiposController(IEquiposService equiposService)
+        public EquiposController(IEquiposService equiposService, ISesionesService sesionesService)
         {
             _equiposService = equiposService;
+            _sesionesService = sesionesService;
         }
 
         // GET: api/Equipos
@@ -35,6 +36,7 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // GET: api/Equipos
+        [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpGet("{id}", Name = "GetEquipo")]
         public IActionResult Get(Guid id)
         {
@@ -47,6 +49,7 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // POST: api/equipos
+        [ServiceFilter(typeof(AutenticacionFilter))]
         public IActionResult Post([FromBody]AgregarEquipo equipoModelo)
         {
             if (!ModelState.IsValid) return BadRequest("Datos invalidos");
@@ -72,6 +75,7 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // PUT: api/Equipos/Rampla
+        [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpPut("{id}")]
         public IActionResult Put(Guid id, [FromBody]ActualizarEquipo equipo)
         {
@@ -97,6 +101,7 @@ namespace MisMarcadores.Web.Api.Controllers
 
 
         // DELETE: api/Equipos/Rampla
+        [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
@@ -112,6 +117,66 @@ namespace MisMarcadores.Web.Api.Controllers
             catch (RepositoryException)
             {
                 return BadRequest("El equipo no existe en la BD.");
+            }
+        }
+
+        // POST: api/Equipos/{idEquipo}/follow
+        [HttpPost("{idEquipo}/follow")]
+        public IActionResult PostFavorito(Guid idEquipo)
+        {
+            var headers = Request.Headers;
+            Guid token = new Guid(headers["tokenSesion"]);
+            Usuario usuario = _sesionesService.ObtenerUsuarioPorToken(token);
+            if (usuario == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                this._equiposService.AgregarFavorito(idEquipo, usuario.NombreUsuario);
+                return Ok();
+            }
+            catch (NoExisteEquipoException)
+            {
+                return BadRequest("El equipo no existe en la BD.");
+            }
+            catch (ExisteFavoritoException)
+            {
+                return BadRequest("El usuario ya sigue a dicho equipo.");
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        // POST: api/Equipos/{idEquipo}/unfollow
+        [HttpDelete("{idEquipo}/unfollow")]
+        public IActionResult DeleteFavorito(Guid idEquipo)
+        {
+            var headers = Request.Headers;
+            Guid token = new Guid(headers["tokenSesion"]);
+            Usuario usuario = _sesionesService.ObtenerUsuarioPorToken(token);
+            if (usuario == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                this._equiposService.BorrarFavorito(idEquipo, usuario.NombreUsuario);
+                return Ok();
+            }
+            catch (NoExisteEquipoException)
+            {
+                return BadRequest("El equipo no existe en la BD.");
+            }
+            catch (NoExisteFavoritoException)
+            {
+                return BadRequest("El usuario no sigue a dicho equipo.");
+            }
+            catch (RepositoryException)
+            {
+                return BadRequest();
             }
         }
     }
