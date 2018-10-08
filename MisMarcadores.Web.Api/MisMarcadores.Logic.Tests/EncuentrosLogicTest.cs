@@ -405,6 +405,7 @@ namespace MisMarcadores.Logic.Tests
         public void ActualizarEncuentroEquipoExisteEncuentroEnFechaErrorTest()
         {
             var fakeEncuentro = TestHelper.ObtenerEncuentroFalso();
+            var fakeNuevoEncuentro = TestHelper.ObtenerNuevoEncuentroFalso();
 
             var mockEquiposRepository = new Mock<IEquiposRepository>();
             var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
@@ -412,16 +413,19 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockDeportesRepository
-                 .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre))
+                 .Setup(r => r.ObtenerDeportePorNombre(fakeNuevoEncuentro.Deporte.Nombre))
                  .Returns(fakeEncuentro.Deporte);
             mockEquiposRepository
-                 .Setup(r => r.ObtenerEquipoPorDeporte(fakeEncuentro.Deporte.Nombre, fakeEncuentro.EquipoLocal.Nombre))
-                 .Returns(fakeEncuentro.EquipoLocal);
+                 .Setup(r => r.ObtenerEquipoPorDeporte(fakeNuevoEncuentro.Deporte.Nombre, fakeNuevoEncuentro.EquipoLocal.Nombre))
+                 .Returns(fakeNuevoEncuentro.EquipoLocal);
             mockEquiposRepository
-                 .Setup(r => r.ObtenerEquipoPorDeporte(fakeEncuentro.Deporte.Nombre, fakeEncuentro.EquipoVisitante.Nombre))
-                 .Returns(fakeEncuentro.EquipoVisitante);
+                 .Setup(r => r.ObtenerEquipoPorDeporte(fakeNuevoEncuentro.Deporte.Nombre, fakeNuevoEncuentro.EquipoVisitante.Nombre))
+                 .Returns(fakeNuevoEncuentro.EquipoVisitante);
             mockEncuentrosRepository
-                .Setup(r => r.ExisteEncuentroEnFecha(fakeEncuentro.FechaHora, fakeEncuentro.EquipoLocal.Id))
+                 .Setup(r => r.ObtenerEncuentroPorId(fakeEncuentro.Id))
+                 .Returns(fakeEncuentro);
+            mockEncuentrosRepository
+                .Setup(r => r.ExisteEncuentroEnFecha(fakeNuevoEncuentro.FechaHora, fakeNuevoEncuentro.EquipoLocal.Id))
                 .Returns(true);
             mockEncuentrosRepository.Setup(r => r.ModificarEncuentro(fakeEncuentro));
 
@@ -429,7 +433,7 @@ namespace MisMarcadores.Logic.Tests
                 mockDeportesRepository.Object, mockEquiposRepository.Object);
 
             //Act
-            businessLogic.ModificarEncuentro(fakeEncuentro.Id, fakeEncuentro);
+            businessLogic.ModificarEncuentro(fakeEncuentro.Id, fakeNuevoEncuentro);
 
             //Assert
             mockEquiposRepository.VerifyAll();

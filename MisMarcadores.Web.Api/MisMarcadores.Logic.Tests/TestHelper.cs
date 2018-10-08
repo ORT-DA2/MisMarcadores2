@@ -32,6 +32,30 @@ namespace MisMarcadores.Logic.Tests
             return encuentros.FirstOrDefault();
         }
 
+        public static Encuentro ObtenerNuevoEncuentroFalso()
+        {
+            return new Encuentro
+            {
+                Id = Guid.NewGuid(),
+                FechaHora = DateTime.Today.AddDays(5),
+                EquipoLocal = new Equipo
+                {
+                    Id = Guid.NewGuid(),
+                    Nombre = "Defensor",
+                    Foto = "",
+                    Deporte = new Deporte { Nombre = "Futbol" }
+                },
+                EquipoVisitante = new Equipo
+                {
+                    Id = Guid.NewGuid(),
+                    Nombre = "Danubio",
+                    Foto = "",
+                    Deporte = new Deporte { Nombre = "Futbol" }
+                },
+                Deporte = new Deporte { Nombre = "Futbol" }
+            };
+        }
+
         public static List<Usuario> ObtenerUsuariosFalsos()
         {
             return new List<Usuario>
