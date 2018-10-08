@@ -100,6 +100,11 @@ namespace MisMarcadores.Logic
             return _equiposRepository.ObtenerEquipos();
         }
 
+        public IEnumerable<Equipo> ObtenerEquiposPorDeporte(string deporte)
+        {
+            return _equiposRepository.ObtenerEquiposPorDeporte(deporte);
+        }
+
         private bool CampoValido(string campo)
         {
             return !string.IsNullOrWhiteSpace(campo);
