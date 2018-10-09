@@ -1,7 +1,6 @@
 ﻿using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Repository;
-using MisMarcadores.Repository.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Net.Mail;
@@ -41,16 +40,9 @@ namespace MisMarcadores.Logic
 
             if (_usuariosRepository.ObtenerPorNombreUsuario(usuario.NombreUsuario)!=null)
                 throw new ExisteUsuarioException();
-
-            try
-            {
-                _usuariosRepository.Insert(usuario);
-                _unitOfWork.Save();
-            }
-            catch (UsuarioRepositoryException)
-            {
-                throw new RepositoryException();
-            }
+            
+            _usuariosRepository.Insert(usuario);
+            _unitOfWork.Save();
             
         }
 
@@ -69,16 +61,10 @@ namespace MisMarcadores.Logic
                 throw new NoExisteUsuarioException();
             if (usuarioActual.NombreUsuario != usuario.NombreUsuario)
                 throw new UsuarioDataException();
-            try
-            {
-                usuario.Id = usuarioActual.Id;
-                _usuariosRepository.ModificarUsuario(usuario);
-                _unitOfWork.Save();
-            }
-            catch (UsuarioRepositoryException)
-            {
-                throw new RepositoryException();
-            }
+            
+            usuario.Id = usuarioActual.Id;
+            _usuariosRepository.ModificarUsuario(usuario);
+            _unitOfWork.Save();
         }
 
         public void BorrarUsuario(string nombreUsuario)
@@ -86,15 +72,9 @@ namespace MisMarcadores.Logic
             Usuario usuario = ObtenerPorNombreUsuario(nombreUsuario);
             if (usuario == null)
                 throw new NoExisteUsuarioException();
-            try
-            {
-                _usuariosRepository.BorrarUsuario(usuario.Id);
-                _unitOfWork.Save();
-            }
-            catch (UsuarioRepositoryException)
-            {
-                throw new RepositoryException();
-            }
+
+            _usuariosRepository.BorrarUsuario(usuario.Id);
+            _unitOfWork.Save();
         }
 
         private bool CampoValido(string campo)

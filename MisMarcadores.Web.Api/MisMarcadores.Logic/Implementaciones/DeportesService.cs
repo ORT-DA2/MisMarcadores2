@@ -4,7 +4,6 @@ using System.Text;
 using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Repository;
-using MisMarcadores.Repository.Exceptions;
 
 namespace MisMarcadores.Logic
 {
@@ -26,15 +25,9 @@ namespace MisMarcadores.Logic
 
             if (_deportesRepository.ObtenerDeportePorNombre(deporte.Nombre) != null)
                 throw new ExisteDeporteException();
-            try
-            {
-                _deportesRepository.Insert(deporte);
-                _unitOfWork.Save();
-            }
-            catch (RepositoryException)
-            {
-                throw new RepositoryException();
-            }
+            
+            _deportesRepository.Insert(deporte);
+            _unitOfWork.Save();
         }
 
         public void BorrarDeporte(string nombre)
@@ -42,15 +35,8 @@ namespace MisMarcadores.Logic
             Deporte deporte = ObtenerDeportePorNombre(nombre);
             if (deporte == null)
                 throw new NoExisteDeporteException();
-            try
-            {
-                _deportesRepository.BorrarDeporte(nombre);
-                _unitOfWork.Save();
-            }
-            catch (RepositoryException)
-            {
-                throw new RepositoryException();
-            }
+            _deportesRepository.BorrarDeporte(nombre);
+            _unitOfWork.Save();
         }
 
         public void ModificarDeporte(string nombre, Deporte deporte)
@@ -64,16 +50,10 @@ namespace MisMarcadores.Logic
                 throw new NoExisteDeporteException();
             if (ObtenerDeportePorNombre(deporte.Nombre) != null)
                 throw new ExisteDeporteException();
-            try
-            {
-                deporte.Id = deporteActual.Id;
-                _deportesRepository.ModificarDeporte(deporte);
-                _unitOfWork.Save();
-            }
-            catch (RepositoryException)
-            {
-                throw new RepositoryException();
-            }
+           
+            deporte.Id = deporteActual.Id;
+            _deportesRepository.ModificarDeporte(deporte);
+            _unitOfWork.Save();
         }
 
         public Deporte ObtenerDeportePorNombre(string nombre)

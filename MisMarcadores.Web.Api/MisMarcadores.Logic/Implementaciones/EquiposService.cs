@@ -4,7 +4,6 @@ using System.Text;
 using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Repository;
-using MisMarcadores.Repository.Exceptions;
 namespace MisMarcadores.Logic
 {
     public class EquiposService : IEquiposService
@@ -44,17 +43,11 @@ namespace MisMarcadores.Logic
                     throw e;
                 }
             }
-            try
-            {
-                equipo.Deporte.Id = deporte.Id;
-                _equiposRepository.Insert(equipo);
-                _unitOfWork.Save();
-                return equipo.Id;
-            }
-            catch (RepositoryException)
-            {
-                throw new RepositoryException();
-            }
+
+            equipo.Deporte.Id = deporte.Id;
+            _equiposRepository.Insert(equipo);
+            _unitOfWork.Save();
+            return equipo.Id;
         }
 
         public void AgregarFavorito(Guid idEquipo, string nombreUsuario)
@@ -65,20 +58,13 @@ namespace MisMarcadores.Logic
             if (_favoritosRepository.ExisteFavorito(nombreUsuario, idEquipo))
                 throw new ExisteFavoritoException();
 
-            try
+            Favorito favorito = new Favorito
             {
-                Favorito favorito = new Favorito
-                {
-                    IdEquipo = idEquipo,
-                    NombreUsuario = nombreUsuario
-                };
-                _favoritosRepository.Insert(favorito);
-                _unitOfWork.Save();
-            }
-            catch (RepositoryException)
-            {
-                throw new RepositoryException();
-            }
+                IdEquipo = idEquipo,
+                NombreUsuario = nombreUsuario
+            };
+            _favoritosRepository.Insert(favorito);
+            _unitOfWork.Save();
         }
 
         public void BorrarFavorito(Guid idEquipo, string nombreUsuario)
@@ -88,15 +74,9 @@ namespace MisMarcadores.Logic
                 throw new NoExisteEquipoException();
             if (!_favoritosRepository.ExisteFavorito(nombreUsuario, idEquipo))
                 throw new NoExisteFavoritoException();
-            try
-            {
-                _favoritosRepository.BorrarFavorito(nombreUsuario, idEquipo);
-                _unitOfWork.Save();
-            }
-            catch (RepositoryException)
-            {
-                throw new RepositoryException();
-            }
+          
+            _favoritosRepository.BorrarFavorito(nombreUsuario, idEquipo);
+            _unitOfWork.Save();
         }
 
         public void BorrarEquipo(Guid id)
@@ -104,15 +84,8 @@ namespace MisMarcadores.Logic
             Equipo equipo = ObtenerEquipoPorId(id);
             if (equipo == null)
                 throw new NoExisteEquipoException();
-            try
-            {
-                _equiposRepository.BorrarEquipo(id);
-                _unitOfWork.Save();
-            }
-            catch (RepositoryException)
-            {
-                throw new RepositoryException();
-            }
+            _equiposRepository.BorrarEquipo(id);
+            _unitOfWork.Save();
         }
 
         public void ModificarEquipo(Guid id, Equipo equipo)
@@ -136,16 +109,9 @@ namespace MisMarcadores.Logic
                     throw e;
                 }
             }
-            try
-            {
-                equipo.Id = equipoActual.Id;
-                _equiposRepository.ModificarEquipo(equipo);
-                _unitOfWork.Save();
-            }
-            catch (RepositoryException)
-            {
-                throw new RepositoryException();
-            }
+            equipo.Id = equipoActual.Id;
+            _equiposRepository.ModificarEquipo(equipo);
+            _unitOfWork.Save();
         }
 
         public Equipo ObtenerEquipoPorId(Guid id)

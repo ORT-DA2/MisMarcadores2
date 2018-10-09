@@ -4,7 +4,6 @@ using System.Text;
 using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Repository;
-using MisMarcadores.Repository.Exceptions;
 
 namespace MisMarcadores.Logic
 {
@@ -43,19 +42,12 @@ namespace MisMarcadores.Logic
                 _encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, equipoVisitante.Id))
                 throw new ExisteEncuentroEnFecha();
 
-            try
-            {
-                encuentro.EquipoLocal.Id = equipoLocal.Id;
-                encuentro.EquipoVisitante.Id = equipoVisitante.Id;
-                encuentro.Deporte.Id = deporte.Id;
-                _encuentrosRepository.Insert(encuentro);
-                _unitOfWork.Save();
-                return encuentro.Id;
-            }
-            catch (RepositoryException)
-            {
-                throw new RepositoryException();
-            }
+            encuentro.EquipoLocal.Id = equipoLocal.Id;
+            encuentro.EquipoVisitante.Id = equipoVisitante.Id;
+            encuentro.Deporte.Id = deporte.Id;
+            _encuentrosRepository.Insert(encuentro);
+            _unitOfWork.Save();
+            return encuentro.Id;
         }
 
         public void BorrarEncuentro(Guid id)
@@ -63,15 +55,9 @@ namespace MisMarcadores.Logic
             Encuentro encuentro = ObtenerEncuentroPorId(id);
             if (encuentro == null)
                 throw new NoExisteEncuentroException();
-            try
-            {
-                _encuentrosRepository.BorrarEncuentro(id);
-                _unitOfWork.Save();
-            }
-            catch (RepositoryException)
-            {
-                throw new RepositoryException();
-            }
+            
+            _encuentrosRepository.BorrarEncuentro(id);
+            _unitOfWork.Save();
         }
 
         public void ModificarEncuentro(Guid id, Encuentro encuentro)
@@ -109,20 +95,13 @@ namespace MisMarcadores.Logic
                     if ((_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, equipoVisitante.Id)))
                         throw new ExisteEncuentroEnFecha();
             }
-
-            try
-            {
-                encuentro = encuentroActual;
-                encuentro.EquipoLocal = equipoLocal;
-                encuentro.EquipoVisitante = equipoVisitante;
-                encuentro.Deporte = deporte;
-                _encuentrosRepository.ModificarEncuentro(encuentro);
-                _unitOfWork.Save();
-            }
-            catch (RepositoryException)
-            {
-                throw new RepositoryException();
-            }
+            
+            encuentro = encuentroActual;
+            encuentro.EquipoLocal = equipoLocal;
+            encuentro.EquipoVisitante = equipoVisitante;
+            encuentro.Deporte = deporte;
+            _encuentrosRepository.ModificarEncuentro(encuentro);
+            _unitOfWork.Save();
         }
 
         public Encuentro ObtenerEncuentroPorId(Guid id)
@@ -216,15 +195,8 @@ namespace MisMarcadores.Logic
 
         public void BorrarTodos()
         {
-            try
-            {
-                _encuentrosRepository.BorrarTodos();
-                _unitOfWork.Save();
-            }
-            catch (RepositoryException)
-            {
-                throw new RepositoryException();
-            }
+            _encuentrosRepository.BorrarTodos();
+            _unitOfWork.Save();
         }
 
         public IEnumerable<Encuentro> ObtenerEncuentrosPorDeporte(string nombre)
@@ -242,21 +214,16 @@ namespace MisMarcadores.Logic
             Encuentro encuentroActual = ObtenerEncuentroPorId(idEncuentro);
             if (encuentroActual == null)
                 throw new NoExisteEncuentroException();
-            try
+
+            Comentario comentario = new Comentario
             {
-                Comentario comentario = new Comentario
-                {
-                    IdEncuentro = idEncuentro,
-                    NombreUsuario = nombreUsuario,
-                    Texto = texto
-                };
-                _encuentrosRepository.AgregarComentario(comentario);
-                _unitOfWork.Save();
-            }
-            catch (RepositoryException)
-            {
-                throw new RepositoryException();
-            }
+                IdEncuentro = idEncuentro,
+                NombreUsuario = nombreUsuario,
+                Texto = texto
+            };
+            _encuentrosRepository.AgregarComentario(comentario);
+            _unitOfWork.Save();
+
         }
 
         public List<Comentario> ObtenerComentarios(Guid idEncuentro)
