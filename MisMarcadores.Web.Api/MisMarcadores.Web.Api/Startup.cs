@@ -52,6 +52,7 @@ namespace MisMarcadores.Web.Api
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             //FILTERS
+            services.AddScoped<BaseFilter>();
             services.AddScoped<AutenticacionFilter>();
 
         }
@@ -62,6 +63,11 @@ namespace MisMarcadores.Web.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseStatusCodePagesWithRedirects("/Common/Error/{0}");
+                app.UseExceptionHandler("/Common/Error");
             }
 
             app.UseMvc(routes => {
