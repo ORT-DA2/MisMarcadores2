@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Logic;
-using MisMarcadores.Repository.Exceptions;
 using MisMarcadores.Web.Api.Filters;
 using MisMarcadores.Web.Api.Models;
 
@@ -11,6 +10,7 @@ namespace MisMarcadores.Web.Api
     [Produces("application/json")]
     [Route("api/[controller]")]
 
+    [ServiceFilter(typeof(BaseFilter))]
     [ServiceFilter(typeof(AutenticacionFilter))]
     public class UsuariosController : Controller
     {
@@ -94,10 +94,6 @@ namespace MisMarcadores.Web.Api
                 return Ok();
             }
             catch (NoExisteUsuarioException)
-            {
-                return BadRequest("El usuario no existe en la BD.");
-            }
-            catch (RepositoryException)
             {
                 return BadRequest("El usuario no existe en la BD.");
             }

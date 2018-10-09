@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Logic;
-using MisMarcadores.Repository.Exceptions;
 using MisMarcadores.Web.Api.Filters;
 using MisMarcadores.Web.Api.Models;
 
@@ -12,6 +11,7 @@ namespace MisMarcadores.Web.Api.Controllers
     [Produces("application/json")]
     [Route("api/Fixture")]
 
+    [ServiceFilter(typeof(BaseFilter))]
     [ServiceFilter(typeof(AutenticacionFilter))]
     public class FixtureController : Controller
     {

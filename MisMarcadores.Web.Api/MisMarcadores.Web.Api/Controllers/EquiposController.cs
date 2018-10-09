@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Logic;
-using MisMarcadores.Repository.Exceptions;
 using MisMarcadores.Web.Api.Filters;
 using MisMarcadores.Web.Api.Models;
 
@@ -13,6 +12,7 @@ namespace MisMarcadores.Web.Api.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
 
+    [ServiceFilter(typeof(BaseFilter))]
     public class EquiposController : Controller
     {
         private IEquiposService _equiposService { get; set; }
@@ -66,7 +66,6 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // GET: api/Equipos
-        [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpGet("{id}", Name = "GetEquipo")]
         public IActionResult Get(Guid id)
         {
@@ -152,10 +151,6 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("El equipo no existe en la BD.");
             }
-            catch (RepositoryException)
-            {
-                return BadRequest("El equipo no existe en la BD.");
-            }
         }
 
         // POST: api/Equipos/{idEquipo}/follow
@@ -211,10 +206,6 @@ namespace MisMarcadores.Web.Api.Controllers
             catch (NoExisteFavoritoException)
             {
                 return BadRequest("El usuario no sigue a dicho equipo.");
-            }
-            catch (RepositoryException)
-            {
-                return BadRequest();
             }
         }
     }

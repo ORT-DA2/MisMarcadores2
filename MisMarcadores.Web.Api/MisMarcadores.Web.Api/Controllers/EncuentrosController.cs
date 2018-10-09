@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Logic;
-using MisMarcadores.Repository.Exceptions;
 using MisMarcadores.Web.Api.Filters;
 using MisMarcadores.Web.Api.Models;
 
@@ -12,6 +11,7 @@ namespace MisMarcadores.Web.Api.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
 
+    [ServiceFilter(typeof(BaseFilter))]
     public class EncuentrosController : Controller
     {
         private IEncuentrosService _encuentrosService { get; set; }
@@ -24,7 +24,6 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // GET: api/Encuentros
-        [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpGet]
         public IActionResult Get()
         {
@@ -37,7 +36,6 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // GET: api/Encuentros
-        [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpGet("{id}", Name = "GetEncuentro")]
         public IActionResult Get(Guid id)
         {
@@ -49,8 +47,7 @@ namespace MisMarcadores.Web.Api.Controllers
             return Ok(encuentro);
         }
 
-        // GET: api/Encuentros
-        [ServiceFilter(typeof(AutenticacionFilter))]
+        // GET: api/Encuentros/deporte/futbol
         [HttpGet("deporte/{nombre}", Name = "GetEncuentrosPorDeporte")]
         public IActionResult GetEncuentrosPorDeporte(String nombre)
         {
@@ -62,8 +59,7 @@ namespace MisMarcadores.Web.Api.Controllers
             return Ok(encuentros);
         }
 
-        // GET: api/Encuentros
-        [ServiceFilter(typeof(AutenticacionFilter))]
+        // GET: api/Encuentros/equipo/idequipo
         [HttpGet("equipo/{id}", Name = "GetEncuentrosPorEquipo")]
         public IActionResult GetEncuentrosPorEquipo(Guid id)
         {
@@ -172,25 +168,14 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("El encuentro no existe en la BD.");
             }
-            catch (RepositoryException)
-            {
-                return BadRequest("Error en la BD.");
-            }
         }
 
         [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpDelete]
         public IActionResult Delete()
         {
-            try
-            {
-                this._encuentrosService.BorrarTodos();
-                return Ok();
-            }
-            catch (RepositoryException)
-            {
-                return BadRequest("Error en la BD.");
-            }
+            this._encuentrosService.BorrarTodos();
+            return Ok();   
         }
     }
 }

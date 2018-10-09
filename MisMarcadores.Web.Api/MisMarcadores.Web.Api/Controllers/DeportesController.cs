@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Logic;
-using MisMarcadores.Repository.Exceptions;
 using MisMarcadores.Web.Api.Filters;
 using MisMarcadores.Web.Api.Models;
 
@@ -11,7 +10,7 @@ namespace MisMarcadores.Web.Api
     [Produces("application/json")]
     [Route("api/[controller]")]
 
-    [ServiceFilter(typeof(AutenticacionFilter))]
+    [ServiceFilter(typeof(BaseFilter))]
     public class DeportesController : Controller
     {
         private IDeportesService _deportesService { get; set; }
@@ -46,6 +45,7 @@ namespace MisMarcadores.Web.Api
         }
 
         // POST: api/deportes
+        [ServiceFilter(typeof(AutenticacionFilter))]
         public IActionResult Post([FromBody]AgregarDeporte deporte)
         {
             if (!ModelState.IsValid) return BadRequest("Datos invalidos");
@@ -66,6 +66,7 @@ namespace MisMarcadores.Web.Api
 
         // PUT: api/Deportes/Futbol
         [HttpPut("{nombreDeporte}")]
+        [ServiceFilter(typeof(AutenticacionFilter))]
         public IActionResult Put(string nombreDeporte, [FromBody]ActualizarDeporte deporte)
         {
             if (!ModelState.IsValid) return BadRequest("Datos invalidos");
@@ -90,6 +91,7 @@ namespace MisMarcadores.Web.Api
 
         // DELETE: api/Deportes/Futbol
         [HttpDelete("{nombreDeporte}")]
+        [ServiceFilter(typeof(AutenticacionFilter))]
         public IActionResult Delete(string nombreDeporte)
         {
             try
@@ -98,10 +100,6 @@ namespace MisMarcadores.Web.Api
                 return Ok();
             }
             catch (NoExisteDeporteException)
-            {
-                return BadRequest("El deporte no existe en la BD.");
-            }
-            catch (RepositoryException)
             {
                 return BadRequest("El deporte no existe en la BD.");
             }

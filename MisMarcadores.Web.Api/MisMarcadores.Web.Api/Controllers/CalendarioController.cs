@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Logic;
-using MisMarcadores.Repository.Exceptions;
 using MisMarcadores.Web.Api.Filters;
 using MisMarcadores.Web.Api.Models;
 
@@ -12,6 +11,8 @@ namespace MisMarcadores.Web.Api.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
+
+    [ServiceFilter(typeof(BaseFilter))]
     public class CalendarioController : Controller
     {
         private IEncuentrosService _encuentrosService { get; set; }
