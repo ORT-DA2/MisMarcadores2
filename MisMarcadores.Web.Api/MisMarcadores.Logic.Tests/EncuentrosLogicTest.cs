@@ -2,7 +2,6 @@
 using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Repository;
-using MisMarcadores.Repository.Exceptions;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
