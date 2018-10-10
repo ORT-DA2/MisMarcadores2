@@ -5,10 +5,10 @@ using MisMarcadores.Data.Entities;
 
 namespace MisMarcadores.Logic
 {
-    public class FixtureLiga : IFixture
+    public class FixtureLiga : Fixture
     {
-        private DateTime fechaInicio;
-        private List<Equipo> equipos;
+        private readonly DateTime fechaInicio;
+        private readonly List<Equipo> equipos;
         
         public FixtureLiga(DateTime fechaInicio, List<Equipo> equipos)
         {
@@ -16,7 +16,7 @@ namespace MisMarcadores.Logic
             this.equipos = equipos;
         }
 
-        public List<Encuentro> GenerarFixture()
+        public override List<Encuentro> GenerarFixture()
         {
             List<Encuentro> encuentros = new List<Encuentro>();
             int fechaEncuentro = 0;

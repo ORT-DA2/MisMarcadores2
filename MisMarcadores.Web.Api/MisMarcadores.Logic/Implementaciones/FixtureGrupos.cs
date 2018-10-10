@@ -6,7 +6,7 @@ using MisMarcadores.Data.Entities;
 
 namespace MisMarcadores.Logic
 {
-    public class FixtureGrupos : IFixture
+    public class FixtureGrupos : Fixture
     {
         private readonly DateTime fechaInicio;
         private readonly List<Equipo> equipos;
@@ -17,7 +17,7 @@ namespace MisMarcadores.Logic
             this.equipos = equipos;
         }
 
-        public List<Encuentro> GenerarFixture() {
+        public override List<Encuentro> GenerarFixture() {
             int cantIteraciones = equipos.Count / 4;
             List<Equipo> equiposGrupos = equipos.Take(4).ToList();
             List<Encuentro> encuentros = new List<Encuentro>();

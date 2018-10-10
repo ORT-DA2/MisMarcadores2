@@ -5,8 +5,8 @@ using System.Text;
 
 namespace MisMarcadores.Logic
 {
-    public interface IFixture
+    public abstract class Fixture
     {
-        List<Encuentro> GenerarFixture();
+        public abstract List<Encuentro> GenerarFixture();
     }
 }
