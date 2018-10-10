@@ -9,8 +9,8 @@ namespace MisMarcadores.Logic
 {
     public class SesionesService : ISesionesService
     {
-        IUnitOfWork _unitOfWork;
-        ISesionesRepository _sesionesRepository;
+        private IUnitOfWork _unitOfWork;
+        private ISesionesRepository _sesionesRepository;
 
         public SesionesService(IUnitOfWork unitOfWork, ISesionesRepository sesionesRepository)
         {

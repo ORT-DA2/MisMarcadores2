@@ -9,8 +9,8 @@ namespace MisMarcadores.Logic
 {
     public class UsuariosService : IUsuariosService
     {
-        IUnitOfWork _unitOfWork;
-        IUsuariosRepository _usuariosRepository;
+        private IUnitOfWork _unitOfWork;
+        private IUsuariosRepository _usuariosRepository;
 
         public UsuariosService(IUnitOfWork unitOfWork, IUsuariosRepository usuariosRepository)
         {

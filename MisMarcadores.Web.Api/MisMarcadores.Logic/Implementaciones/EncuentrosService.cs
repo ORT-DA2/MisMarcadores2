@@ -147,7 +147,7 @@ namespace MisMarcadores.Logic
             List<Equipo> equipos = _equiposRepository.ObtenerEquiposPorDeporte(deporte);
             if (equipos == null || equipos.Count == 1)
                 throw new NoExistenEquiposException();
-            IFixture fixture = GenerarFixture(fechaInicio, tipo, equipos);
+            Fixture fixture = GenerarFixture(fechaInicio, tipo, equipos);
             List<Encuentro> encuentros = fixture.GenerarFixture();
             bool generado = true;
             foreach (Encuentro encuentro in encuentros)
@@ -179,7 +179,7 @@ namespace MisMarcadores.Logic
             return false;
         }
 
-        private IFixture GenerarFixture(DateTime fechaInicio, string tipo, List<Equipo> equipos)
+        private Fixture GenerarFixture(DateTime fechaInicio, string tipo, List<Equipo> equipos)
         {
             switch (tipo)
             {

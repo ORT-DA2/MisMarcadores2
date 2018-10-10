@@ -9,8 +9,8 @@ namespace MisMarcadores.Logic
 {
     public class DeportesService : IDeportesService
     {
-        IUnitOfWork _unitOfWork;
-        IDeportesRepository _deportesRepository;
+        private IUnitOfWork _unitOfWork;
+        private IDeportesRepository _deportesRepository;
 
         public DeportesService(IUnitOfWork unitOfWork, IDeportesRepository deportesRepository)
         {
