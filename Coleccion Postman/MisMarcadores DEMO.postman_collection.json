@@ -1,0 +1,5117 @@
+{
+	"info": {
+		"_postman_id": "380126c7-b4fd-4963-9942-fea24d987035",
+		"name": "MisMarcadores DEMO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "RequestsSinToken",
+			"item": [
+				{
+					"name": "ObtenerUsuariosInvalido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f30b474a-ee7e-43d0-a7e2-dc6c6467e482",
+								"type": "text/javascript",
+								"exec": [
+									"tests['Respuesta OK'] = (responseCode.code === 400);",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "tokenSesion",
+								"value": "{{tokenSesion}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{host}}:{{puerto}}/api/usuarios",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{puerto}}",
+							"path": [
+								"api",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Demo Administrador",
+			"item": [
+				{
+					"name": "InciarSesion",
+					"item": [
+						{
+							"name": "IniciarSesionAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9134008b-24e5-4ddd-98f1-f5a3bca386d2",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);",
+											"",
+											"if(responseCode.code === 200){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    var token = result.token;",
+											"    tests['Token Generado'] = (token !== null);",
+											"    pm.environment.set(\"tokenSesion\", token);    ",
+											"}",
+											"",
+											"",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"NombreUsuario\": \"admin\",\r\n\"Contraseña\": \"admin\"\r\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/sesiones",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"sesiones"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "IniciarSesionInvalida",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code == 400);",
+											"",
+											"pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Usuario o contraseña incorrectos.\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"NombreUsuario\": \"user\",\r\n\"Contraseña\": \"userpassword\"\r\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/sesiones",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"sesiones"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Usuarios",
+					"item": [
+						{
+							"name": "ObtenerUsuarios",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/usuarios",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerUsuarioInexistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Not Found'] = (responseCode.code === 404);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/usuarios/usuarioInexistente",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"usuarios",
+										"usuarioInexistente"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerUsuarioExistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b308a543-c12b-42c5-82cd-9c41a2ad1938",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);",
+											"",
+											"if(responseCode.code === 200){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    tests['Usuario Correcto'] = (result.nombreUsuario === \"admin\");",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/usuarios/admin",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"usuarios",
+										"admin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearUsuarioAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4682259e-88f1-427f-8660-3d2b9e45279d",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);",
+											"",
+											"if(responseCode.code === 201){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    pm.environment.set(\"usuarioAdmin\", result.nombreUsuario);    ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"NombreUsuario\": \"admin2\",\n    \"Nombre\": \"Usuario\",\n    \"Apellido\": \"Administrador\",\n    \"Mail\": \"admin@admin.net\",\n    \"Contraseña\": \"admin22\",\n    \"Administrador\": \"true\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/usuarios",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearUsuarioSeguidor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "55c15966-ad7d-4086-a945-67bbb8263f5c",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);",
+											"",
+											"if(responseCode.code === 201){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    pm.environment.set(\"usuarioSeguidor\", result.nombreUsuario);    ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"NombreUsuario\": \"usuarioSeguidor\",\n    \"Nombre\": \"Juan\",\n    \"Apellido\": \"Seguidor\",\n    \"Mail\": \"juan@seguidor.com\",\n    \"Contraseña\": \"juanjuan\",\n    \"Administrador\": \"false\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/usuarios",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearUsuarioRepetido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ab32dbc0-c173-465d-b63f-b6040ac2ca4e",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 409);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El nombre de usuario ya existe en la BD.\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"NombreUsuario\": \"{{usuarioAdmin}}\",\n    \"Nombre\": \"UsuarioRepetido\",\n    \"Apellido\": \"Administrador\",\n    \"Mail\": \"mail@mail.net\",\n    \"Contraseña\": \"admin22\",\n    \"Administrador\": \"true\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/usuarios",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearUsuarioDatosInvalidos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "eb59c122-2afe-414b-a013-2afe414f89cc",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 400);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Datos invalidos\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"NombreUsuario\": \"{{usuarioAdmin}}\",\n    \"Nombre\": \"UsuarioRepetido\",\n    \"Apellido\": \"\",\n    \"Mail\": \"mail@mail.net\",\n    \"Contraseña\": \"admin22\",\n    \"Administrador\": \"true\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/usuarios",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ModificarUsuarioAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "10ed6521-bbd1-4961-baa9-407d4429e13e",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"NombreUsuario\": \"{{usuarioAdmin}}\",\r\n    \"Nombre\": \"NuevoNombre\",\r\n    \"Apellido\": \"NuevoApellido\",\r\n    \"Mail\": \"mail@mail.net\",\r\n    \"Contraseña\": \"admin22\",\r\n    \"Administrador\": \"true\"\r\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/usuarios/{{usuarioAdmin}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"usuarios",
+										"{{usuarioAdmin}}"
+									]
+								},
+								"description": "Se le modifica el Nombre y el Apellido al usuario."
+							},
+							"response": []
+						},
+						{
+							"name": "EliminarUsuarioAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/usuarios/{{usuarioAdmin}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"usuarios",
+										"{{usuarioAdmin}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EliminarUsuarioSeguidor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/usuarios/{{usuarioSeguidor}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"usuarios",
+										"{{usuarioSeguidor}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ModificarUsuarioInexistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6e5ad266-ecca-4a68-99fa-07846e9e3a89",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 400);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El usuario no existe en la BD.\");",
+											"});",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"NombreUsuario\": \"admin2\",\r\n    \"Nombre\": \"NuevoNombre\",\r\n    \"Apellido\": \"NuevoApellido\",\r\n    \"Mail\": \"mail@mail.net\",\r\n    \"Contraseña\": \"admin22\",\r\n    \"Administrador\": \"true\"\r\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/usuarios/usuarioInexistente",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"usuarios",
+										"usuarioInexistente"
+									]
+								},
+								"description": "Se le modifica el Nombre y el Apellido al usuario."
+							},
+							"response": []
+						},
+						{
+							"name": "EliminarUsuarioInexistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4032bf2f-e27b-4079-82f0-8505c9118f8f",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 400);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El usuario no existe en la BD.\");",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/usuarios/usuarioInexistente",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"usuarios",
+										"usuarioInexistente"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "33beaed7-91d4-43e6-bf43-beff9285b386",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a5738c4-8700-4e9c-9b12-d2fa5b178b57",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Deportes",
+					"item": [
+						{
+							"name": "ObtenerDeportes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/deportes",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"deportes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerDeporteInexistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Not Found'] = (responseCode.code === 404);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/deportes/deporteInexistente",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"deportes",
+										"deporteInexistente"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearDeporteFutbol",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c53b33b6-52fa-440b-bd26-e52c0cab588d",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/deportes",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"deportes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearDeporteTenis",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c53b33b6-52fa-440b-bd26-e52c0cab588d",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Tenis\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/deportes",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"deportes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearDeporteBasket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c53b33b6-52fa-440b-bd26-e52c0cab588d",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Basket\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/deportes",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"deportes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerDeporteExistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4c0dfa1e-2f38-4850-a10d-df6c44678596",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);",
+											"",
+											"if(responseCode.code === 200){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    tests['Deporte Correcto'] = (result.nombre === \"Futbol\");",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/deportes/futbol",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"deportes",
+										"futbol"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearDeporteRepetido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ff5ed2ad-a6ad-4cad-b8a3-6b3e0ee81f78",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 409);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El nombre del deporte ya existe en la BD.\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/deportes",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"deportes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearDeporteDatosInvalidos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6c7b8a6a-7a7f-4369-b896-a315fd256093",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 400);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Datos invalidos\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/deportes",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"deportes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ModificarDeporte",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c78bea64-439a-4429-837a-59603fa616fe",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Nombre\": \"Rugby\"\r\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/deportes/Futbol",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"deportes",
+										"Futbol"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ModificarDeporteNombreYaExistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "758048a4-c45d-4add-b2ca-c888a41f21c1",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 409);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El nuevo nombre del deporte ya existe en la BD.\");",
+											"});",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Nombre\": \"Tenis\"\r\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/deportes/Basket",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"deportes",
+										"Basket"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EliminarDeporteBasket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/deportes/Basket",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"deportes",
+										"Basket"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EliminarDeporteRugby",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/deportes/Rugby",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"deportes",
+										"Rugby"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ModificarDeporteInexistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f1fdf312-ed5c-4405-89d5-8dc75b65a0ce",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 400);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El deporte no existe en la BD.\");",
+											"});",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Nombre\": \"PingPong\"\r\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/deportes/deporteInexistente",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"deportes",
+										"deporteInexistente"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EliminarDeporteInexistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "79bf50e1-33e6-458d-a009-49798fff2352",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 400);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El deporte no existe en la BD.\");",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/deportes/deporteInexistente",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"deportes",
+										"deporteInexistente"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "33beaed7-91d4-43e6-bf43-beff9285b386",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a5738c4-8700-4e9c-9b12-d2fa5b178b57",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Equipos",
+					"item": [
+						{
+							"name": "ObtenerEquipos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerEquipoInexistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Not Found'] = (responseCode.code === 404);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos/equipoInexistente",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos",
+										"equipoInexistente"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEquipoDefensor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a6129582-4e8d-47f0-85da-5b062fb63760",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);",
+											"",
+											"if(responseCode.code === 201){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    pm.environment.set(\"equipoDefensor\", result.id);    ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Defensor\",\n    \"Foto\": \"\",\n    \"NombreDeporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEquipoRiverPlate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f507e67f-4355-40ae-baa7-f46d2fdacc88",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);",
+											"",
+											"if(responseCode.code === 201){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    pm.environment.set(\"equipoRiver\", result.id);    ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"RiverPlate\",\n    \"Foto\": \"\",\n    \"NombreDeporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEquipoCerro",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c5341403-a57e-42eb-a166-6ea509ed2b96",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);",
+											"",
+											"if(responseCode.code === 201){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    pm.environment.set(\"equipoCerro\", result.id);    ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Cerro\",\n    \"Foto\": \"\",\n    \"NombreDeporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEquipoRampla",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "50b0a42e-756e-485e-82f2-0fdd2aabd632",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);",
+											"",
+											"if(responseCode.code === 201){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    pm.environment.set(\"equipoRampla\", result.id);    ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Rampla\",\n    \"Foto\": \"\",\n    \"NombreDeporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEquipoLiverpool",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c23e78c6-52aa-48ed-a5c0-7056e191717d",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);",
+											"",
+											"if(responseCode.code === 201){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    pm.environment.set(\"equipoLiverpool\", result.id);    ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Liverpool\",\n    \"Foto\": \"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\",\n    \"NombreDeporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEquipoCapitol",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "61d1d254-dda2-40b3-8652-f3c5d49d7ce5",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);",
+											"",
+											"if(responseCode.code === 201){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    pm.environment.set(\"equipoCapitol\", result.id);    ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Capitol\",\n    \"Foto\": \"\",\n    \"NombreDeporte\": \"Basket\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEquipoAtenas",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a2495bed-cd92-4995-88da-4cbc0c16ec29",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);",
+											"",
+											"if(responseCode.code === 201){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    pm.environment.set(\"equipoAtenas\", result.id);    ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Atenas\",\n    \"Foto\": \"\",\n    \"NombreDeporte\": \"Basket\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEquipoChampagnat",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5d9e54a0-532f-473e-a103-c6245416ad01",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Champagnat\",\n    \"Foto\": \"\",\n    \"NombreDeporte\": \"Rugby\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEquipoFotoFormatoIncorrecto",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0d374d5d-9dce-4512-a875-5b3e94aa35f7",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 400);",
+											"",
+											"if(responseCode.code === 400){",
+											"    ",
+											"    pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"La imagen debe tener un formato de base 64.\");",
+											"});   ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Bella Vista\",\n    \"Foto\": \"string//moadsas..,asdmapsdm.as/da,dssa\",\n    \"NombreDeporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerEquipoExistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "84fb72d3-ae9c-493e-ba45-46c249a11f2f",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);",
+											"",
+											"if(responseCode.code === 200){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    tests['Equipo Correcto'] = (result.nombre === \"Rampla\");",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos/{{equipoRampla}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos",
+										"{{equipoRampla}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEquipoRepetido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "cbed315b-d3a5-4633-99ad-7322c9ebc4af",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 409);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El nombre del equipo ya existe para este deporte en la BD.\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Defensor\",\n    \"Foto\": \"\",\n    \"NombreDeporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEquipoDeporteInexistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2b197b7e-fcfe-49cd-9750-f760267a8c87",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 400);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El nombre del deporte no existe en la BD.\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Miramar Misiones\",\n    \"Foto\": \"\",\n    \"NombreDeporte\": \"PingPong\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEquipoDatosInvalidos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6c7b8a6a-7a7f-4369-b896-a315fd256093",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 400);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Datos invalidos\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"\",\n    \"Foto\": \"\",\n    \"NombreDeporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEquipoSinDeporte",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6c7b8a6a-7a7f-4369-b896-a315fd256093",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 400);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Datos invalidos\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Danubio\",\n    \"Foto\": \"\",\n    \"NombreDeporte\": \"\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ModificarEquipo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c78bea64-439a-4429-837a-59603fa616fe",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Nombre\": \"Torque\",\r\n    \"Foto\": \"\",\r\n    \"NombreDeporte\": \"Futbol\"\r\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos/{{equipoRampla}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos",
+										"{{equipoRampla}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ModificarEquipoNombreYaExistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c5cf353f-0105-4d99-889f-770acbe07cd7",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 409);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El nuevo nombre del equipo ya existe en la BD.\");",
+											"});",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Nombre\": \"Defensor\",\r\n    \"Foto\": \"\",\r\n    \"NombreDeporte\": \"Futbol\"\r\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos/{{equipoRampla}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos",
+										"{{equipoRampla}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EliminarEquipoCerro",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos/{{equipoCerro}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos",
+										"{{equipoCerro}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EliminarEquipoInexistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "004eb251-7474-4ba5-bc11-4252ce36104e",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 400);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El equipo no existe en la BD.\");",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos/equipoInexistente",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos",
+										"equipoInexistente"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "33beaed7-91d4-43e6-bf43-beff9285b386",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a5738c4-8700-4e9c-9b12-d2fa5b178b57",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Encuentros",
+					"item": [
+						{
+							"name": "ObtenerEncuentros",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerEncuentroInexistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Not Found'] = (responseCode.code === 404);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros/encuentroInexistente",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros",
+										"encuentroInexistente"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEncuentroDefensorRampla",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "87531997-924c-4087-addf-c3740faf7c22",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);",
+											"",
+											"if(responseCode.code === 201){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    pm.environment.set(\"encuentroDefensorRampla\", result.id);    ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Fecha\": \"2018-11-23T18:25:43.511Z\",\n    \"EquipoLocal\": \"Defensor\",\n    \"EquipoVisitante\": \"Rampla\",\n    \"NombreDeporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEncuentroCerroDefensor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "21b3355a-df70-4e23-859f-97d06951b437",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);",
+											"",
+											"if(responseCode.code === 201){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    pm.environment.set(\"encuentroCerroDefensor\", result.id);    ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Fecha\": \"2018-10-23T18:25:43.511Z\",\n    \"EquipoLocal\": \"Defensor\",\n    \"EquipoVisitante\": \"Cerro\",\n    \"NombreDeporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEncuentroCerroRampla",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "41be46f6-e41c-491a-9119-a8309111982a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);",
+											"",
+											"if(responseCode.code === 201){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    pm.environment.set(\"encuentroCerroRampla\", result.id);    ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Fecha\": \"2018-05-23T18:25:43.511Z\",\n    \"EquipoLocal\": \"Cerro\",\n    \"EquipoVisitante\": \"Rampla\",\n    \"NombreDeporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEncuentroAtenasCapitol",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6e923e6f-7db3-4678-9da1-38452037c1f4",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 201);",
+											"",
+											"if(responseCode.code === 201){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    pm.environment.set(\"encuentroAtenasCapitol\", result.id);    ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Fecha\": \"2018-05-23T18:25:43.511Z\",\n    \"EquipoLocal\": \"Atenas\",\n    \"EquipoVisitante\": \"Capitol\",\n    \"NombreDeporte\": \"Basket\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerEncuentroExistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "cd2c9ec3-453c-47c3-99cc-8be7a5262bfb",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros/{{encuentroDefensorRampla}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros",
+										"{{encuentroDefensorRampla}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEncuentroFechaExistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d89c3785-31e4-4e45-99fa-6043ef6aa6d3",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 409);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Ya existe un encuentro en esa fecha para el/los equipos seleccionados.\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Fecha\": \"2018-11-23T22:25:43.511Z\",\n    \"EquipoLocal\": \"Defensor\",\n    \"EquipoVisitante\": \"Cerro\",\n    \"NombreDeporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEncuentroDeporteInexistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2b197b7e-fcfe-49cd-9750-f760267a8c87",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 400);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El nombre del deporte no existe en la BD.\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Fecha\": \"2018-10-23T18:25:43.511Z\",\n    \"EquipoLocal\": \"Defensor\",\n    \"EquipoVisitante\": \"Rampla\",\n    \"NombreDeporte\": \"PingPong\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEncuentroDatosInvalidos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6c7b8a6a-7a7f-4369-b896-a315fd256093",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 400);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Datos invalidos\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Fecha\": \"2018-12-23T18:25:43.511Z\",\n    \"EquipoLocal\": \"\",\n    \"EquipoVisitante\": \"Rampla\",\n    \"NombreDeporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearEncuentroSinDeporte",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6c7b8a6a-7a7f-4369-b896-a315fd256093",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 400);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Datos invalidos\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Fecha\": \"2019-12-23T18:25:43.511Z\",\n    \"EquipoLocal\": \"Defensor\",\n    \"EquipoVisitante\": \"Rampla\",\n    \"NombreDeporte\": \"\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ModificarEncuentroOk",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8765983e-b525-4d83-9554-fc160cdbaa7c",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Fecha\": \"2019-12-23T18:25:43.511Z\",\n    \"EquipoLocal\": \"Cerro\",\n    \"EquipoVisitante\": \"Rampla\",\n    \"NombreDeporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros/{{encuentroDefensorRampla}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros",
+										"{{encuentroDefensorRampla}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ModificarDeporteEncuentroOK",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8765983e-b525-4d83-9554-fc160cdbaa7c",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Fecha\": \"2019-12-23T18:25:43.511Z\",\n    \"EquipoLocal\": \"Capitol\",\n    \"EquipoVisitante\": \"Atenas\",\n    \"NombreDeporte\": \"Basket\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros/{{encuentroDefensorRampla}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros",
+										"{{encuentroDefensorRampla}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ModificarEncuentroEquipoNoExistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "387c04c1-3049-4ae4-8ca4-2df1204c34f4",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Bad'] = (responseCode.code === 400);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El/los equipos no existen en la BD.\");",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Fecha\": \"2019-12-23T18:25:43.511Z\",\n    \"EquipoLocal\": \"Torque\",\n    \"EquipoVisitante\": \"Racing\",\n    \"NombreDeporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros/{{encuentroDefensorRampla}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros",
+										"{{encuentroDefensorRampla}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EliminarEncuentroDefensorRampla",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros/{{encuentroDefensorRampla}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros",
+										"{{encuentroDefensorRampla}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EliminarEncuentroInexistente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a0dfb08f-2a3a-42b0-b5dd-bad41ca8db70",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 400);",
+											"",
+											" pm.test(\"Mensaje error correcto\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El encuentro no existe en la BD.\");",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros/encuentroInexistente",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros",
+										"encuentroInexistente"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EliminarEncuentros",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2b3a412c-09f0-4b03-8871-ff6467b4fe67",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "33beaed7-91d4-43e6-bf43-beff9285b386",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a5738c4-8700-4e9c-9b12-d2fa5b178b57",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Fixtures",
+					"item": [
+						{
+							"name": "CrearFixtureErrorUnSoloEquipo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c6c7080d-278d-44c0-9409-f7df745d691e",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 400);",
+											"",
+											"if(responseCode.code === 400){",
+											"    ",
+											"    pm.test(\"Fixture creado\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Para armar un fixture en el deporte tienen que existir como minimo dos equipos\");",
+											"    });",
+											"  ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"FechaInicio\": \"2020-11-23T18:25:43.511Z\",\n    \"Tipo\": \"Liga\",\n    \"Deporte\": \"Rugby\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/fixture",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"fixture"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearFixtureErrorNoExisteDeporte",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6c6efb76-2456-4664-82e8-c696b1ff0dab",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 400);",
+											"",
+											"if(responseCode.code === 400){",
+											"    ",
+											"    pm.test(\"Fixture creado\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El nombre del deporte no existe en la BD.\");",
+											"    });",
+											"  ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"FechaInicio\": \"2020-11-23T18:25:43.511Z\",\n    \"Tipo\": \"Liga\",\n    \"Deporte\": \"PingPong\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/fixture",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"fixture"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearFixtureErrorDatosErroneos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ae6f0b58-b1e4-4fc2-923e-52097fa60a8a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 400);",
+											"",
+											"if(responseCode.code === 400){",
+											"    ",
+											"    pm.test(\"Fixture creado\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Datos invalidos\");",
+											"    });",
+											"  ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"FechaInicio\": \":43.511Z\",\n    \"Tipo\": \"Liga\",\n    \"Deporte\": \"PingPong\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/fixture",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"fixture"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearFixtureTodosContraTodosFutbolOk",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6df047d7-d392-44a5-bae3-962ef4151faa",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);",
+											"",
+											"if(responseCode.code === 200){",
+											"    ",
+											"    pm.test(\"Fixture creado\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Fixture generado con exito!\");",
+											"    });",
+											"  ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"FechaInicio\": \"2020-11-23T18:25:43.511Z\",\n    \"Tipo\": \"Liga\",\n    \"Deporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/fixture",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"fixture"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearFixtureTodosContraTodosBasketOk",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6df047d7-d392-44a5-bae3-962ef4151faa",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);",
+											"",
+											"if(responseCode.code === 200){",
+											"    ",
+											"    pm.test(\"Fixture creado\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Fixture generado con exito!\");",
+											"    });",
+											"  ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"FechaInicio\": \"2020-11-23T18:25:43.511Z\",\n    \"Tipo\": \"Liga\",\n    \"Deporte\": \"Basket\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/fixture",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"fixture"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearFixtureErrorConflictoEncuentros",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d83e05bf-b2f8-43b3-a0f7-4e5ab520ce0d",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 409);",
+											"",
+											"if(responseCode.code === 409){",
+											"    ",
+											"    pm.test(\"Fixture creado\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"El fixture no se pudo armar, existieron conflictos al generar los encuentros para uno o mas de los equipos participantes.\");",
+											"    });",
+											"  ",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"FechaInicio\": \"2020-11-23T18:25:43.511Z\",\n    \"Tipo\": \"Liga\",\n    \"Deporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/fixture",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"fixture"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearFixtureGruposOk",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "111ed55c-cfc4-4407-a820-4a522f4f114d",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);",
+											"",
+											"if(responseCode.code === 200){",
+											"    ",
+											"    pm.test(\"Fixture creado\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Fixture generado con exito!\");",
+											"    });",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"FechaInicio\": \"2021-06-23T18:25:43.511Z\",\n    \"Tipo\": \"Grupos\",\n    \"Deporte\": \"Futbol\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/fixture",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"fixture"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearFixtureGruposErrorMultiploDe4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f752f3d0-b3ba-4157-af15-b0f71dca2d03",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 409);",
+											"",
+											"if(responseCode.code === 409){",
+											"    ",
+											"    pm.test(\"Fixture creado\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Para armar fixtures por fase de grupos la cantidad de equipos en el deporte debe ser multiplo de 4.\");",
+											"    });",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"FechaInicio\": \"2021-06-23T18:25:43.511Z\",\n    \"Tipo\": \"Grupos\",\n    \"Deporte\": \"Basket\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/fixture",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"fixture"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "33beaed7-91d4-43e6-bf43-beff9285b386",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a5738c4-8700-4e9c-9b12-d2fa5b178b57",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Reportes",
+					"item": [
+						{
+							"name": "ObtenerEncuentrosPorDeporte",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "70795496-95b3-48e5-836d-cd55eab0c51f",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros/deporte/basket",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros",
+										"deporte",
+										"basket"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerEncuentrosPorEquipo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros/equipo/{{equipoDefensor}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros",
+										"equipo",
+										"{{equipoDefensor}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Cerrar Sesion",
+					"item": [
+						{
+							"name": "CerrarSesionActiva",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code == 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/sesiones/{{tokenSesion}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"sesiones",
+										"{{tokenSesion}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CerrarSesionInvalida",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Unauthorized'] = (responseCode.code == 401);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/sesiones/{{tokenSesion}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"sesiones",
+										"{{tokenSesion}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "Demo Seguidor",
+			"item": [
+				{
+					"name": "IniciarSesion",
+					"item": [
+						{
+							"name": "IniciarSesionSeguidor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5468f9ab-f6cc-4aa6-8390-0166206ea45c",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);",
+											"",
+											"if(responseCode.code === 200){",
+											"    ",
+											"    var result = JSON.parse(responseBody);",
+											"    var token = result.token;",
+											"    tests['Token Generado'] = (token !== null);",
+											"    pm.environment.set(\"tokenSesion\", token);    ",
+											"}",
+											"",
+											"",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"NombreUsuario\": \"{{usuarioSeguidor}}\",\r\n\"Contraseña\": \"juanjuan\"\r\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/sesiones",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"sesiones"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Funcionalidades No Permitidas",
+					"item": [
+						{
+							"name": "ObtenerUsuarios",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "fece24a5-b3c5-496f-9824-44f0f614846a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Forbidden'] = (responseCode.code === 403);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/usuarios",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearUsuarioAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "52ae44c6-9af0-4519-a1a3-e6e898346bc2",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Forbidden'] = (responseCode.code === 403);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"NombreUsuario\": \"admin2\",\n    \"Nombre\": \"Usuario\",\n    \"Apellido\": \"Administrador\",\n    \"Mail\": \"admin@admin.net\",\n    \"Contraseña\": \"admin22\",\n    \"Administrador\": \"true\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/usuarios",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearDeporte",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f904953b-dddd-4aaa-886c-b4108f787808",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Forbidden'] = (responseCode.code === 403);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Nombre\": \"Tenis\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/deportes",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"deportes"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Equipos",
+					"item": [
+						{
+							"name": "ObtenerEquipos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerEquiposAscendente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos?orden=asc",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									],
+									"query": [
+										{
+											"key": "orden",
+											"value": "asc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerEquiposDescendente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos?orden=desc",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									],
+									"query": [
+										{
+											"key": "orden",
+											"value": "desc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerEquiposFiltro",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos?filtro=ef",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									],
+									"query": [
+										{
+											"key": "filtro",
+											"value": "ef"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerEquiposFiltroAscendente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code === 200);",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos?orden=asc&filtro=a",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos"
+									],
+									"query": [
+										{
+											"key": "orden",
+											"value": "asc"
+										},
+										{
+											"key": "filtro",
+											"value": "a"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Favoritos",
+					"item": [
+						{
+							"name": "AgregarFavoritoDefensor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a4ba4b6-55d1-4463-a89a-b302b253fc7a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos/{{equipoDefensor}}/follow",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos",
+										"{{equipoDefensor}}",
+										"follow"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AgregarFavoritoCerro",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a4ba4b6-55d1-4463-a89a-b302b253fc7a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos/{{equipoCerro}}/follow",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos",
+										"{{equipoCerro}}",
+										"follow"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AgregarFavoritoRampla",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a4ba4b6-55d1-4463-a89a-b302b253fc7a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos/{{equipoRampla}}/follow",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos",
+										"{{equipoRampla}}",
+										"follow"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "BorrarFavoritoDefensor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a4ba4b6-55d1-4463-a89a-b302b253fc7a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/equipos/{{equipoDefensor}}/unfollow",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"equipos",
+										"{{equipoDefensor}}",
+										"unfollow"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Comentarios",
+					"item": [
+						{
+							"name": "CrearComentarioDefensorRampla",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a4ba4b6-55d1-4463-a89a-b302b253fc7a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Comentario\": \"Tremendo partido, vamos por mas Defensor!\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros/{{encuentroDefensorRampla}}/comentario",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros",
+										"{{encuentroDefensorRampla}}",
+										"comentario"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearComentarioCerroDefensor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a4ba4b6-55d1-4463-a89a-b302b253fc7a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Comentario\": \"Un desastre el tuerto hoy!\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros/{{encuentroCerroDefensor}}/comentario",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros",
+										"{{encuentroCerroDefensor}}",
+										"comentario"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearComentarioCerroRampla",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a4ba4b6-55d1-4463-a89a-b302b253fc7a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Comentario\": \"Al picapiedra le faltaron muchos jugadores, por eso el resultado.\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros/{{encuentroCerroRampla}}/comentario",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros",
+										"{{encuentroCerroRampla}}",
+										"comentario"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearComentarioAtenasCapitol",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a4ba4b6-55d1-4463-a89a-b302b253fc7a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Comentario\": \"Vamo blanco y negro CA PI TOL!.\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/encuentros/{{encuentroAtenasCapitol}}/comentario",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"encuentros",
+										"{{encuentroAtenasCapitol}}",
+										"comentario"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerComentarios",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a4ba4b6-55d1-4463-a89a-b302b253fc7a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Comentario\": \"Tremendo partido, vamos por mas Defensor!\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/comentarios",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"comentarios"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Calendario",
+					"item": [
+						{
+							"name": "ObtenerCalendario",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a4ba4b6-55d1-4463-a89a-b302b253fc7a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Comentario\": \"Tremendo partido, vamos por mas Defensor!\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/calendario",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"calendario"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerCalendarioNoviembre",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a4ba4b6-55d1-4463-a89a-b302b253fc7a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Comentario\": \"Tremendo partido, vamos por mas Defensor!\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/calendario?mes=11",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"calendario"
+									],
+									"query": [
+										{
+											"key": "mes",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerCalendario2020",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a4ba4b6-55d1-4463-a89a-b302b253fc7a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Comentario\": \"Tremendo partido, vamos por mas Defensor!\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/calendario?año=2020",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"calendario"
+									],
+									"query": [
+										{
+											"key": "año",
+											"value": "2020"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerCalendarioDiciembre2020",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a4ba4b6-55d1-4463-a89a-b302b253fc7a",
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Created'] = (responseCode.code === 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Comentario\": \"Tremendo partido, vamos por mas Defensor!\"\n}"
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/calendario?mes=12&año=2020",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"calendario"
+									],
+									"query": [
+										{
+											"key": "mes",
+											"value": "12"
+										},
+										{
+											"key": "año",
+											"value": "2020"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Cerrar Sesion",
+					"item": [
+						{
+							"name": "CerrarSesionActiva",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta OK'] = (responseCode.code == 200);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/sesiones/{{tokenSesion}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"sesiones",
+										"{{tokenSesion}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CerrarSesionInvalida",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests['Respuesta Unauthorized'] = (responseCode.code == 401);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "tokenSesion",
+										"value": "{{tokenSesion}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{host}}:{{puerto}}/api/sesiones/{{tokenSesion}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{puerto}}",
+									"path": [
+										"api",
+										"sesiones",
+										"{{tokenSesion}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "d7753ecd-5039-40d0-a532-a4f1691f931d",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "8ec6ba02-0b0e-4841-9985-caacc487c6c8",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b0cf03de-7de7-45e5-9ff2-6e8df59df7dd",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "996ab8c6-cb32-4f71-9c34-79088bdba2f0",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
