@@ -31,7 +31,7 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 if (this._encuentrosService.FixtureGenerado(fixtureModelo.FechaInicio, fixtureModelo.Deporte, fixtureModelo.Tipo))
                     return Ok("Fixture generado con exito!");
-                return StatusCode(409, "El fixture no se pudo armar.");
+                return StatusCode(409, "El fixture no se pudo armar, existieron conflictos al generar los encuentros para uno o mas de los equipos participantes.");
             }
             catch (EncuentroDataException)
             {
@@ -41,9 +41,9 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("El nombre del deporte no existe en la BD.");
             }
-            catch (NoExisteEquipoException)
+            catch (NoExistenEquiposException)
             {
-                return BadRequest("El/los equipos no existen en la BD.");
+                return BadRequest("Para armar un fixture en el deporte tienen que existir como minimo dos equipos");
             }
             catch (FixtureGruposDataException)
             {
