@@ -64,11 +64,6 @@ namespace MisMarcadores.Web.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseStatusCodePagesWithRedirects("/Common/Error/{0}");
-                app.UseExceptionHandler("/Common/Error");
-            }
 
             app.UseMvc(routes => {
                 routes.MapRoute(

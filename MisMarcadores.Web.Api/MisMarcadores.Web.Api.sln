@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Logic.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Repository", "MisMarcadores.Repository\MisMarcadores.Repository.csproj", "{1A5BE6DD-655C-454A-AFB6-5B16DAB013BE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B7239631-86F8-4BD3-8655-34FDB4AE5AB9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Web.Api", "MisMarcadores.Web.Api\MisMarcadores.Web.Api.csproj", "{12AE8CFC-7AEF-4C4D-B92B-76FCA89DBD37}"
 EndProject
 Global
@@ -50,9 +48,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{000B3094-B9C1-4F0A-B28C-09AE3B906F36} = {B7239631-86F8-4BD3-8655-34FDB4AE5AB9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1F99835D-1BE3-42A3-ADC2-88366E952CDC}
