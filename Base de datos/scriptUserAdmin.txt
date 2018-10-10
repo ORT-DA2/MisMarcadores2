@@ -1,0 +1,1 @@
+INSERT [dbo].[Usuarios] ([Id], [NombreUsuario], [Nombre], [Apellido], [Mail], [Contraseña], [Administrador]) VALUES ( '335e5a20-cb80-4a2a-b855-21a2e16e3e2c', 'admin', 'Andres', 'Correa', 'admin@gmail.com','admin', 1)
