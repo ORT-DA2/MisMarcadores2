@@ -22,7 +22,7 @@ namespace MisMarcadores.Web.Api.Controllers
             _encuentrosService = encuentrosService;
         }
 
-        // POST: api/Encuentros
+        // POST: api/Fixture
         public IActionResult Post([FromBody]AgregarFixture fixtureModelo)
         {
             if (!ModelState.IsValid) return BadRequest("Datos invalidos");
@@ -44,6 +44,10 @@ namespace MisMarcadores.Web.Api.Controllers
             catch (NoExisteEquipoException)
             {
                 return BadRequest("El/los equipos no existen en la BD.");
+            }
+            catch (FixtureGruposDataException)
+            {
+                return StatusCode(409, "Para armar fixtures por fase de grupos la cantidad de equipos en el deporte debe ser multiplo de 4.");
             }
             catch (ExisteEncuentroEnFecha)
             {
