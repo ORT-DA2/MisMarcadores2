@@ -9,328 +9,328 @@ using System.Linq;
 namespace MisMarcadores.Logic.Tests
 {
     [TestClass]
-    public class EquiposLogicTest
+    public class ParticipantesLogicTest
     {
         [TestMethod]
-        public void ObtenerEquiposOkTest()
+        public void ObtenerParticipantesOkTest()
         {
             //Arrange
-            var equiposEsperados = TestHelper.ObtenerEquiposFalsos();
+            var participantesEsperados = TestHelper.ObtenerParticipantesFalsos();
 
-            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockEquiposRepository
-                .Setup(r => r.ObtenerEquipos())
-                .Returns(equiposEsperados);
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantes())
+                .Returns(participantesEsperados);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
+            var businessLogic = new ParticipantesService(mockUnitOfWork.Object, mockParticipantesRepository.Object, null, null);
 
             //Act
-            IEnumerable<Equipo> obtainedResult = businessLogic.ObtenerEquipos();
+            IEnumerable<Participante> obtainedResult = businessLogic.ObtenerParticipantes();
 
             //Assert
-            mockEquiposRepository.VerifyAll();
+            mockParticipantesRepository.VerifyAll();
             Assert.IsNotNull(obtainedResult);
-            Assert.AreEqual(equiposEsperados, obtainedResult);
+            Assert.AreEqual(participantesEsperados, obtainedResult);
         }
 
         [TestMethod]
-        public void ObtenerEquiposNullTest()
+        public void ObtenerParticipantesNullTest()
         {
             //Arrange
-            List<Equipo> equiposEsperados = null;
+            List<Participante> participantesEsperados = null;
 
-            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockEquiposRepository
-                .Setup(r => r.ObtenerEquipos())
-                .Returns(equiposEsperados);
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantes())
+                .Returns(participantesEsperados);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
+            var businessLogic = new ParticipantesService(mockUnitOfWork.Object, mockParticipantesRepository.Object, null, null);
 
             //Act
-            IEnumerable<Equipo> obtainedResult = businessLogic.ObtenerEquipos();
+            IEnumerable<Participante> obtainedResult = businessLogic.ObtenerParticipantes();
 
             //Assert
-            mockEquiposRepository.VerifyAll();
+            mockParticipantesRepository.VerifyAll();
             Assert.IsNull(obtainedResult);
         }
 
         [TestMethod]
-        public void AgregarEquipoOkTest()
+        public void AgregarParticipanteOkTest()
         {
             //Arrange
-            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
+            var fakeParticipante = TestHelper.ObtenerParticipanteFalso();
 
-            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
             var mockDeportesRepository = new Mock<IDeportesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockDeportesRepository
-                .Setup(r => r.ObtenerDeportePorNombre(fakeEquipo.Deporte.Nombre)).Returns(fakeEquipo.Deporte);
-            mockEquiposRepository
-                .Setup(r => r.Insert(fakeEquipo));
+                .Setup(r => r.ObtenerDeportePorNombre(fakeParticipante.Deporte.Nombre)).Returns(fakeParticipante.Deporte);
+            mockParticipantesRepository
+                .Setup(r => r.Insert(fakeParticipante));
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, mockDeportesRepository.Object, null);
+            var businessLogic = new ParticipantesService(mockUnitOfWork.Object, mockParticipantesRepository.Object, mockDeportesRepository.Object, null);
 
             //Act
-            businessLogic.AgregarEquipo(fakeEquipo);
+            businessLogic.AgregarParticipante(fakeParticipante);
 
             //Assert
-            mockEquiposRepository.VerifyAll();
+            mockParticipantesRepository.VerifyAll();
         }
 
         [TestMethod]
-        [ExpectedException(typeof(EquipoDataExceptiom))]
-        public void AgregarEquipoNombreVacioTest()
+        [ExpectedException(typeof(ParticipanteDataExceptiom))]
+        public void AgregarParticipanteNombreVacioTest()
         {
-            var fakeEquipo = TestHelper.ObtenerEquipoNombreVacio();
-            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var fakeParticipante = TestHelper.ObtenerParticipanteNombreVacio();
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            mockEquiposRepository
-                .Setup(r => r.Insert(fakeEquipo));
+            mockParticipantesRepository
+                .Setup(r => r.Insert(fakeParticipante));
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
+            var businessLogic = new ParticipantesService(mockUnitOfWork.Object, mockParticipantesRepository.Object, null, null);
 
             //Act
-            businessLogic.AgregarEquipo(fakeEquipo);
+            businessLogic.AgregarParticipante(fakeParticipante);
 
             //Assert
-            mockEquiposRepository.VerifyAll();
+            mockParticipantesRepository.VerifyAll();
         }
 
         [TestMethod]
         [ExpectedException(typeof(NoExisteDeporteException))]
-        public void AgregarEquipoDeporteNoExistenteErrorTest()
+        public void AgregarParticipanteDeporteNoExistenteErrorTest()
         {
-            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
+            var fakeParticipante = TestHelper.ObtenerParticipanteFalso();
 
-            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
             var mockDeportesRepository = new Mock<IDeportesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockDeportesRepository
-                 .Setup(r => r.ObtenerDeportePorNombre(fakeEquipo.Deporte.Nombre)).Returns((Deporte)null);
-            mockEquiposRepository.Setup(r => r.Insert(fakeEquipo));
+                 .Setup(r => r.ObtenerDeportePorNombre(fakeParticipante.Deporte.Nombre)).Returns((Deporte)null);
+            mockParticipantesRepository.Setup(r => r.Insert(fakeParticipante));
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, mockDeportesRepository.Object, null);
+            var businessLogic = new ParticipantesService(mockUnitOfWork.Object, mockParticipantesRepository.Object, mockDeportesRepository.Object, null);
 
             //Act
-            businessLogic.AgregarEquipo(fakeEquipo);
+            businessLogic.AgregarParticipante(fakeParticipante);
 
             //Assert
-            mockEquiposRepository.VerifyAll();
+            mockParticipantesRepository.VerifyAll();
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ExisteEquipoException))]
-        public void AgregarEquipoExistenteErrorTest()
+        [ExpectedException(typeof(ExisteParticipanteException))]
+        public void AgregarParticipanteExistenteErrorTest()
         {
-            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
+            var fakeParticipante = TestHelper.ObtenerParticipanteFalso();
 
-            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
             var mockDeportesRepository = new Mock<IDeportesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockDeportesRepository
-                 .Setup(r => r.ObtenerDeportePorNombre(fakeEquipo.Deporte.Nombre))
-                 .Returns(fakeEquipo.Deporte);
-            mockEquiposRepository
-                 .Setup(r => r.ObtenerEquipoPorDeporte(fakeEquipo.Deporte.Nombre, fakeEquipo.Nombre))
-                 .Returns(fakeEquipo);
-            mockEquiposRepository.Setup(r => r.Insert(fakeEquipo));
+                 .Setup(r => r.ObtenerDeportePorNombre(fakeParticipante.Deporte.Nombre))
+                 .Returns(fakeParticipante.Deporte);
+            mockParticipantesRepository
+                 .Setup(r => r.ObtenerParticipantePorDeporte(fakeParticipante.Deporte.Nombre, fakeParticipante.Nombre))
+                 .Returns(fakeParticipante);
+            mockParticipantesRepository.Setup(r => r.Insert(fakeParticipante));
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, mockDeportesRepository.Object, null);
+            var businessLogic = new ParticipantesService(mockUnitOfWork.Object, mockParticipantesRepository.Object, mockDeportesRepository.Object, null);
 
             //Act
-            businessLogic.AgregarEquipo(fakeEquipo);
+            businessLogic.AgregarParticipante(fakeParticipante);
 
             //Assert
-            mockEquiposRepository.VerifyAll();
+            mockParticipantesRepository.VerifyAll();
         }
 
         [TestMethod]
-        public void ObtenerEquipoPorIdOkTest()
+        public void ObtenerParticipantePorIdOkTest()
         {
             //Arrange
-            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
-            var fakeId = fakeEquipo.Id;
+            var fakeParticipante = TestHelper.ObtenerParticipanteFalso();
+            var fakeId = fakeParticipante.Id;
 
-            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            mockEquiposRepository
-                .Setup(r => r.ObtenerEquipoPorId(fakeId))
-                .Returns(fakeEquipo);
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantePorId(fakeId))
+                .Returns(fakeParticipante);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
+            var businessLogic = new ParticipantesService(mockUnitOfWork.Object, mockParticipantesRepository.Object, null, null);
 
             //Act
-            Equipo obtainedResult = businessLogic.ObtenerEquipoPorId(fakeId);
+            Participante obtainedResult = businessLogic.ObtenerParticipantePorId(fakeId);
 
             //Assert
-            mockEquiposRepository.VerifyAll();
+            mockParticipantesRepository.VerifyAll();
             Assert.IsNotNull(obtainedResult);
             Assert.AreEqual(fakeId, obtainedResult.Id);
         }
 
         [TestMethod]
-        public void ObtenerEquipoPorNombreOkTest()
+        public void ObtenerParticipantePorNombreOkTest()
         {
             //Arrange
-            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
-            var fakeNombre = fakeEquipo.Nombre;
+            var fakeParticipante = TestHelper.ObtenerParticipanteFalso();
+            var fakeNombre = fakeParticipante.Nombre;
 
-            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            mockEquiposRepository
-                .Setup(r => r.ObtenerEquipoPorNombre(fakeNombre))
-                .Returns(fakeEquipo);
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantePorNombre(fakeNombre))
+                .Returns(fakeParticipante);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
+            var businessLogic = new ParticipantesService(mockUnitOfWork.Object, mockParticipantesRepository.Object, null, null);
 
             //Act
-            Equipo obtainedResult = businessLogic.ObtenerEquipoPorNombre(fakeNombre);
+            Participante obtainedResult = businessLogic.ObtenerParticipantePorNombre(fakeNombre);
 
             //Assert
-            mockEquiposRepository.VerifyAll();
+            mockParticipantesRepository.VerifyAll();
             Assert.IsNotNull(obtainedResult);
             Assert.AreEqual(fakeNombre, obtainedResult.Nombre);
         }
 
         [TestMethod]
-        public void ObtenerEquipoPorIdErrorNotFoundTest()
+        public void ObtenerParticipantePorIdErrorNotFoundTest()
         {
             //Arrange
             var fakeId = System.Guid.NewGuid();
 
-            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            mockEquiposRepository
-                .Setup(r => r.ObtenerEquipoPorId(fakeId))
-                .Returns((Equipo)null);
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantePorId(fakeId))
+                .Returns((Participante)null);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
+            var businessLogic = new ParticipantesService(mockUnitOfWork.Object, mockParticipantesRepository.Object, null, null);
 
             //Act
-            Equipo obtainedResult = businessLogic.ObtenerEquipoPorId(fakeId);
+            Participante obtainedResult = businessLogic.ObtenerParticipantePorId(fakeId);
 
             //Assert
-            mockEquiposRepository.VerifyAll();
+            mockParticipantesRepository.VerifyAll();
             Assert.IsNull(obtainedResult);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NoExisteEquipoException))]
-        public void ActualizarEquipoNoExistenteTest()
+        [ExpectedException(typeof(NoExisteParticipanteException))]
+        public void ActualizarParticipanteNoExistenteTest()
         {
             //Arrange
-            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
-            var fakeEquipoId = fakeEquipo.Id;
-            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var fakeParticipante = TestHelper.ObtenerParticipanteFalso();
+            var fakeParticipanteId = fakeParticipante.Id;
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            mockEquiposRepository
-                .Setup(r => r.ObtenerEquipoPorId(fakeEquipoId))
-                .Returns((Equipo)null);
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantePorId(fakeParticipanteId))
+                .Returns((Participante)null);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
+            var businessLogic = new ParticipantesService(mockUnitOfWork.Object, mockParticipantesRepository.Object, null, null);
 
             //Act
-            businessLogic.ModificarEquipo(fakeEquipoId, fakeEquipo);
+            businessLogic.ModificarParticipante(fakeParticipanteId, fakeParticipante);
 
             //Assert
-            mockEquiposRepository.VerifyAll();
+            mockParticipantesRepository.VerifyAll();
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ExisteEquipoException))]
-        public void ActualizarEquipoNuevoNombreYaExistenteTest()
+        [ExpectedException(typeof(ExisteParticipanteException))]
+        public void ActualizarParticipanteNuevoNombreYaExistenteTest()
         {
             //Arrange
-            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
-            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var fakeParticipante = TestHelper.ObtenerParticipanteFalso();
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            mockEquiposRepository
-                .Setup(r => r.ObtenerEquipoPorId(fakeEquipo.Id))
-                .Returns(fakeEquipo);
-            mockEquiposRepository
-                .Setup(r => r.ObtenerEquipoPorDeporte(fakeEquipo.Deporte.Nombre, fakeEquipo.Nombre))
-                .Throws(new ExisteEquipoException());
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantePorId(fakeParticipante.Id))
+                .Returns(fakeParticipante);
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantePorDeporte(fakeParticipante.Deporte.Nombre, fakeParticipante.Nombre))
+                .Throws(new ExisteParticipanteException());
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
+            var businessLogic = new ParticipantesService(mockUnitOfWork.Object, mockParticipantesRepository.Object, null, null);
 
             //Act
-            businessLogic.ModificarEquipo(fakeEquipo.Id, fakeEquipo);
+            businessLogic.ModificarParticipante(fakeParticipante.Id, fakeParticipante);
 
             //Assert
-            mockEquiposRepository.VerifyAll();
+            mockParticipantesRepository.VerifyAll();
         }
 
         [TestMethod]
-        [ExpectedException(typeof(EquipoDataExceptiom))]
-        public void ActualizarEquipoDatosErroneosTest()
+        [ExpectedException(typeof(ParticipanteDataExceptiom))]
+        public void ActualizarParticipanteDatosErroneosTest()
         {
             //Arrange
-            var fakeEquipo = TestHelper.ObtenerEquipoNombreVacio();
-            var mockEquiposRepository = new Mock<IEquiposRepository>();
+            var fakeParticipante = TestHelper.ObtenerParticipanteNombreVacio();
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
+            var businessLogic = new ParticipantesService(mockUnitOfWork.Object, mockParticipantesRepository.Object, null, null);
 
             //Act
-            businessLogic.ModificarEquipo(fakeEquipo.Id, fakeEquipo);
+            businessLogic.ModificarParticipante(fakeParticipante.Id, fakeParticipante);
 
             //Assert
-            mockEquiposRepository.VerifyAll();
+            mockParticipantesRepository.VerifyAll();
         }
 
         [TestMethod]
-        public void BorrarEquipoOkTest()
+        public void BorrarParticipanteOkTest()
         {
             //Arrange
-            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
-            var fakeEquipoId = fakeEquipo.Id;
+            var fakeParticipante = TestHelper.ObtenerParticipanteFalso();
+            var fakeParticipanteId = fakeParticipante.Id;
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
-            var mockEquiposRepository = new Mock<IEquiposRepository>();
-            mockEquiposRepository
-                .Setup(r => r.ObtenerEquipoPorId(fakeEquipoId)).Returns(fakeEquipo);
-            mockEquiposRepository
-                .Setup(r => r.BorrarEquipo(fakeEquipoId));
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantePorId(fakeParticipanteId)).Returns(fakeParticipante);
+            mockParticipantesRepository
+                .Setup(r => r.BorrarParticipante(fakeParticipanteId));
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
+            var businessLogic = new ParticipantesService(mockUnitOfWork.Object, mockParticipantesRepository.Object, null, null);
 
             //Act
-            businessLogic.BorrarEquipo(fakeEquipoId);
+            businessLogic.BorrarParticipante(fakeParticipanteId);
 
             //Assert
-            mockEquiposRepository.VerifyAll();
+            mockParticipantesRepository.VerifyAll();
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NoExisteEquipoException))]
-        public void BorrarEquipoNoExistenteErrorTest()
+        [ExpectedException(typeof(NoExisteParticipanteException))]
+        public void BorrarParticipanteNoExistenteErrorTest()
         {
-            var fakeEquipo = TestHelper.ObtenerEquipoFalso();
-            var fakeEquipoId = fakeEquipo.Id;
+            var fakeParticipante = TestHelper.ObtenerParticipanteFalso();
+            var fakeParticipanteId = fakeParticipante.Id;
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
-            var mockEquiposRepository = new Mock<IEquiposRepository>();
-            mockEquiposRepository
-                .Setup(r => r.ObtenerEquipoPorId(fakeEquipoId)).Returns((Equipo)null);
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantePorId(fakeParticipanteId)).Returns((Participante)null);
 
-            var businessLogic = new EquiposService(mockUnitOfWork.Object, mockEquiposRepository.Object, null, null);
+            var businessLogic = new ParticipantesService(mockUnitOfWork.Object, mockParticipantesRepository.Object, null, null);
 
             //Act
-            businessLogic.BorrarEquipo(fakeEquipoId);
+            businessLogic.BorrarParticipante(fakeParticipanteId);
 
             //Assert
-            mockEquiposRepository.VerifyAll();
+            mockParticipantesRepository.VerifyAll();
         }
     }
 }

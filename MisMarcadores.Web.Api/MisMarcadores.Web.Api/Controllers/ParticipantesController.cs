@@ -13,36 +13,36 @@ namespace MisMarcadores.Web.Api.Controllers
     [Route("api/[controller]")]
 
     [ServiceFilter(typeof(BaseFilter))]
-    public class EquiposController : Controller
+    public class ParticipantesController : Controller
     {
-        private IEquiposService _equiposService { get; set; }
+        private IParticipantesService _participantesService { get; set; }
         private ISesionesService _sesionesService { get; set; }
 
-        public EquiposController(IEquiposService equiposService, ISesionesService sesionesService)
+        public ParticipantesController(IParticipantesService participantesService, ISesionesService sesionesService)
         {
-            _equiposService = equiposService;
+            _participantesService = participantesService;
             _sesionesService = sesionesService;
         }
 
-        // GET: api/Equipos
+        // GET: api/Participantes
         [HttpGet]
         public IActionResult Get([FromQuery]FiltroOrden filtroOrden)
         {
-            IEnumerable<Equipo> equipos = _equiposService.ObtenerEquipos();
-            if (equipos == null)
+            IEnumerable<Participante> participantes = _participantesService.ObtenerParticipantes();
+            if (participantes == null)
             {
                 return NotFound();
             }
             string filtro = filtroOrden.Filtro;
             string orden = filtroOrden.Orden;
             if (!EsValido(filtro) && !EsValido(orden))
-                return Ok(equipos);
+                return Ok(participantes);
             if (!EsValido(filtro)) {
                 filtro = "";
             }
             else
             {
-                equipos = equipos.Where(e => e.Nombre.IndexOf(filtro, StringComparison.OrdinalIgnoreCase) >=0);
+                participantes = participantes.Where(e => e.Nombre.IndexOf(filtro, StringComparison.OrdinalIgnoreCase) >=0);
             }
             if (EsValido(orden)) { 
                 if (orden.ToUpper() != "ASC" && orden.ToUpper() != "DESC") {
@@ -50,14 +50,14 @@ namespace MisMarcadores.Web.Api.Controllers
                 }
                 else {
                     if (orden.ToUpper() == "ASC") {
-                        equipos = equipos.OrderBy(e => e.Nombre);
+                        participantes = participantes.OrderBy(e => e.Nombre);
                     }
                     else {
-                        equipos = equipos.OrderByDescending(e => e.Nombre);
+                        participantes = participantes.OrderByDescending(e => e.Nombre);
                     }
                 }
             }
-            return Ok(equipos);
+            return Ok(participantes);
         }
 
         private bool EsValido(string campo)
@@ -65,35 +65,35 @@ namespace MisMarcadores.Web.Api.Controllers
             return !string.IsNullOrEmpty(campo);
         }
 
-        // GET: api/Equipos
-        [HttpGet("{id}", Name = "GetEquipo")]
+        // GET: api/Participantes
+        [HttpGet("{id}", Name = "GetParticipante")]
         public IActionResult Get(Guid id)
         {
-            Equipo equipo = _equiposService.ObtenerEquipoPorId(id);
-            if (equipo == null)
+            Participante participante = _participantesService.ObtenerParticipantePorId(id);
+            if (participante == null)
             {
                 return NotFound();
             }
-            return Ok(equipo);
+            return Ok(participante);
         }
 
-        // POST: api/equipos
+        // POST: api/participantes
         [ServiceFilter(typeof(AutenticacionFilter))]
-        public IActionResult Post([FromBody]AgregarEquipo equipoModelo)
+        public IActionResult Post([FromBody]AgregarParticipante participanteModelo)
         {
             if (!ModelState.IsValid) return BadRequest("Datos invalidos");
             try
             {
-                Equipo equipo = equipoModelo.TransformarAEquipo();
-                Guid idCreado = this._equiposService.AgregarEquipo(equipo);
-                equipo.Id = idCreado;
-                return CreatedAtRoute("GetEquipo", new { id = idCreado }, equipo);
+                Participante participante = participanteModelo.TransformarAParticipante();
+                Guid idCreado = this._participantesService.AgregarParticipante(participante);
+                participante.Id = idCreado;
+                return CreatedAtRoute("GetParticipante", new { id = idCreado }, participante);
             }
             catch (FormatException)
             {
                 return BadRequest("La imagen debe tener un formato de base 64.");
             }
-            catch (EquipoDataExceptiom)
+            catch (ParticipanteDataExceptiom)
             {
                 return BadRequest("Datos invalidos");
             }
@@ -101,61 +101,61 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("El nombre del deporte no existe en la BD.");
             }
-            catch (ExisteEquipoException)
+            catch (ExisteParticipanteException)
             {
-                return StatusCode(409, "El nombre del equipo ya existe para este deporte en la BD.");
+                return StatusCode(409, "El nombre del participante ya existe para este deporte en la BD.");
             }
         }
 
-        // PUT: api/Equipos/Rampla
+        // PUT: api/Participantes/Rampla
         [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpPut("{id}")]
-        public IActionResult Put(Guid id, [FromBody]ActualizarEquipo equipo)
+        public IActionResult Put(Guid id, [FromBody]ActualizarParticipante participante)
         {
             if (!ModelState.IsValid) return BadRequest("Datos invalidos");
             try
             {
-                this._equiposService.ModificarEquipo(id, equipo.TransformarAEquipo());
+                this._participantesService.ModificarParticipante(id, participante.TransformarAParticipante());
                 return Ok();
             }
             catch (FormatException)
             {
                 return BadRequest("La imagen debe tener un formato de base 64.");
             }
-            catch (EquipoDataExceptiom)
+            catch (ParticipanteDataExceptiom)
             {
                 return BadRequest("Datos invalidos");
             }
-            catch (NoExisteEquipoException)
+            catch (NoExisteParticipanteException)
             {
-                return BadRequest("El equipo no existe en la BD.");
+                return BadRequest("El participante no existe en la BD.");
             }
-            catch (ExisteEquipoException)
+            catch (ExisteParticipanteException)
             {
-                return StatusCode(409, "El nuevo nombre del equipo ya existe en la BD.");
+                return StatusCode(409, "El nuevo nombre del participante ya existe en la BD.");
             }
         }
 
 
-        // DELETE: api/Equipos/Rampla
+        // DELETE: api/Participantes/Rampla
         [ServiceFilter(typeof(AutenticacionFilter))]
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
             try
             {
-                this._equiposService.BorrarEquipo(id);
+                this._participantesService.BorrarParticipante(id);
                 return Ok();
             }
-            catch (NoExisteEquipoException)
+            catch (NoExisteParticipanteException)
             {
-                return BadRequest("El equipo no existe en la BD.");
+                return BadRequest("El participante no existe en la BD.");
             }
         }
 
-        // POST: api/Equipos/{idEquipo}/follow
-        [HttpPost("{idEquipo}/follow")]
-        public IActionResult PostFavorito(Guid idEquipo)
+        // POST: api/Participantes/{idParticipante}/follow
+        [HttpPost("{idParticipante}/follow")]
+        public IActionResult PostFavorito(Guid idParticipante)
         {
             var headers = Request.Headers;
             Guid token = new Guid(headers["tokenSesion"]);
@@ -166,16 +166,16 @@ namespace MisMarcadores.Web.Api.Controllers
             }
             try
             {
-                this._equiposService.AgregarFavorito(idEquipo, usuario.NombreUsuario);
+                this._participantesService.AgregarFavorito(idParticipante, usuario.NombreUsuario);
                 return Ok();
             }
-            catch (NoExisteEquipoException)
+            catch (NoExisteParticipanteException)
             {
-                return BadRequest("El equipo no existe en la BD.");
+                return BadRequest("El participante no existe en la BD.");
             }
             catch (ExisteFavoritoException)
             {
-                return BadRequest("El usuario ya sigue a dicho equipo.");
+                return BadRequest("El usuario ya sigue a dicho participante.");
             }
             catch (Exception)
             {
@@ -183,9 +183,9 @@ namespace MisMarcadores.Web.Api.Controllers
             }
         }
 
-        // POST: api/Equipos/{idEquipo}/unfollow
-        [HttpDelete("{idEquipo}/unfollow")]
-        public IActionResult DeleteFavorito(Guid idEquipo)
+        // POST: api/Participantes/{idParticipante}/unfollow
+        [HttpDelete("{idParticipante}/unfollow")]
+        public IActionResult DeleteFavorito(Guid idParticipante)
         {
             var headers = Request.Headers;
             Guid token = new Guid(headers["tokenSesion"]);
@@ -196,16 +196,16 @@ namespace MisMarcadores.Web.Api.Controllers
             }
             try
             {
-                this._equiposService.BorrarFavorito(idEquipo, usuario.NombreUsuario);
+                this._participantesService.BorrarFavorito(idParticipante, usuario.NombreUsuario);
                 return Ok();
             }
-            catch (NoExisteEquipoException)
+            catch (NoExisteParticipanteException)
             {
-                return BadRequest("El equipo no existe en la BD.");
+                return BadRequest("El participante no existe en la BD.");
             }
             catch (NoExisteFavoritoException)
             {
-                return BadRequest("El usuario no sigue a dicho equipo.");
+                return BadRequest("El usuario no sigue a dicho participante.");
             }
         }
     }

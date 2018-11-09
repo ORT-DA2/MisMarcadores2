@@ -10,9 +10,9 @@ namespace MisMarcadores.Logic
         Guid AgregarEncuentro(Encuentro encuentro);
         IEnumerable<Encuentro> ObtenerEncuentros();
         IEnumerable<Encuentro> ObtenerEncuentrosPorDeporte(String nombre);
-        IEnumerable<Encuentro> ObtenerEncuentrosPorEquipo(Guid id);
+        IEnumerable<Encuentro> ObtenerEncuentrosPorParticipante(Guid id);
         Encuentro ObtenerEncuentroPorId(Guid id);
-        IEnumerable<Encuentro> ObtenerEncuentrosDeEquipo(Guid id);
+        IEnumerable<Encuentro> ObtenerEncuentrosDeParticipante(Guid id);
         List<Comentario> ObtenerComentarios(Guid idEncuentro);
         void AgregarComentario(Guid idEncuentro, String nombreUsuario, String texto);
         void ModificarEncuentro(Guid id, Encuentro encuentro);

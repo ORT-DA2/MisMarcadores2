@@ -6,7 +6,7 @@ namespace MisMarcadores.Data.Entities
     {
         public Guid Id { get; set; }
         public String NombreUsuario { get; set; }
-        public Guid IdEquipo { get; set; }
+        public Guid IdParticipante { get; set; }
 
         public Favorito()
         {

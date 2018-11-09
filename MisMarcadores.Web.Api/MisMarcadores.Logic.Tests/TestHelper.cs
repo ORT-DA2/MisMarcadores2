@@ -20,10 +20,10 @@ namespace MisMarcadores.Logic.Tests
             return deportes.FirstOrDefault();
         }
 
-        public static Equipo ObtenerEquipoFalso()
+        public static Participante ObtenerParticipanteFalso()
         {
-            List<Equipo> equipos = ObtenerEquiposFalsos().ToList();
-            return equipos.FirstOrDefault();
+            List<Participante> participantes = ObtenerParticipantesFalsos().ToList();
+            return participantes.FirstOrDefault();
         }
 
         public static Encuentro ObtenerEncuentroFalso()
@@ -38,14 +38,14 @@ namespace MisMarcadores.Logic.Tests
             {
                 Id = Guid.NewGuid(),
                 FechaHora = DateTime.Today.AddDays(5),
-                EquipoLocal = new Equipo
+                ParticipanteLocal = new Participante
                 {
                     Id = Guid.NewGuid(),
                     Nombre = "Defensor",
                     Foto = "",
                     Deporte = new Deporte { Nombre = "Futbol" }
                 },
-                EquipoVisitante = new Equipo
+                ParticipanteVisitante = new Participante
                 {
                     Id = Guid.NewGuid(),
                     Nombre = "Danubio",
@@ -195,46 +195,46 @@ namespace MisMarcadores.Logic.Tests
             };
         }
 
-        public static List<Equipo> ObtenerEquiposFalsos()
+        public static List<Participante> ObtenerParticipantesFalsos()
         {
-            return new List<Equipo>
+            return new List<Participante>
             {
-                new Equipo
+                new Participante
                 {
                     Id = Guid.NewGuid(),
                     Nombre = "Defensor",
                     Foto = "",
                     Deporte = new Deporte {Nombre = "Futbol"}
                 },
-                new Equipo
+                new Participante
                 {
                     Id = Guid.NewGuid(),
                     Nombre = "Capitol",
                     Foto = "",
                     Deporte = new Deporte {Nombre = "Basket"}
                 },
-                new Equipo
+                new Participante
                 {
                     Id = Guid.NewGuid(),
                     Nombre = "Atenas",
                     Foto = "",
                     Deporte = new Deporte {Nombre = "Basket"}
                 },
-                new Equipo
+                new Participante
                 {
                     Id = Guid.NewGuid(),
                     Nombre = "Liverpool",
                     Foto = "",
                     Deporte = new Deporte {Nombre = "Futbol"}
                 },
-                new Equipo
+                new Participante
                 {
                     Id = Guid.NewGuid(),
                     Nombre = "Miramar",
                     Foto = "",
                     Deporte = new Deporte {Nombre = "Futbol"}
                 },
-                new Equipo
+                new Participante
                 {
                     Id = Guid.NewGuid(),
                     Nombre = "Champagnat",
@@ -244,9 +244,9 @@ namespace MisMarcadores.Logic.Tests
             };
         }
 
-        public static Equipo ObtenerEquipoNombreVacio()
+        public static Participante ObtenerParticipanteNombreVacio()
         {
-            return new Equipo
+            return new Participante
             {
                 Nombre = "",
                 Foto = "",
@@ -261,14 +261,14 @@ namespace MisMarcadores.Logic.Tests
                 {
                     Id = Guid.NewGuid(),
                     FechaHora = DateTime.Today,
-                    EquipoLocal = new Equipo
+                    ParticipanteLocal = new Participante
                         {
                             Id = Guid.NewGuid(),
                             Nombre = "Capitol",
                             Foto = "",
                             Deporte = new Deporte {Nombre = "Basket"}
                         },
-                    EquipoVisitante = new Equipo
+                    ParticipanteVisitante = new Participante
                         {
                             Id = Guid.NewGuid(),
                             Nombre = "Atenas",
@@ -281,14 +281,14 @@ namespace MisMarcadores.Logic.Tests
                 {
                     Id = Guid.NewGuid(),
                     FechaHora = DateTime.Today,
-                    EquipoLocal = new Equipo
+                    ParticipanteLocal = new Participante
                         {
                             Id = Guid.NewGuid(),
                             Nombre = "Defensor",
                             Foto = "",
                             Deporte = new Deporte {Nombre = "Futbol"}
                         },
-                    EquipoVisitante = new Equipo
+                    ParticipanteVisitante = new Participante
                         {
                             Id = Guid.NewGuid(),
                             Nombre = "Danubio",
@@ -300,20 +300,20 @@ namespace MisMarcadores.Logic.Tests
             };
         }
 
-        public static Encuentro ObtenerEncuentroEquipoNombreVacio()
+        public static Encuentro ObtenerEncuentroParticipanteNombreVacio()
         {
             return new Encuentro
             {
                 Id = Guid.NewGuid(),
                 FechaHora = DateTime.Today,
-                EquipoLocal = new Equipo
+                ParticipanteLocal = new Participante
                 {
                     Id = Guid.NewGuid(),
                     Nombre = "",
                     Foto = "",
                     Deporte = new Deporte { Nombre = "Basket" }
                 },
-                EquipoVisitante = new Equipo
+                ParticipanteVisitante = new Participante
                 {
                     Id = Guid.NewGuid(),
                     Nombre = "Atenas",

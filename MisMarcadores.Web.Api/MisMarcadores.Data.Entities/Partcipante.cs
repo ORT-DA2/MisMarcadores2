@@ -2,23 +2,24 @@
 
 namespace MisMarcadores.Data.Entities
 {
-    public class Equipo
+    public class Participante
     {
         public Guid Id { get; set; }
         public String Nombre { get; set; }
         public String Foto { get; set; }
         public Deporte Deporte { get; set; }
+        public bool EsEquipo  { get; set; }
 
-        public Equipo() {
+        public Participante() {
             Deporte = new Deporte();
         }
 
         public override bool Equals(object obj)
         {
             bool igual = false;
-            if (obj is Equipo)
+            if (obj is Participante)
             {
-                igual = Nombre.Equals(((Equipo)obj).Nombre);
+                igual = Nombre.Equals(((Participante)obj).Nombre);
             }
             return igual;
         }
