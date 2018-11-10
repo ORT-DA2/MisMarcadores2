@@ -32,6 +32,19 @@ namespace MisMarcadores.Web.Api
             return Ok(deportes);
         }
 
+        // GET: api/Deportes/ranking/Futbol
+        [HttpGet("ranking/{nombre}", Name = "GetRankingPorDeporte")]
+        public IActionResult GetRankingPorDeporte(string nombre)
+        {
+
+            List<Puntaje> ranking = _deportesService.RankingPorDeporte(nombre);
+            if (ranking == null)
+            {
+                return NotFound();
+            }
+            return Ok(ranking);
+        }
+
         // GET: api/Deportes
         [HttpGet("{nombreDeporte}", Name = "GetDeporte")]
         public IActionResult Get(string nombreDeporte)
