@@ -28,11 +28,16 @@ namespace MisMarcadores.Web.Api.Controllers
         public IActionResult Get()
         {
             IEnumerable<Encuentro> encuentros = _encuentrosService.ObtenerEncuentros();
+            List<MostrarEncuentro> enceuntromodel = new List<MostrarEncuentro>();
+            foreach (Encuentro item in encuentros)
+            {
+                enceuntromodel.Add(new MostrarEncuentro(item));
+            }
             if (encuentros == null)
             {
                 return NotFound();
             }
-            return Ok(encuentros);
+            return Ok(enceuntromodel);
         }
 
         // GET: api/Encuentros

@@ -20,12 +20,12 @@ namespace MisMarcadores.Repository
             {
                 context.Favoritos.Remove(favorito);
             }
-            var encuentros = context.Encuentros.Where(e => e.ParticipanteLocal.Nombre.Equals(participante.Nombre) || e.ParticipanteVisitante.Nombre.Equals(participante.Nombre));
-            foreach (var encuentro in encuentros)
-            {
-                context.Encuentros.Remove(encuentro);
-            }
-            context.Participantes.Remove(participante);
+            //var encuentros = context.Encuentros.Where(e => e.ParticipanteLocal.Nombre.Equals(participante.Nombre) || e.ParticipanteVisitante.Nombre.Equals(participante.Nombre));
+            //foreach (var encuentro in encuentros)
+            //{
+            //    context.Encuentros.Remove(encuentro);
+            //}
+            //context.Participantes.Remove(participante);
         }
 
         public Participante ObtenerParticipantePorDeporte(string nombreDeporte, string nombreParticipante)

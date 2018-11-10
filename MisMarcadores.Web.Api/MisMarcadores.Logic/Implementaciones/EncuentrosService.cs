@@ -32,18 +32,18 @@ namespace MisMarcadores.Logic
             if (deporte == null)
                 throw new NoExisteDeporteException();
 
-            Participante participanteLocal = _participantesRepository.ObtenerParticipantePorDeporte(encuentro.Deporte.Nombre, encuentro.ParticipanteLocal.Nombre);
-            Participante participanteVisitante = _participantesRepository.ObtenerParticipantePorDeporte(encuentro.Deporte.Nombre, encuentro.ParticipanteVisitante.Nombre);
+            //Participante participanteLocal = _participantesRepository.ObtenerParticipantePorDeporte(encuentro.Deporte.Nombre, encuentro.ParticipanteLocal.Nombre);
+            //Participante participanteVisitante = _participantesRepository.ObtenerParticipantePorDeporte(encuentro.Deporte.Nombre, encuentro.ParticipanteVisitante.Nombre);
 
-            if (participanteLocal == null || participanteVisitante == null)
-                throw new NoExisteParticipanteException();
+            //if (participanteLocal == null || participanteVisitante == null)
+            //    throw new NoExisteParticipanteException();
 
-            if (_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteLocal.Id) ||
-                _encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteVisitante.Id))
-                throw new ExisteEncuentroEnFecha();
+            //if (_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteLocal.Id) ||
+            //    _encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteVisitante.Id))
+            //    throw new ExisteEncuentroEnFecha();
 
-            encuentro.ParticipanteLocal.Id = participanteLocal.Id;
-            encuentro.ParticipanteVisitante.Id = participanteVisitante.Id;
+            //encuentro.ParticipanteLocal.Id = participanteLocal.Id;
+            //encuentro.ParticipanteVisitante.Id = participanteVisitante.Id;
             encuentro.Deporte.Id = deporte.Id;
             _encuentrosRepository.Insert(encuentro);
             _unitOfWork.Save();
@@ -69,11 +69,11 @@ namespace MisMarcadores.Logic
             if (deporte == null)
                 throw new NoExisteDeporteException();
 
-            Participante participanteLocal = _participantesRepository.ObtenerParticipantePorDeporte(encuentro.Deporte.Nombre, encuentro.ParticipanteLocal.Nombre);
-            Participante participanteVisitante = _participantesRepository.ObtenerParticipantePorDeporte(encuentro.Deporte.Nombre, encuentro.ParticipanteVisitante.Nombre);
+            //Participante participanteLocal = _participantesRepository.ObtenerParticipantePorDeporte(encuentro.Deporte.Nombre, encuentro.ParticipanteLocal.Nombre);
+            //Participante participanteVisitante = _participantesRepository.ObtenerParticipantePorDeporte(encuentro.Deporte.Nombre, encuentro.ParticipanteVisitante.Nombre);
 
-            if (participanteLocal == null || participanteVisitante == null)
-                throw new NoExisteParticipanteException();
+            //if (participanteLocal == null || participanteVisitante == null)
+            //    throw new NoExisteParticipanteException();
 
             Encuentro encuentroActual = ObtenerEncuentroPorId(id);
             if (encuentroActual == null)
@@ -81,24 +81,24 @@ namespace MisMarcadores.Logic
 
             if (encuentro.FechaHora.Date != encuentroActual.FechaHora.Date)
             {
-                if ((_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteLocal.Id) ||
-               _encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteVisitante.Id)))
-                    throw new ExisteEncuentroEnFecha();
+               // if ((_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteLocal.Id) ||
+               //_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteVisitante.Id)))
+               //     throw new ExisteEncuentroEnFecha();
             }
             else
             {
-                if (ParticipanteDistintoAlActual(participanteLocal.Nombre, encuentroActual))
-                    if ((_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteLocal.Id)))
-                        throw new ExisteEncuentroEnFecha();
+                //if (ParticipanteDistintoAlActual(participanteLocal.Nombre, encuentroActual))
+                //    if ((_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteLocal.Id)))
+                //        throw new ExisteEncuentroEnFecha();
 
-                if (ParticipanteDistintoAlActual(participanteVisitante.Nombre, encuentroActual))
-                    if ((_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteVisitante.Id)))
-                        throw new ExisteEncuentroEnFecha();
+                //if (ParticipanteDistintoAlActual(participanteVisitante.Nombre, encuentroActual))
+                //    if ((_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteVisitante.Id)))
+                //        throw new ExisteEncuentroEnFecha();
             }
             
             encuentro = encuentroActual;
-            encuentro.ParticipanteLocal = participanteLocal;
-            encuentro.ParticipanteVisitante = participanteVisitante;
+            //encuentro.ParticipanteLocal = participanteLocal;
+            //encuentro.ParticipanteVisitante = participanteVisitante;
             encuentro.Deporte = deporte;
             _encuentrosRepository.ModificarEncuentro(encuentro);
             _unitOfWork.Save();
@@ -121,10 +121,11 @@ namespace MisMarcadores.Logic
 
         private bool DatosInvalidosEncuentro(Encuentro encuentro)
         {
-            return (!CampoValido(encuentro.ParticipanteLocal.Nombre) ||
-               !CampoValido(encuentro.ParticipanteVisitante.Nombre) ||
-               !CampoValido(encuentro.Deporte.Nombre) ||
-               (encuentro.ParticipanteLocal.Nombre == encuentro.ParticipanteVisitante.Nombre));
+            //return (!CampoValido(encuentro.ParticipanteLocal.Nombre) ||
+            //   !CampoValido(encuentro.ParticipanteVisitante.Nombre) ||
+            //   !CampoValido(encuentro.Deporte.Nombre) ||
+            //   (encuentro.ParticipanteLocal.Nombre == encuentro.ParticipanteVisitante.Nombre));
+            return false;
         }
 
         private bool CampoValido(string campo)
@@ -134,7 +135,8 @@ namespace MisMarcadores.Logic
 
         private bool ParticipanteDistintoAlActual(string nombreParticipante, Encuentro encuentroActual)
         {
-            return (nombreParticipante != encuentroActual.ParticipanteLocal.Nombre) && (nombreParticipante != encuentroActual.ParticipanteVisitante.Nombre);
+            //  return (nombreParticipante != encuentroActual.ParticipanteLocal.Nombre) && (nombreParticipante != encuentroActual.ParticipanteVisitante.Nombre);
+            return false;
         }
 
         public bool FixtureGenerado(DateTime fechaInicio, string deporte, string tipo)

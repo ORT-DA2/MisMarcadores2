@@ -46,8 +46,8 @@ namespace MisMarcadores.Logic
                     {
                         Encuentro encuentro = new Encuentro
                         {
-                            ParticipanteLocal = participantesGrupos[i],
-                            ParticipanteVisitante = participantesGrupos[j],
+                            //ParticipanteLocal = participantesGrupos[i],
+                            //ParticipanteVisitante = participantesGrupos[j],
                             FechaHora = fechaInicio.AddDays(fechaEncuentro)
                         };
                         encuentros.Add(encuentro);

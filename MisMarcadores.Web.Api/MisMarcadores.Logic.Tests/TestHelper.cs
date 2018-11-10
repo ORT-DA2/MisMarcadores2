@@ -38,20 +38,20 @@ namespace MisMarcadores.Logic.Tests
             {
                 Id = Guid.NewGuid(),
                 FechaHora = DateTime.Today.AddDays(5),
-                ParticipanteLocal = new Participante
-                {
-                    Id = Guid.NewGuid(),
-                    Nombre = "Defensor",
-                    Foto = "",
-                    Deporte = new Deporte { Nombre = "Futbol" }
-                },
-                ParticipanteVisitante = new Participante
-                {
-                    Id = Guid.NewGuid(),
-                    Nombre = "Danubio",
-                    Foto = "",
-                    Deporte = new Deporte { Nombre = "Futbol" }
-                },
+                //ParticipanteLocal = new Participante
+                //{
+                //    Id = Guid.NewGuid(),
+                //    Nombre = "Defensor",
+                //    Foto = "",
+                //    Deporte = new Deporte { Nombre = "Futbol" }
+                //},
+                //ParticipanteVisitante = new Participante
+                //{
+                //    Id = Guid.NewGuid(),
+                //    Nombre = "Danubio",
+                //    Foto = "",
+                //    Deporte = new Deporte { Nombre = "Futbol" }
+                //},
                 Deporte = new Deporte { Nombre = "Futbol" }
             };
         }
@@ -261,40 +261,40 @@ namespace MisMarcadores.Logic.Tests
                 {
                     Id = Guid.NewGuid(),
                     FechaHora = DateTime.Today,
-                    ParticipanteLocal = new Participante
-                        {
-                            Id = Guid.NewGuid(),
-                            Nombre = "Capitol",
-                            Foto = "",
-                            Deporte = new Deporte {Nombre = "Basket"}
-                        },
-                    ParticipanteVisitante = new Participante
-                        {
-                            Id = Guid.NewGuid(),
-                            Nombre = "Atenas",
-                            Foto = "",
-                            Deporte = new Deporte {Nombre = "Basket"}
-                        },
+                    //ParticipanteLocal = new Participante
+                    //    {
+                    //        Id = Guid.NewGuid(),
+                    //        Nombre = "Capitol",
+                    //        Foto = "",
+                    //        Deporte = new Deporte {Nombre = "Basket"}
+                    //    },
+                    //ParticipanteVisitante = new Participante
+                    //    {
+                    //        Id = Guid.NewGuid(),
+                    //        Nombre = "Atenas",
+                    //        Foto = "",
+                    //        Deporte = new Deporte {Nombre = "Basket"}
+                    //    },
                     Deporte = new Deporte {Nombre = "Basket"}
                 },
                 new Encuentro
                 {
                     Id = Guid.NewGuid(),
                     FechaHora = DateTime.Today,
-                    ParticipanteLocal = new Participante
-                        {
-                            Id = Guid.NewGuid(),
-                            Nombre = "Defensor",
-                            Foto = "",
-                            Deporte = new Deporte {Nombre = "Futbol"}
-                        },
-                    ParticipanteVisitante = new Participante
-                        {
-                            Id = Guid.NewGuid(),
-                            Nombre = "Danubio",
-                            Foto = "",
-                            Deporte = new Deporte {Nombre = "Futbol"}
-                        },
+                    //ParticipanteLocal = new Participante
+                    //    {
+                    //        Id = Guid.NewGuid(),
+                    //        Nombre = "Defensor",
+                    //        Foto = "",
+                    //        Deporte = new Deporte {Nombre = "Futbol"}
+                    //    },
+                    //ParticipanteVisitante = new Participante
+                    //    {
+                    //        Id = Guid.NewGuid(),
+                    //        Nombre = "Danubio",
+                    //        Foto = "",
+                    //        Deporte = new Deporte {Nombre = "Futbol"}
+                    //    },
                     Deporte = new Deporte {Nombre = "Futbol"}
                 }
             };
@@ -306,20 +306,20 @@ namespace MisMarcadores.Logic.Tests
             {
                 Id = Guid.NewGuid(),
                 FechaHora = DateTime.Today,
-                ParticipanteLocal = new Participante
-                {
-                    Id = Guid.NewGuid(),
-                    Nombre = "",
-                    Foto = "",
-                    Deporte = new Deporte { Nombre = "Basket" }
-                },
-                ParticipanteVisitante = new Participante
-                {
-                    Id = Guid.NewGuid(),
-                    Nombre = "Atenas",
-                    Foto = "",
-                    Deporte = new Deporte { Nombre = "Basket" }
-                },
+                //ParticipanteLocal = new Participante
+                //{
+                //    Id = Guid.NewGuid(),
+                //    Nombre = "",
+                //    Foto = "",
+                //    Deporte = new Deporte { Nombre = "Basket" }
+                //},
+                //ParticipanteVisitante = new Participante
+                //{
+                //    Id = Guid.NewGuid(),
+                //    Nombre = "Atenas",
+                //    Foto = "",
+                //    Deporte = new Deporte { Nombre = "Basket" }
+                //},
                 Deporte = new Deporte { Nombre = "Basket" }
             };
         }
