@@ -7,12 +7,15 @@ namespace MisMarcadores.Web.Api.Models
     {
         [Required]
         public string Nombre { get; set; }
+        [Required]
+        public bool EsIndividual { get; set; }
 
         public Deporte TransformarADeporte()
         {
             return new Deporte
             {
-                Nombre = this.Nombre
+                Nombre = this.Nombre,
+                EsIndividual = this.EsIndividual
             };
         }
     }

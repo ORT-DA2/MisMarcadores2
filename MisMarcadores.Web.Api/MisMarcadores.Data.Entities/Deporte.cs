@@ -6,6 +6,7 @@ namespace MisMarcadores.Data.Entities
     {
         public Guid Id { get; set; }
         public String Nombre { get; set; }
+        public bool EsIndividual { get; set; }
 
         public override bool Equals(object obj)
         {
