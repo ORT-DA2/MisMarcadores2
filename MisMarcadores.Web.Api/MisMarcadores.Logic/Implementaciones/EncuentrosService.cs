@@ -32,6 +32,12 @@ namespace MisMarcadores.Logic
             if (deporte == null)
                 throw new NoExisteDeporteException();
 
+            ICollection<Puntaje> Puntajes = encuentro.Puntaje;
+            foreach (Puntaje p in Puntajes)
+            {
+                p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
+            }
+
             //Participante participanteLocal = _participantesRepository.ObtenerParticipantePorDeporte(encuentro.Deporte.Nombre, encuentro.ParticipanteLocal.Nombre);
             //Participante participanteVisitante = _participantesRepository.ObtenerParticipantePorDeporte(encuentro.Deporte.Nombre, encuentro.ParticipanteVisitante.Nombre);
 
@@ -44,6 +50,7 @@ namespace MisMarcadores.Logic
 
             //encuentro.ParticipanteLocal.Id = participanteLocal.Id;
             //encuentro.ParticipanteVisitante.Id = participanteVisitante.Id;
+            encuentro.Puntaje = Puntajes;
             encuentro.Deporte.Id = deporte.Id;
             _encuentrosRepository.Insert(encuentro);
             _unitOfWork.Save();
@@ -111,7 +118,16 @@ namespace MisMarcadores.Logic
 
         public IEnumerable<Encuentro> ObtenerEncuentros()
         {
-            return _encuentrosRepository.ObtenerEncuentros();
+
+            IEnumerable<Encuentro>  encuentros = _encuentrosRepository.ObtenerEncuentros();
+            foreach (Encuentro e in encuentros)
+            {
+                foreach (Puntaje p in e.Puntaje)
+                {
+                    p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
+                }
+            }
+            return encuentros;
         }
 
         public IEnumerable<Encuentro> ObtenerEncuentrosDeParticipante(Guid id)

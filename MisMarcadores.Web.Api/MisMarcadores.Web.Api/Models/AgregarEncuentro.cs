@@ -22,7 +22,8 @@ namespace MisMarcadores.Web.Api.Models
             {
                 FechaHora = this.Fecha,
                 Puntaje = this.Puntaje,
-                Deporte = new Deporte { Nombre = this.NombreDeporte }
+                Deporte = new Deporte { Nombre = this.NombreDeporte },
+                
                 
             };
         }
