@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MisMarcadores.Web.Api.Models
 {
-    public class ActualizarEquipo
+    public class AgregarParticipante
     {
         [Required]
         public string Nombre { get; set; }
@@ -14,9 +14,9 @@ namespace MisMarcadores.Web.Api.Models
         [Required]
         public string NombreDeporte { get; set; }
 
-        public Equipo TransformarAEquipo()
+        public Participante TransformarAParticipante()
         {
-            return new Equipo
+            return new Participante
             {
                 Nombre = this.Nombre,
                 Foto = this.Foto,

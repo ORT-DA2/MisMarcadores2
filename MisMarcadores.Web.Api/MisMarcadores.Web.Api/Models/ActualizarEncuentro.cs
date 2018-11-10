@@ -10,10 +10,10 @@ namespace MisMarcadores.Web.Api.Models
         public DateTime Fecha { get; set; }
 
         [Required]
-        public string EquipoLocal { get; set; }
+        public string ParticipanteLocal { get; set; }
 
         [Required]
-        public string EquipoVisitante { get; set; }
+        public string ParticipanteVisitante { get; set; }
 
         [Required]
         public string NombreDeporte { get; set; }
@@ -23,8 +23,8 @@ namespace MisMarcadores.Web.Api.Models
             return new Encuentro
             {
                 FechaHora = this.Fecha,
-                EquipoLocal = new Equipo { Nombre = this.EquipoLocal },
-                EquipoVisitante = new Equipo { Nombre = this.EquipoVisitante },
+                ParticipanteLocal = new Participante { Nombre = this.ParticipanteLocal },
+                ParticipanteVisitante = new Participante { Nombre = this.ParticipanteVisitante },
                 Deporte = new Deporte { Nombre = this.NombreDeporte }
             };
         }

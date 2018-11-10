@@ -41,7 +41,7 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("El nombre del deporte no existe en la BD.");
             }
-            catch (NoExistenEquiposException)
+            catch (NoExistenParticipantesException)
             {
                 return BadRequest("Para armar un fixture en el deporte tienen que existir como minimo dos equipos");
             }

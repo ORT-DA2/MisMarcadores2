@@ -16,14 +16,14 @@ namespace MisMarcadores.Web.Api.Controllers
     public class ComentariosController : Controller
     {
         private IEncuentrosService _encuentrosService { get; set; }
-        private IEquiposService _equiposService { get; set; }
+        private IParticipantesService _participantesService { get; set; }
         private ISesionesService _sesionesService { get; set; }
 
-        public ComentariosController(IEncuentrosService encuentrosService, ISesionesService sesionesService, IEquiposService equiposService)
+        public ComentariosController(IEncuentrosService encuentrosService, ISesionesService sesionesService, IParticipantesService participantesService)
         {
             _encuentrosService = encuentrosService;
             _sesionesService = sesionesService;
-            _equiposService = equiposService;
+            _participantesService = participantesService;
         }
 
         // GET: api/comentarios
@@ -40,11 +40,11 @@ namespace MisMarcadores.Web.Api.Controllers
             try
             {
                 List<Comentario> comentarios = new List<Comentario>();
-                IEnumerable<Guid> idEquipos = this._equiposService.ObtenerFavoritosPorUsuario(usuario.NombreUsuario);
-                foreach (Guid id in idEquipos)
+                IEnumerable<Guid> idParticipantes = this._participantesService.ObtenerFavoritosPorUsuario(usuario.NombreUsuario);
+                foreach (Guid id in idParticipantes)
                 {
-                    IEnumerable<Encuentro> encuentrosEquipoActual = this._encuentrosService.ObtenerEncuentrosDeEquipo(id).OrderBy(e => e.FechaHora);
-                    foreach (Encuentro encuentro in encuentrosEquipoActual)
+                    IEnumerable<Encuentro> encuentrosParticipanteActual = this._encuentrosService.ObtenerEncuentrosDeParticipante(id).OrderBy(e => e.FechaHora);
+                    foreach (Encuentro encuentro in encuentrosParticipanteActual)
                     {
                         if (!comentarios.Any(c => c.IdEncuentro == encuentro.Id))
                         {
@@ -59,13 +59,13 @@ namespace MisMarcadores.Web.Api.Controllers
                 }
                 return Ok(comentarios);
             }
-            catch (NoExisteEquipoException)
+            catch (NoExisteParticipanteException)
             {
-                return BadRequest("El equipo no existe en la BD.");
+                return BadRequest("El participante no existe en la BD.");
             }
             catch (NoExisteFavoritoException)
             {
-                return BadRequest("El usuario no sigue a dicho equipo.");
+                return BadRequest("El usuario no sigue a dicho participante.");
             }
         }
     }

@@ -60,10 +60,10 @@ namespace MisMarcadores.Web.Api.Controllers
         }
 
         // GET: api/Encuentros/equipo/idequipo
-        [HttpGet("equipo/{id}", Name = "GetEncuentrosPorEquipo")]
-        public IActionResult GetEncuentrosPorEquipo(Guid id)
+        [HttpGet("equipo/{id}", Name = "GetEncuentrosPorParticipante")]
+        public IActionResult GetEncuentrosPorParticipante(Guid id)
         {
-            IEnumerable<Encuentro> encuentros = _encuentrosService.ObtenerEncuentrosPorEquipo(id);
+            IEnumerable<Encuentro> encuentros = _encuentrosService.ObtenerEncuentrosPorParticipante(id);
             if (encuentros == null)
             {
                 return NotFound();
@@ -92,7 +92,7 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("El nombre del deporte no existe en la BD.");
             }
-            catch (NoExisteEquipoException)
+            catch (NoExisteParticipanteException)
             {
                 return BadRequest("El/los equipos no existen en la BD.");
             }
@@ -144,7 +144,7 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("El nombre del deporte no existe en la BD.");
             }
-            catch (NoExisteEquipoException)
+            catch (NoExisteParticipanteException)
             {
                 return BadRequest("El/los equipos no existen en la BD.");
             }

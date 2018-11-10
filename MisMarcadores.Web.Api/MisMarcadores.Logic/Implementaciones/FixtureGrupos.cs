@@ -9,45 +9,45 @@ namespace MisMarcadores.Logic
     public class FixtureGrupos : Fixture
     {
         private readonly DateTime fechaInicio;
-        private readonly List<Equipo> equipos;
+        private readonly List<Participante> participantes;
 
-        public FixtureGrupos(DateTime fechaInicio, List<Equipo> equipos)
+        public FixtureGrupos(DateTime fechaInicio, List<Participante> participantes)
         {
             this.fechaInicio = fechaInicio;
-            this.equipos = equipos;
+            this.participantes = participantes;
         }
 
         public override List<Encuentro> GenerarFixture() {
-            int cantIteraciones = equipos.Count / 4;
-            List<Equipo> equiposGrupos = equipos.Take(4).ToList();
+            int cantIteraciones = participantes.Count / 4;
+            List<Participante> participantesGrupos = participantes.Take(4).ToList();
             List<Encuentro> encuentros = new List<Encuentro>();
             while (cantIteraciones > 0)
             {
-                List<Encuentro> encuentrosGrupo = GenerarEncuentros(equiposGrupos);
+                List<Encuentro> encuentrosGrupo = GenerarEncuentros(participantesGrupos);
                 foreach (Encuentro encuentro in encuentrosGrupo)
                 {
                     encuentros.Add(encuentro);
                 }
-                equiposGrupos = equipos.Skip(4).ToList();
+                participantesGrupos = participantes.Skip(4).ToList();
                 cantIteraciones--;
             }
             return encuentros;
         }
 
-        private List<Encuentro> GenerarEncuentros(List<Equipo> equiposGrupos)
+        private List<Encuentro> GenerarEncuentros(List<Participante> participantesGrupos)
         {
             List<Encuentro> encuentros = new List<Encuentro>();
             int fechaEncuentro = 0;
-            for (int i = 0; i < equiposGrupos.Count; i++)
+            for (int i = 0; i < participantesGrupos.Count; i++)
             {
-                for (int j = 0; j < equiposGrupos.Count; j++)
+                for (int j = 0; j < participantesGrupos.Count; j++)
                 {
                     if (i != j)
                     {
                         Encuentro encuentro = new Encuentro
                         {
-                            EquipoLocal = equiposGrupos[i],
-                            EquipoVisitante = equiposGrupos[j],
+                            ParticipanteLocal = participantesGrupos[i],
+                            ParticipanteVisitante = participantesGrupos[j],
                             FechaHora = fechaInicio.AddDays(fechaEncuentro)
                         };
                         encuentros.Add(encuentro);

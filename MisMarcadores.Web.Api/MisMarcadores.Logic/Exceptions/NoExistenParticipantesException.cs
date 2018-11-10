@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MisMarcadores.Logic
 {
-    public class EquipoDataExceptiom : LogicException
+    public class NoExistenParticipantesException : LogicException
     {
     }
 }

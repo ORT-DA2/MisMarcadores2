@@ -19,10 +19,10 @@ namespace MisMarcadores.Repository
             {
                 context.Encuentros.Remove(encuentro);
             }
-            var equipos = context.Equipos.Where(e => e.Deporte.Nombre.Equals(deporte.Nombre));
-            foreach (var equipo in equipos)
+            var participantes = context.Participantes.Where(e => e.Deporte.Nombre.Equals(deporte.Nombre));
+            foreach (var participante in participantes)
             {
-                context.Equipos.Remove(equipo);
+                context.Participantes.Remove(participante);
             }
             context.Deportes.Remove(deporte);
         }

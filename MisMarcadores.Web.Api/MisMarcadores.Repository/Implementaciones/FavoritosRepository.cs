@@ -12,15 +12,15 @@ namespace MisMarcadores.Repository
     {
         public FavoritosRepository(MisMarcadoresContext context) : base(context) { }
 
-        public void BorrarFavorito(string nombreUsuario, Guid idEquipo)
+        public void BorrarFavorito(string nombreUsuario, Guid idParticipante)
         {
-            Favorito favorito = context.Favoritos.FirstOrDefault(f => f.IdEquipo == idEquipo && f.NombreUsuario == nombreUsuario);
+            Favorito favorito = context.Favoritos.FirstOrDefault(f => f.IdParticipante == idParticipante && f.NombreUsuario == nombreUsuario);
             context.Favoritos.Remove(favorito);
         }
 
-        public bool ExisteFavorito(string nombreUsuario, Guid idEquipo)
+        public bool ExisteFavorito(string nombreUsuario, Guid idParticipante)
         {
-            return context.Favoritos.Any(f => f.NombreUsuario == nombreUsuario && f.IdEquipo == idEquipo);
+            return context.Favoritos.Any(f => f.NombreUsuario == nombreUsuario && f.IdParticipante == idParticipante);
         }
 
         public List<Favorito> ObtenerFavoritosPorUsuario(string nombreUsuario)

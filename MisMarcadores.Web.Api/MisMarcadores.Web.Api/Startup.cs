@@ -38,14 +38,14 @@ namespace MisMarcadores.Web.Api
             services.AddScoped<IUsuariosService, UsuariosService>();
             services.AddScoped<ISesionesService, SesionesService>();
             services.AddScoped<IDeportesService, DeportesService>();
-            services.AddScoped<IEquiposService, EquiposService>();
+            services.AddScoped<IParticipantesService, ParticipantesService>();
             services.AddScoped<IEncuentrosService, EncuentrosService>();
 
             //DATA ACCESS
             services.AddScoped<IUsuariosRepository, UsuariosRepository>();
             services.AddScoped<ISesionesRepository, SesionesRepository>();
             services.AddScoped<IDeportesRepository, DeportesRepository>();
-            services.AddScoped<IEquiposRepository, EquiposRepository>();
+            services.AddScoped<IParticipantesRepository, ParticipantesRepository>();
             services.AddScoped<IEncuentrosRepository, EncuentrosRepository>();
             services.AddScoped<IFavoritosRepository, FavoritosRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

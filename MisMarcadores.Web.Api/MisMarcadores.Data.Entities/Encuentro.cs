@@ -8,14 +8,15 @@ namespace MisMarcadores.Data.Entities
         public Guid Id { get; set; }
         public DateTime FechaHora { get; set; }
         public Deporte Deporte { get; set; }
-        public Equipo EquipoLocal { get; set; }
-        public Equipo EquipoVisitante { get; set; }
+        public Participante ParticipanteLocal { get; set; }
+        public Participante ParticipanteVisitante { get; set; }
 
-        public Encuentro() {
+        public Encuentro()
+        {
             FechaHora = new DateTime();
             Deporte = new Deporte();
-            EquipoLocal = new Equipo();
-            EquipoVisitante = new Equipo();
+            ParticipanteLocal = new Participante();
+            ParticipanteVisitante = new Participante();
         }
     }
 }

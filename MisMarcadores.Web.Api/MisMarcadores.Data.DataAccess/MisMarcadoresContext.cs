@@ -8,7 +8,7 @@ namespace MisMarcadores.Data.DataAccess
         public MisMarcadoresContext(DbContextOptions<MisMarcadoresContext> options) : base(options) { }
 
         public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Equipo> Equipos { get; set; }
+        public DbSet<Participante> Participantes { get; set; }
         public DbSet<Deporte> Deportes { get; set; }
         public DbSet<Encuentro> Encuentros { get; set; }
         public DbSet<Comentario> Comentarios { get; set; }
@@ -21,7 +21,7 @@ namespace MisMarcadores.Data.DataAccess
 
             modelBuilder.Entity<Usuario>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Deporte>().Property(u => u.Id).ValueGeneratedOnAdd();
-            modelBuilder.Entity<Equipo>().Property(u => u.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Participante>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Encuentro>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Comentario>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Favorito>().Property(u => u.Id).ValueGeneratedOnAdd();
