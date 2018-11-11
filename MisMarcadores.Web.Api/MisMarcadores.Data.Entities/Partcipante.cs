@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MisMarcadores.Data.Entities
 {
@@ -9,6 +10,7 @@ namespace MisMarcadores.Data.Entities
         public String Foto { get; set; }
         public Deporte Deporte { get; set; }
         public bool EsEquipo  { get; set; }
+        public virtual ICollection<Puntaje> Puntaje { get; set; }
 
         public Participante() {
             Deporte = new Deporte();

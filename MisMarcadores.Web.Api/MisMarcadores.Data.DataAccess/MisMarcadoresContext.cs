@@ -14,6 +14,7 @@ namespace MisMarcadores.Data.DataAccess
         public DbSet<Comentario> Comentarios { get; set; }
         public DbSet<Favorito> Favoritos { get; set; }
         public DbSet<Sesion> Sesiones { get; set; }
+        public DbSet<Puntaje> Puntaje { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +27,20 @@ namespace MisMarcadores.Data.DataAccess
             modelBuilder.Entity<Comentario>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Favorito>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Sesion>().HasKey(s => s.NombreUsuario);
+
+            modelBuilder.Entity<Puntaje>()
+                .HasKey(x => new { x.ParticipanteId, x.EncuentroId });
+
+            modelBuilder.Entity<Puntaje>()
+                .HasOne(ut => ut.Encuentro)
+                .WithMany(t => t.Puntaje)
+                .HasForeignKey(ut => ut.EncuentroId);
+
+            modelBuilder.Entity<Puntaje>()
+               .HasOne(ut => ut.Participante)
+               .WithMany(t => t.Puntaje)
+               .HasForeignKey(ut => ut.ParticipanteId);
+
         }
 
     }

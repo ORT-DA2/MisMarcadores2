@@ -10,12 +10,6 @@ namespace MisMarcadores.Web.Api.Models
         public DateTime Fecha { get; set; }
 
         [Required]
-        public string ParticipanteLocal { get; set; }
-
-        [Required]
-        public string ParticipanteVisitante { get; set; }
-
-        [Required]
         public string NombreDeporte { get; set; }
 
         public Encuentro TransformarAEncuentro()
@@ -23,8 +17,6 @@ namespace MisMarcadores.Web.Api.Models
             return new Encuentro
             {
                 FechaHora = this.Fecha,
-                ParticipanteLocal = new Participante { Nombre = this.ParticipanteLocal },
-                ParticipanteVisitante = new Participante { Nombre = this.ParticipanteVisitante },
                 Deporte = new Deporte { Nombre = this.NombreDeporte }
             };
         }
