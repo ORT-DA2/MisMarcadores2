@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using MisMarcadores.Data.Entities;
 using MisMarcadores.Logic;
@@ -37,17 +38,17 @@ namespace MisMarcadores.Web.Api
         public IActionResult GetRankingPorDeporte(string nombre)
         {
 
-            List<Puntaje> ranking = _deportesService.RankingPorDeporte(nombre);
+            List<Puntaje> ranking = _deportesService.RankingPorDeporte(nombre).OrderByDescending(p => p.PuntosObtenidos).ToList();
             List<MostrarPuntaje> ret = new List<MostrarPuntaje>();
             foreach (Puntaje p in ranking)
             {
                 MostrarPuntaje mostrarPuntaje = new MostrarPuntaje(p);
                 ret.Add(mostrarPuntaje);
             }
+
             if (ranking == null)
-            {
-                return NotFound();
-            }
+                return NotFound();        
+            
             return Ok(ret);
         }
 
