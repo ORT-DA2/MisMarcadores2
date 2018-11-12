@@ -101,9 +101,23 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("El/los equipos no existen en la BD.");
             }
-            catch (ExisteEncuentroEnFecha) {
+            catch (ExisteEncuentroEnFecha)
+            {
                 return StatusCode(409, "Ya existe un encuentro en esa fecha para el/los equipos seleccionados.");
             }
+            catch (CantidadIncorrectaDePartcipantesException)
+            {
+                return BadRequest("Se ingreso una cantidad incorrecta de participantes para el encuentro");
+            }
+            catch (NoCoincideDeporteException)
+            {
+                return BadRequest("El deporte del encuentro no coincide con el de los participantes");
+            }
+            catch (ParticipantesRepetidoException)
+            {
+                return BadRequest("Se ha ingresado un participante duplicado");
+            }
+            
         }
 
         // POST: api/Encuentros/{idEncuentro}/comentario

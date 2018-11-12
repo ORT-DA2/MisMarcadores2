@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Data.Entities;
@@ -36,26 +37,36 @@ namespace MisMarcadores.Logic
             foreach (Puntaje p in Puntajes)
             {
                 p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
+                if (!p.Participante.Deporte.Equals(deporte))
+                    throw new NoCoincideDeporteException();               
             }
+            
+            if (Puntajes.Count == 0)
+                throw new NoExisteParticipanteException();
 
-            //Participante participanteLocal = _participantesRepository.ObtenerParticipantePorDeporte(encuentro.Deporte.Nombre, encuentro.ParticipanteLocal.Nombre);
-            //Participante participanteVisitante = _participantesRepository.ObtenerParticipantePorDeporte(encuentro.Deporte.Nombre, encuentro.ParticipanteVisitante.Nombre);
+            if (Puntajes.Count < 2)              
+                    throw new CantidadIncorrectaDePartcipantesException();
 
-            //if (participanteLocal == null || participanteVisitante == null)
-            //    throw new NoExisteParticipanteException();
+            if (!deporte.EsIndividual && Puntajes.Count != 2)
+                throw new CantidadIncorrectaDePartcipantesException();
+
+            if (HayPartcipanteRepetido(Puntajes))
+                throw new ParticipantesRepetidoException();
+
 
             //if (_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteLocal.Id) ||
             //    _encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteVisitante.Id))
             //    throw new ExisteEncuentroEnFecha();
 
-            //encuentro.ParticipanteLocal.Id = participanteLocal.Id;
-            //encuentro.ParticipanteVisitante.Id = participanteVisitante.Id;
+
             encuentro.Puntaje = Puntajes;
             encuentro.Deporte.Id = deporte.Id;
             _encuentrosRepository.Insert(encuentro);
             _unitOfWork.Save();
             return encuentro.Id;
         }
+
+
 
         public void BorrarEncuentro(Guid id)
         {
@@ -127,6 +138,7 @@ namespace MisMarcadores.Logic
                     p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
                 }
             }
+
             return encuentros;
         }
 
@@ -137,11 +149,8 @@ namespace MisMarcadores.Logic
 
         private bool DatosInvalidosEncuentro(Encuentro encuentro)
         {
-            //return (!CampoValido(encuentro.ParticipanteLocal.Nombre) ||
-            //   !CampoValido(encuentro.ParticipanteVisitante.Nombre) ||
-            //   !CampoValido(encuentro.Deporte.Nombre) ||
-            //   (encuentro.ParticipanteLocal.Nombre == encuentro.ParticipanteVisitante.Nombre));
-            return false;
+            return !CampoValido(encuentro.Deporte.Nombre);
+         
         }
 
         private bool CampoValido(string campo)
@@ -149,10 +158,11 @@ namespace MisMarcadores.Logic
             return !string.IsNullOrWhiteSpace(campo);
         }
 
-        private bool ParticipanteDistintoAlActual(string nombreParticipante, Encuentro encuentroActual)
+      
+
+        private bool HayPartcipanteRepetido(ICollection<Puntaje> Puntajes)
         {
-            //  return (nombreParticipante != encuentroActual.ParticipanteLocal.Nombre) && (nombreParticipante != encuentroActual.ParticipanteVisitante.Nombre);
-            return false;
+            return Puntajes.Select(x => x.ParticipanteId).Distinct().Count() != Puntajes.Count();
         }
 
         public bool FixtureGenerado(DateTime fechaInicio, string deporte, string tipo)

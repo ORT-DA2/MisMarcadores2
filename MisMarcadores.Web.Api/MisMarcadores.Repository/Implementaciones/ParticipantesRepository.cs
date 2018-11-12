@@ -53,7 +53,7 @@ namespace MisMarcadores.Repository
 
         public List<Participante> ObtenerParticipantes()
         {
-            return context.Participantes.Include(e => e.Deporte).ToList();
+            return context.Participantes.Include(e => e.Deporte).Include(p => p.Puntaje).ToList();
         }
 
         public List<Participante> ObtenerParticipantesPorDeporte(string deporte)

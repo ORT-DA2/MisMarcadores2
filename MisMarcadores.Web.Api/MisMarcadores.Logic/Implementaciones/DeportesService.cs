@@ -22,6 +22,13 @@ namespace MisMarcadores.Logic
             _participantesRepository = participantesRepository;
          }
 
+        public DeportesService(IUnitOfWork unitOfWork, IDeportesRepository deportesRepository)
+        {
+            _unitOfWork = unitOfWork;
+            _deportesRepository = deportesRepository;
+        }
+
+
         public void AgregarDeporte(Deporte deporte)
         {
             if (!CampoValido(deporte.Nombre))
@@ -75,7 +82,7 @@ namespace MisMarcadores.Logic
 
         public List<Participante> ParticipantePorDeporte(string nombre){
             List<Participante> participantesDeporte = new List<Participante>();
-            IEnumerable<Participante> TodosParticipantes = _participantesRepository.GetAll();
+            IEnumerable<Participante> TodosParticipantes = _participantesRepository.ObtenerParticipantes();
             foreach (Participante p in TodosParticipantes)
             {
                 if (p.Deporte.Nombre.Equals(nombre))
@@ -103,6 +110,7 @@ namespace MisMarcadores.Logic
                         pun.PuntosObtenidos += pu.PuntosObtenidos;
                     }
                 }
+                ranking.Add(pun);
             }
             return ranking;
         }
