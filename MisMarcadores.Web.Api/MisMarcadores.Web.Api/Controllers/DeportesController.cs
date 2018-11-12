@@ -38,11 +38,17 @@ namespace MisMarcadores.Web.Api
         {
 
             List<Puntaje> ranking = _deportesService.RankingPorDeporte(nombre);
+            List<MostrarPuntaje> ret = new List<MostrarPuntaje>();
+            foreach (Puntaje p in ranking)
+            {
+                MostrarPuntaje mostrarPuntaje = new MostrarPuntaje(p);
+                ret.Add(mostrarPuntaje);
+            }
             if (ranking == null)
             {
                 return NotFound();
             }
-            return Ok(ranking);
+            return Ok(ret);
         }
 
         // GET: api/Deportes
