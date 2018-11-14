@@ -10,8 +10,8 @@ using MisMarcadores.Data.DataAccess;
 namespace MisMarcadores.Data.DataAccess.Migrations
 {
     [DbContext(typeof(MisMarcadoresContext))]
-    [Migration("20181114214028_TablaParticipanteEncuentro")]
-    partial class TablaParticipanteEncuentro
+    [Migration("20181114220729_NuevaBase")]
+    partial class NuevaBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
