@@ -14,14 +14,14 @@ namespace MisMarcadores.Web.Api.Models
         public string NombreDeporte { get; set; }
 
         [Required]
-        public ICollection<ParticipanteEncuentro> Puntaje { get; set; }
+        public ICollection<ParticipanteEncuentro> ParticipanteEncuentro { get; set; }
 
         public Encuentro TransformarAEncuentro()
         {
             return new Encuentro
             {
                 FechaHora = this.Fecha,
-                Puntaje = this.Puntaje,
+                ParticipanteEncuentro = this.ParticipanteEncuentro,
                 Deporte = new Deporte { Nombre = this.NombreDeporte },
                 
                 

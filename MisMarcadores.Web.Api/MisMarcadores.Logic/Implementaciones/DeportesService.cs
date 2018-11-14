@@ -74,7 +74,7 @@ namespace MisMarcadores.Logic
             {
                 if (e.Deporte.Nombre.Equals(nombre))
                 {
-                    puntajes.AddRange(e.Puntaje);
+                    puntajes.AddRange(e.ParticipanteEncuentro);
                 }
             }
             return puntajes;

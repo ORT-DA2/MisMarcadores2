@@ -33,7 +33,7 @@ namespace MisMarcadores.Logic
             if (deporte == null)
                 throw new NoExisteDeporteException();
 
-            ICollection<ParticipanteEncuentro> Puntajes = encuentro.Puntaje;
+            ICollection<ParticipanteEncuentro> Puntajes = encuentro.ParticipanteEncuentro;
             foreach (ParticipanteEncuentro p in Puntajes)
             {
                 p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
@@ -59,7 +59,7 @@ namespace MisMarcadores.Logic
             //    throw new ExisteEncuentroEnFecha();
 
 
-            encuentro.Puntaje = Puntajes;
+            encuentro.ParticipanteEncuentro = Puntajes;
             encuentro.Deporte.Id = deporte.Id;
             _encuentrosRepository.Insert(encuentro);
             _unitOfWork.Save();
@@ -133,7 +133,7 @@ namespace MisMarcadores.Logic
             IEnumerable<Encuentro>  encuentros = _encuentrosRepository.ObtenerEncuentros();
             foreach (Encuentro e in encuentros)
             {
-                foreach (ParticipanteEncuentro p in e.Puntaje)
+                foreach (ParticipanteEncuentro p in e.ParticipanteEncuentro)
                 {
                     p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
                 }

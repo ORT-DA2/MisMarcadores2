@@ -18,7 +18,7 @@ namespace MisMarcadores.Web.Api.Models
             Fecha = encuentro.FechaHora;
             NombreDeporte = encuentro.Deporte.Nombre;
             Puntajes = new List<MostrarPuntaje>();
-            foreach (ParticipanteEncuentro item in encuentro.Puntaje)
+            foreach (ParticipanteEncuentro item in encuentro.ParticipanteEncuentro)
             {
                 MostrarPuntaje p = new MostrarPuntaje(item);
                 Puntajes.Add(p);

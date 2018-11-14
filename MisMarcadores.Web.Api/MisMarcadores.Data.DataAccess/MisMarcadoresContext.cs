@@ -14,12 +14,14 @@ namespace MisMarcadores.Data.DataAccess
         public DbSet<Comentario> Comentarios { get; set; }
         public DbSet<Favorito> Favoritos { get; set; }
         public DbSet<Sesion> Sesiones { get; set; }
-        public DbSet<ParticipanteEncuentro> Puntaje { get; set; }
+        public DbSet<ParticipanteEncuentro> ParticipanteEncuentro { get; set; }
+        
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+          
             modelBuilder.Entity<Usuario>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Deporte>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Participante>().Property(u => u.Id).ValueGeneratedOnAdd();
@@ -33,12 +35,12 @@ namespace MisMarcadores.Data.DataAccess
 
             modelBuilder.Entity<ParticipanteEncuentro>()
                 .HasOne(ut => ut.Encuentro)
-                .WithMany(t => t.Puntaje)
+                .WithMany(t => t.ParticipanteEncuentro)
                 .HasForeignKey(ut => ut.EncuentroId);
 
             modelBuilder.Entity<ParticipanteEncuentro>()
                .HasOne(ut => ut.Participante)
-               .WithMany(t => t.Puntaje)
+               .WithMany(t => t.ParticipanteEncuentro)
                .HasForeignKey(ut => ut.ParticipanteId);
 
         }

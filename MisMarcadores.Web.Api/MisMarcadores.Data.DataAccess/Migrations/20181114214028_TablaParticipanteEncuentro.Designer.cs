@@ -10,8 +10,8 @@ using MisMarcadores.Data.DataAccess;
 namespace MisMarcadores.Data.DataAccess.Migrations
 {
     [DbContext(typeof(MisMarcadoresContext))]
-    [Migration("20181110193532_Puntaje")]
-    partial class Puntaje
+    [Migration("20181114214028_TablaParticipanteEncuentro")]
+    partial class TablaParticipanteEncuentro
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,7 +101,7 @@ namespace MisMarcadores.Data.DataAccess.Migrations
                     b.ToTable("Participantes");
                 });
 
-            modelBuilder.Entity("MisMarcadores.Data.Entities.Puntaje", b =>
+            modelBuilder.Entity("MisMarcadores.Data.Entities.ParticipanteEncuentro", b =>
                 {
                     b.Property<Guid>("ParticipanteId");
 
@@ -113,7 +113,7 @@ namespace MisMarcadores.Data.DataAccess.Migrations
 
                     b.HasIndex("EncuentroId");
 
-                    b.ToTable("Puntaje");
+                    b.ToTable("ParticipanteEncuentro");
                 });
 
             modelBuilder.Entity("MisMarcadores.Data.Entities.Sesion", b =>
@@ -164,15 +164,15 @@ namespace MisMarcadores.Data.DataAccess.Migrations
                         .HasForeignKey("DeporteId");
                 });
 
-            modelBuilder.Entity("MisMarcadores.Data.Entities.Puntaje", b =>
+            modelBuilder.Entity("MisMarcadores.Data.Entities.ParticipanteEncuentro", b =>
                 {
                     b.HasOne("MisMarcadores.Data.Entities.Encuentro", "Encuentro")
-                        .WithMany("Puntaje")
+                        .WithMany("ParticipanteEncuentro")
                         .HasForeignKey("EncuentroId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MisMarcadores.Data.Entities.Participante", "Participante")
-                        .WithMany("Puntaje")
+                        .WithMany("ParticipanteEncuentro")
                         .HasForeignKey("ParticipanteId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

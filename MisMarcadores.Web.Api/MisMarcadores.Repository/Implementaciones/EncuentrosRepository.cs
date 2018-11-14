@@ -64,8 +64,8 @@ namespace MisMarcadores.Repository
 
         public List<Encuentro> ObtenerEncuentros()
         {    
-            // List<Encuentro> ret = context.Encuentros.Include(e => e.Deporte).Include(p => p.Puntaje).ToList();
-              return context.Encuentros.Include(e => e.Deporte).Include(p => p.Puntaje).ToList();
+            
+              return context.Encuentros.Include(e => e.Deporte).Include(p => p.ParticipanteEncuentro).ToList();
         }
 
         public List<Encuentro> ObtenerEncuentrosPorDeporte(string nombre)
