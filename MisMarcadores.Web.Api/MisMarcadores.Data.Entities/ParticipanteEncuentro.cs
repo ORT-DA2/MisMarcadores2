@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MisMarcadores.Data.Entities
 {
-    public class Puntaje
+    public class ParticipanteEncuentro
     {
         public Guid ParticipanteId { get; set; }
         public virtual Participante Participante { get; set; }
@@ -12,7 +12,7 @@ namespace MisMarcadores.Data.Entities
         public Guid EncuentroId  { get; set; }
         public virtual Encuentro Encuentro { get; set; }
 
-        public Puntaje(){
+        public ParticipanteEncuentro(){
 
         }
     }

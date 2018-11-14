@@ -33,8 +33,8 @@ namespace MisMarcadores.Logic
             if (deporte == null)
                 throw new NoExisteDeporteException();
 
-            ICollection<Puntaje> Puntajes = encuentro.Puntaje;
-            foreach (Puntaje p in Puntajes)
+            ICollection<ParticipanteEncuentro> Puntajes = encuentro.Puntaje;
+            foreach (ParticipanteEncuentro p in Puntajes)
             {
                 p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
                 if (!p.Participante.Deporte.Equals(deporte))
@@ -133,7 +133,7 @@ namespace MisMarcadores.Logic
             IEnumerable<Encuentro>  encuentros = _encuentrosRepository.ObtenerEncuentros();
             foreach (Encuentro e in encuentros)
             {
-                foreach (Puntaje p in e.Puntaje)
+                foreach (ParticipanteEncuentro p in e.Puntaje)
                 {
                     p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
                 }
@@ -160,7 +160,7 @@ namespace MisMarcadores.Logic
 
       
 
-        private bool HayPartcipanteRepetido(ICollection<Puntaje> Puntajes)
+        private bool HayPartcipanteRepetido(ICollection<ParticipanteEncuentro> Puntajes)
         {
             return Puntajes.Select(x => x.ParticipanteId).Distinct().Count() != Puntajes.Count();
         }

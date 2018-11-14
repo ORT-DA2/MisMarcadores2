@@ -67,8 +67,8 @@ namespace MisMarcadores.Logic
             _unitOfWork.Save();
         }
 
-        public List<Puntaje> PuntajesPorDeporte(string nombre) {
-            List<Puntaje> puntajes = new List<Puntaje>();
+        public List<ParticipanteEncuentro> PuntajesPorDeporte(string nombre) {
+            List<ParticipanteEncuentro> puntajes = new List<ParticipanteEncuentro>();
             IEnumerable<Encuentro> encuentros = _encuentrosRepository.GetAll();
             foreach (Encuentro e in encuentros)
             {
@@ -93,17 +93,17 @@ namespace MisMarcadores.Logic
             return participantesDeporte;
         }
 
-        public List<Puntaje> RankingPorDeporte(string nombre)
+        public List<ParticipanteEncuentro> RankingPorDeporte(string nombre)
         {
             List<Participante> participantes = ParticipantePorDeporte (nombre);
-            List<Puntaje> puntajes = PuntajesPorDeporte(nombre);
-            List<Puntaje> ranking = new List<Puntaje>();
+            List<ParticipanteEncuentro> puntajes = PuntajesPorDeporte(nombre);
+            List<ParticipanteEncuentro> ranking = new List<ParticipanteEncuentro>();
             foreach (Participante par in participantes)
             {
-                Puntaje pun = new Puntaje();
+                ParticipanteEncuentro pun = new ParticipanteEncuentro();
                 pun.Participante = par;
                 pun.PuntosObtenidos = 0;
-                foreach (Puntaje pu in puntajes)
+                foreach (ParticipanteEncuentro pu in puntajes)
                 {
                     if (pu.Participante.Equals(par))
                     {

@@ -34,13 +34,13 @@ namespace MisMarcadores.Web.Api
         }
 
         // GET: api/Deportes/ranking/Futbol
-        [HttpGet("ranking/{nombre}", Name = "GetRankingPorDeporte")]
+        [HttpGet("{nombre}/posiciones", Name = "GetRankingPorDeporte")]
         public IActionResult GetRankingPorDeporte(string nombre)
         {
 
-            List<Puntaje> ranking = _deportesService.RankingPorDeporte(nombre).OrderByDescending(p => p.PuntosObtenidos).ToList();
+            List<ParticipanteEncuentro> ranking = _deportesService.RankingPorDeporte(nombre).OrderByDescending(p => p.PuntosObtenidos).ToList();
             List<MostrarPuntaje> ret = new List<MostrarPuntaje>();
-            foreach (Puntaje p in ranking)
+            foreach (ParticipanteEncuentro p in ranking)
             {
                 MostrarPuntaje mostrarPuntaje = new MostrarPuntaje(p);
                 ret.Add(mostrarPuntaje);

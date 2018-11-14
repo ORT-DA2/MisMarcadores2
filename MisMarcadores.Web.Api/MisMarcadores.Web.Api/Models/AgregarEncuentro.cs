@@ -14,7 +14,7 @@ namespace MisMarcadores.Web.Api.Models
         public string NombreDeporte { get; set; }
 
         [Required]
-        public ICollection<Puntaje> Puntaje { get; set; }
+        public ICollection<ParticipanteEncuentro> Puntaje { get; set; }
 
         public Encuentro TransformarAEncuentro()
         {

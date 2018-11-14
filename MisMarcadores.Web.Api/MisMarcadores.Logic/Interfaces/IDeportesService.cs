@@ -10,7 +10,7 @@ namespace MisMarcadores.Logic
         void AgregarDeporte(Deporte deporte);
         IEnumerable<Deporte> ObtenerDeportes();
         Deporte ObtenerDeportePorNombre(String nombre);
-        List<Puntaje> RankingPorDeporte(string nombre);
+        List<ParticipanteEncuentro> RankingPorDeporte(string nombre);
         void ModificarDeporte(String nombre, Deporte deporte);
         void BorrarDeporte(String nombre);
     }
