@@ -33,10 +33,16 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return NotFound();
             }
+            List<MostrarParticipante> retorno = new List<MostrarParticipante>();
+            foreach (Participante p in participantes)
+            {
+                retorno.Add(new MostrarParticipante(p));
+
+            }
             string filtro = filtroOrden.Filtro;
             string orden = filtroOrden.Orden;
             if (!EsValido(filtro) && !EsValido(orden))
-                return Ok(participantes);
+                return Ok(retorno);
             if (!EsValido(filtro)) {
                 filtro = "";
             }
@@ -57,7 +63,8 @@ namespace MisMarcadores.Web.Api.Controllers
                     }
                 }
             }
-            return Ok(participantes);
+           
+            return Ok(retorno);
         }
 
         private bool EsValido(string campo)
