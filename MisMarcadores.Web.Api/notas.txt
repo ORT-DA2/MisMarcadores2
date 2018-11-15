@@ -3,7 +3,6 @@ Encuentro
 cosas pendientes:
 Que hayan 2 a la misma Fecha y hora 
 modificar encuentro
-borrar 
 
 cosas que hice mal:
 cuando creo un encuentro le meto los puntos de una no las posiciones o si gano empato o perdio 

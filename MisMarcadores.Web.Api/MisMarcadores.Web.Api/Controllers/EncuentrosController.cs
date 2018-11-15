@@ -49,7 +49,9 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return NotFound();
             }
-            return Ok(encuentro);
+            MostrarEncuentro retorno = new MostrarEncuentro(encuentro);
+
+            return Ok(retorno);
         }
 
         // GET: api/Encuentros/deporte/futbol
@@ -61,7 +63,12 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return NotFound();
             }
-            return Ok(encuentros);
+            List<MostrarEncuentro> enceuntromodel = new List<MostrarEncuentro>();
+            foreach (Encuentro item in encuentros)
+            {
+                enceuntromodel.Add(new MostrarEncuentro(item));
+            }
+            return Ok(enceuntromodel);
         }
 
         // GET: api/Encuentros/equipo/idequipo
@@ -73,7 +80,12 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return NotFound();
             }
-            return Ok(encuentros);
+            List<MostrarEncuentro> enceuntromodel = new List<MostrarEncuentro>();
+            foreach (Encuentro item in encuentros)
+            {
+                enceuntromodel.Add(new MostrarEncuentro(item));
+            }
+            return Ok(enceuntromodel);
         }
 
         // POST: api/Encuentros

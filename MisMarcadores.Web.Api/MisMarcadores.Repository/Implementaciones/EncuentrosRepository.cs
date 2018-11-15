@@ -57,7 +57,7 @@ namespace MisMarcadores.Repository
 
         public Encuentro ObtenerEncuentroPorId(Guid id)
         {
-            return context.Encuentros.Include(e => e.Deporte).FirstOrDefault(e => e.Id.Equals(id));
+            return context.Encuentros.Include(e => e.Deporte).Include(pe => pe.ParticipanteEncuentro).FirstOrDefault(e => e.Id.Equals(id));
         
             // return context.Encuentros.Include(e => e.Deporte).Include(e => e.ParticipanteLocal).Include(e => e.ParticipanteVisitante).FirstOrDefault(e => e.Id.Equals(id));
         }
