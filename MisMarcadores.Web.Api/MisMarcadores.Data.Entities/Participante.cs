@@ -10,7 +10,7 @@ namespace MisMarcadores.Data.Entities
         public String Foto { get; set; }
         public Deporte Deporte { get; set; }
         public bool EsEquipo  { get; set; }
-        public virtual ICollection<Puntaje> Puntaje { get; set; }
+        public virtual ICollection<ParticipanteEncuentro> ParticipanteEncuentro { get; set; }
 
         public Participante() {
             Deporte = new Deporte();

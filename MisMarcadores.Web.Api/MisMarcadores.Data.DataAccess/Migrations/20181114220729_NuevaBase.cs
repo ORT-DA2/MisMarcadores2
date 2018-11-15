@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MisMarcadores.Data.DataAccess.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class NuevaBase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,7 +26,8 @@ namespace MisMarcadores.Data.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Nombre = table.Column<string>(nullable: true)
+                    Nombre = table.Column<string>(nullable: true),
+                    EsIndividual = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,7 +40,7 @@ namespace MisMarcadores.Data.DataAccess.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     NombreUsuario = table.Column<string>(nullable: true),
-                    IdEquipo = table.Column<Guid>(nullable: false)
+                    IdParticipante = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,34 +77,12 @@ namespace MisMarcadores.Data.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Equipos",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Nombre = table.Column<string>(nullable: true),
-                    Foto = table.Column<string>(nullable: true),
-                    DeporteId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Equipos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Equipos_Deportes_DeporteId",
-                        column: x => x.DeporteId,
-                        principalTable: "Deportes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Encuentros",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     FechaHora = table.Column<DateTime>(nullable: false),
-                    DeporteId = table.Column<Guid>(nullable: true),
-                    EquipoLocalId = table.Column<Guid>(nullable: true),
-                    EquipoVisitanteId = table.Column<Guid>(nullable: true)
+                    DeporteId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -114,18 +93,52 @@ namespace MisMarcadores.Data.DataAccess.Migrations
                         principalTable: "Deportes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Participantes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Nombre = table.Column<string>(nullable: true),
+                    Foto = table.Column<string>(nullable: true),
+                    DeporteId = table.Column<Guid>(nullable: true),
+                    EsEquipo = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Participantes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Encuentros_Equipos_EquipoLocalId",
-                        column: x => x.EquipoLocalId,
-                        principalTable: "Equipos",
+                        name: "FK_Participantes_Deportes_DeporteId",
+                        column: x => x.DeporteId,
+                        principalTable: "Deportes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ParticipanteEncuentro",
+                columns: table => new
+                {
+                    ParticipanteId = table.Column<Guid>(nullable: false),
+                    PuntosObtenidos = table.Column<int>(nullable: false),
+                    EncuentroId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ParticipanteEncuentro", x => new { x.ParticipanteId, x.EncuentroId });
                     table.ForeignKey(
-                        name: "FK_Encuentros_Equipos_EquipoVisitanteId",
-                        column: x => x.EquipoVisitanteId,
-                        principalTable: "Equipos",
+                        name: "FK_ParticipanteEncuentro_Encuentros_EncuentroId",
+                        column: x => x.EncuentroId,
+                        principalTable: "Encuentros",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ParticipanteEncuentro_Participantes_ParticipanteId",
+                        column: x => x.ParticipanteId,
+                        principalTable: "Participantes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -134,18 +147,13 @@ namespace MisMarcadores.Data.DataAccess.Migrations
                 column: "DeporteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Encuentros_EquipoLocalId",
-                table: "Encuentros",
-                column: "EquipoLocalId");
+                name: "IX_ParticipanteEncuentro_EncuentroId",
+                table: "ParticipanteEncuentro",
+                column: "EncuentroId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Encuentros_EquipoVisitanteId",
-                table: "Encuentros",
-                column: "EquipoVisitanteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Equipos_DeporteId",
-                table: "Equipos",
+                name: "IX_Participantes_DeporteId",
+                table: "Participantes",
                 column: "DeporteId");
         }
 
@@ -155,10 +163,10 @@ namespace MisMarcadores.Data.DataAccess.Migrations
                 name: "Comentarios");
 
             migrationBuilder.DropTable(
-                name: "Encuentros");
+                name: "Favoritos");
 
             migrationBuilder.DropTable(
-                name: "Favoritos");
+                name: "ParticipanteEncuentro");
 
             migrationBuilder.DropTable(
                 name: "Sesiones");
@@ -167,7 +175,10 @@ namespace MisMarcadores.Data.DataAccess.Migrations
                 name: "Usuarios");
 
             migrationBuilder.DropTable(
-                name: "Equipos");
+                name: "Encuentros");
+
+            migrationBuilder.DropTable(
+                name: "Participantes");
 
             migrationBuilder.DropTable(
                 name: "Deportes");
