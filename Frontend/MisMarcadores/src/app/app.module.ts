@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SessionService } from './servicios/session.service';
 import { HomeComponent } from './home/home.component';
+import { DeporteComponent } from './deportes/deporte.component';
 import { UserService } from './servicios/usuario.service';
 import { BaseApiService } from './servicios/base-api.service';
 import { CoreModule } from './core/core.module';
@@ -22,6 +23,7 @@ const appRoutes: Routes = [
     ]
   },
   { path: 'login', component: LoginComponent },
+  { path: 'deportes', component: DeporteComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
@@ -30,6 +32,7 @@ const appRoutes: Routes = [
     AppComponent,
     LoginComponent,
     HomeComponent,
+    DeporteComponent,
     PageNotFoundComponent,
   ],
   imports: [
