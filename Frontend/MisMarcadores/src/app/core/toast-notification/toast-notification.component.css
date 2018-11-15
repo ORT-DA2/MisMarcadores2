@@ -1,0 +1,9 @@
+.toastNotification {
+    width: 35%;
+    position: fixed;
+    opacity: 0.9;
+    left: 80%;
+    top: 3%;
+    transform: translate(-50%, 0px);
+    z-index: 9999;
+}
