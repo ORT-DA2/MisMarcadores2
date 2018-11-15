@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Data.Entities;
@@ -93,26 +94,39 @@ namespace MisMarcadores.Logic
             return participantesDeporte;
         }
 
-        public List<ParticipanteEncuentro> RankingPorDeporte(string nombre)
+        public List<Posicion> RankingPorDeporte(string nombre)
         {
             List<Participante> participantes = ParticipantePorDeporte (nombre);
             List<ParticipanteEncuentro> puntajes = PuntajesPorDeporte(nombre);
-            List<ParticipanteEncuentro> ranking = new List<ParticipanteEncuentro>();
+            List<Posicion> posiciones = new List<Posicion>();
             foreach (Participante par in participantes)
             {
-                ParticipanteEncuentro pun = new ParticipanteEncuentro();
-                pun.Participante = par;
-                pun.PuntosObtenidos = 0;
-                foreach (ParticipanteEncuentro pu in puntajes)
+                Posicion p = new Posicion()
+                {};
+                p.Nombre = par.Nombre;
+                p.Puntos = 0;
+                foreach (ParticipanteEncuentro puntaje in puntajes)
                 {
-                    if (pu.Participante.Equals(par))
+                    if (puntaje.Participante.Nombre.Equals(p.Nombre))
                     {
-                        pun.PuntosObtenidos += pu.PuntosObtenidos;
+                        p.Puntos += puntaje.PuntosObtenidos;
                     }
                 }
-                ranking.Add(pun);
+                posiciones.Add(p);
             }
-            return ranking;
+            return posiciones;
+        }
+
+        public List<Posicion> PosicionesPorDeporte(string nombre) {
+            List<Posicion> posiciones = RankingPorDeporte(nombre).OrderByDescending(p => p.Puntos).ToList();
+            int puesto = 1;
+            foreach (Posicion item in posiciones)
+            {
+                item.Puesto = puesto;
+                puesto++;
+            }
+            return posiciones;
+
         }
 
         public Deporte ObtenerDeportePorNombre(string nombre)
@@ -128,6 +142,14 @@ namespace MisMarcadores.Logic
         private bool CampoValido(string campo)
         {
             return !string.IsNullOrWhiteSpace(campo);
+        }
+
+
+        public class Posicion {
+
+            public int Puesto;
+            public string Nombre;
+            public int Puntos;
         }
     }
 }

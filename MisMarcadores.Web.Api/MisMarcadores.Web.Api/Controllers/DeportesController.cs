@@ -5,6 +5,7 @@ using MisMarcadores.Data.Entities;
 using MisMarcadores.Logic;
 using MisMarcadores.Web.Api.Filters;
 using MisMarcadores.Web.Api.Models;
+using static MisMarcadores.Logic.DeportesService;
 
 namespace MisMarcadores.Web.Api
 {
@@ -38,18 +39,11 @@ namespace MisMarcadores.Web.Api
         public IActionResult GetRankingPorDeporte(string nombre)
         {
 
-            List<ParticipanteEncuentro> ranking = _deportesService.RankingPorDeporte(nombre).OrderByDescending(p => p.PuntosObtenidos).ToList();
-            List<MostrarPuntaje> ret = new List<MostrarPuntaje>();
-            foreach (ParticipanteEncuentro p in ranking)
-            {
-                MostrarPuntaje mostrarPuntaje = new MostrarPuntaje(p);
-                ret.Add(mostrarPuntaje);
-            }
-
-            if (ranking == null)
+            List<Posicion> posiciones = _deportesService.PosicionesPorDeporte(nombre).OrderBy(p => p.Puesto).ToList();
+            if (posiciones == null)
                 return NotFound();        
             
-            return Ok(ret);
+            return Ok(posiciones);
         }
 
         // GET: api/Deportes

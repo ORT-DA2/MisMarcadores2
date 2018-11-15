@@ -88,7 +88,6 @@ namespace MisMarcadores.Web.Api.Controllers
                 Guid idCreado = this._encuentrosService.AgregarEncuentro(encuentro);
                 encuentro.Id = idCreado;
                 return Ok();
-               // return CreatedAtRoute("GetEncuentro", new { id = idCreado }, encuentro);
             }
             catch (EncuentroDataException)
             {
