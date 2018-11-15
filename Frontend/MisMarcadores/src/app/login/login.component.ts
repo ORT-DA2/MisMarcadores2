@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionService } from '../service/session.service';
-import { UserService } from '../service/user.service';
+import { SessionService } from '../servicios/session.service';
+import { UserService } from '../servicios/usuario.service';
 import { LoginRequest } from '../interfaces/login-request';
 import { Session } from '../interfaces/session';
 import { Router } from '@angular/router';
