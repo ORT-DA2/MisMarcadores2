@@ -161,9 +161,7 @@ namespace MisMarcadores.Logic
         private bool CampoValido(string campo)
         {
             return !string.IsNullOrWhiteSpace(campo);
-        }
-
-      
+        } 
 
         private bool HayPartcipanteRepetido(ICollection<ParticipanteEncuentro> Puntajes)
         {
