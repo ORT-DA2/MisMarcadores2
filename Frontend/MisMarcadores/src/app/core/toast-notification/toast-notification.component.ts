@@ -14,7 +14,7 @@ export class ToastNotificationComponent implements OnInit {
 
   constructor(private notifyService: NotificationService) {
     this.messageClass = 'alert alert-success';
-    this.message = 'pepepepepepe';
+    this.message = '';
   }
 
   ngOnInit() {
