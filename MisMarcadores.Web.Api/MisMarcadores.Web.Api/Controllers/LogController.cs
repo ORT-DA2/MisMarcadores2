@@ -3,6 +3,7 @@ using MisMarcadores.Web.Api.Filters;
 using MisMarcadores.Log;
 using System.Collections.Generic;
 using MisMarcadores.Data.Entities;
+using System;
 
 namespace MisMarcadores.Web.Api.Controllers
 {
@@ -19,11 +20,15 @@ namespace MisMarcadores.Web.Api.Controllers
         {
             _logService = logService;
         }
+
+
+
+ 
         // GET: api/Log
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromBody] FilterDateTime filter)
         {
-            IEnumerable<MisMarcadores.Data.Entities.Log> datos = _logService.ObtenerLog();
+            IEnumerable<MisMarcadores.Data.Entities.Log> datos = _logService.ObtenerLogEntreFechas(filter);
             if (datos == null)
             {
                 return NotFound();
@@ -31,4 +36,6 @@ namespace MisMarcadores.Web.Api.Controllers
             return Ok(datos);
         }
     }
+
+  
 }
