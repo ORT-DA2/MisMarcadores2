@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MisMarcadores.Data.Entities;
 
+
 namespace MisMarcadores.Data.DataAccess
 {
     public class MisMarcadoresContext : DbContext
@@ -15,8 +16,9 @@ namespace MisMarcadores.Data.DataAccess
         public DbSet<Favorito> Favoritos { get; set; }
         public DbSet<Sesion> Sesiones { get; set; }
         public DbSet<ParticipanteEncuentro> ParticipanteEncuentro { get; set; }
-        
-        
+       public DbSet<Log> Log { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +31,7 @@ namespace MisMarcadores.Data.DataAccess
             modelBuilder.Entity<Comentario>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Favorito>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Sesion>().HasKey(s => s.NombreUsuario);
+            modelBuilder.Entity<Log>().Property(u => u.Id).ValueGeneratedOnAdd();
 
             modelBuilder.Entity<ParticipanteEncuentro>()
                 .HasKey(x => new { x.ParticipanteId, x.EncuentroId });

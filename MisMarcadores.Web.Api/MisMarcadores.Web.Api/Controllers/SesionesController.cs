@@ -4,6 +4,7 @@ using MisMarcadores.Data.Entities;
 using MisMarcadores.Logic;
 using MisMarcadores.Web.Api.Filters;
 using MisMarcadores.Web.Api.Models;
+using MisMarcadores.Log;
 
 namespace MisMarcadores.Web.Api.Controllers
 {
@@ -12,10 +13,13 @@ namespace MisMarcadores.Web.Api.Controllers
     public class SesionesController : Controller
     {
         private ISesionesService _sesionesService { get; set; }
+        private ILogService _logService { get; set; }
 
-        public SesionesController(ISesionesService sesionesService)
+
+        public SesionesController(ISesionesService sesionesService, ILogService logService)
         {
             _sesionesService = sesionesService;
+            _logService = logService;
         }
 
         // GET: api/sesiones/nombreUsuario
@@ -40,6 +44,7 @@ namespace MisMarcadores.Web.Api.Controllers
             try
             {
                 Sesion sesionCreada = _sesionesService.Login(datosLogin.NombreUsuario, datosLogin.Contraseña);
+                _logService.InsertarAccion(datosLogin.NombreUsuario);
                 return Ok(new { token = sesionCreada.Token });
             }
             catch (NullReferenceException)

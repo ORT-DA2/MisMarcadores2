@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Repository", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MisMarcadores.Web.Api", "MisMarcadores.Web.Api\MisMarcadores.Web.Api.csproj", "{12AE8CFC-7AEF-4C4D-B92B-76FCA89DBD37}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisMarcadores.Log", "MisMarcadores.Log\MisMarcadores.Log.csproj", "{EEC8FB97-54BD-42C6-8740-FE60CF4DA604}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{12AE8CFC-7AEF-4C4D-B92B-76FCA89DBD37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12AE8CFC-7AEF-4C4D-B92B-76FCA89DBD37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12AE8CFC-7AEF-4C4D-B92B-76FCA89DBD37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEC8FB97-54BD-42C6-8740-FE60CF4DA604}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEC8FB97-54BD-42C6-8740-FE60CF4DA604}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEC8FB97-54BD-42C6-8740-FE60CF4DA604}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEC8FB97-54BD-42C6-8740-FE60CF4DA604}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

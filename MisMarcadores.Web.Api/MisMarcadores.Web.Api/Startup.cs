@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using MisMarcadores.Logic;
+using MisMarcadores.Log;
 using MisMarcadores.Web.Api.Models;
 using MisMarcadores.Repository;
 using MisMarcadores.Data.DataAccess;
@@ -40,6 +41,7 @@ namespace MisMarcadores.Web.Api
             services.AddScoped<IDeportesService, DeportesService>();
             services.AddScoped<IParticipantesService, ParticipantesService>();
             services.AddScoped<IEncuentrosService, EncuentrosService>();
+            services.AddScoped<ILogService, LogService>();
 
             //DATA ACCESS
             services.AddScoped<IUsuariosRepository, UsuariosRepository>();
@@ -48,6 +50,7 @@ namespace MisMarcadores.Web.Api
             services.AddScoped<IParticipantesRepository, ParticipantesRepository>();
             services.AddScoped<IEncuentrosRepository, EncuentrosRepository>();
             services.AddScoped<IFavoritosRepository, FavoritosRepository>();
+            services.AddScoped<ILogRepository, LogRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
