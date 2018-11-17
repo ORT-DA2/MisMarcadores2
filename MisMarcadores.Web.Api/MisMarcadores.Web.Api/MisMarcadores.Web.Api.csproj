@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MisMarcadores.Data.Entities\MisMarcadores.Data.Entities.csproj" />
     <ProjectReference Include="..\MisMarcadores.Logic\MisMarcadores.Logic.csproj" />
+    <ProjectReference Include="..\MisMarcadores.Log\MisMarcadores.Log.csproj" />
   </ItemGroup>
 
 </Project>
