@@ -20,7 +20,6 @@ namespace MisMarcadores.Repository
             {
                 context.Favoritos.Remove(favorito);
             }
-            var encuentros = context.Encuentros.Include(p => p.ParticipanteEncuentro);
 
             context.Participantes.Remove(participante);
         }

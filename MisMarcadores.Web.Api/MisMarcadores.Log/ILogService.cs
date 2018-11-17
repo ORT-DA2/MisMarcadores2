@@ -7,7 +7,7 @@ namespace MisMarcadores.Log
 {
     public interface ILogService
     {
-        void InsertarAccion(string nombreUsuario);
+        void InsertarAccion(string nombreUsuario , string accion);
         IEnumerable<MisMarcadores.Data.Entities.Log> ObtenerLog();
         List<MisMarcadores.Data.Entities.Log> ObtenerLogEntreFechas(FilterDateTime filter);
     }
