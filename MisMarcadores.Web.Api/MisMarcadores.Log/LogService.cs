@@ -49,8 +49,6 @@ namespace MisMarcadores.Log
             _logRepository.Insert(aInsertar);
             _unitOfWork.Save();
         }
-
-
     }
 
     public class FilterDateTime

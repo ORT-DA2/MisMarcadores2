@@ -115,11 +115,14 @@ namespace MisMarcadores.Logic.Tests
             var mockDeportesRepository = new Mock<IDeportesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            mockDeportesRepository
-                  .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre))
-                  .Returns(fakeEncuentro.Deporte);
+            //mockDeportesRepository
+            //      .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre))
+            //      .Returns(fakeEncuentro.Deporte);
+            //mockEncuentrosRepository
+            //    .Setup(r => r.ObtenerEncuentroPorId.
+            //    .Returns(fakeEncuentro.Id);
             //mockParticipantesRepository
-            //     .Setup(r => r.ObtenerParticipantePorDeporte(fakeEncuentro.Deporte.Nombre, fakeEncuentro.ParticipanteLocal.Nombre))
+            //     .Setup(r => r.ObtenerParticipantePorDeporte(fakeEncuentro.Deporte.Nombre, fakeEncuentro.ParticipanteEncuentro.))
             //     .Returns(fakeEncuentro.ParticipanteLocal);
             //mockParticipantesRepository
             //     .Setup(r => r.ObtenerParticipantePorDeporte(fakeEncuentro.Deporte.Nombre, fakeEncuentro.ParticipanteVisitante.Nombre))

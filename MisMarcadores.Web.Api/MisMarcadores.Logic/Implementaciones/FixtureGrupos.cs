@@ -44,12 +44,17 @@ namespace MisMarcadores.Logic
                 {
                     if (i != j)
                     {
-                        Encuentro encuentro = new Encuentro
-                        {
-                            //ParticipanteLocal = participantesGrupos[i],
-                            //ParticipanteVisitante = participantesGrupos[j],
-                            FechaHora = fechaInicio.AddDays(fechaEncuentro)
-                        };
+                        Encuentro encuentro = new Encuentro();
+                        encuentro.FechaHora = fechaInicio.AddDays(fechaEncuentro);
+                        encuentro.Id = new Guid();
+                        ICollection<ParticipanteEncuentro> participanteEncuentros = new List<ParticipanteEncuentro>();
+                        ParticipanteEncuentro participanteEncuentroUno = new ParticipanteEncuentro();
+                        participanteEncuentroUno.ParticipanteId = participantes[i].Id;
+                        ParticipanteEncuentro participanteEncuentroDos = new ParticipanteEncuentro();
+                        participanteEncuentroDos.ParticipanteId = participantes[j].Id;
+                        participanteEncuentros.Add(participanteEncuentroUno);
+                        participanteEncuentros.Add(participanteEncuentroDos);
+                        encuentro.ParticipanteEncuentro = participanteEncuentros;
                         encuentros.Add(encuentro);
                         fechaEncuentro += 3;
                     }

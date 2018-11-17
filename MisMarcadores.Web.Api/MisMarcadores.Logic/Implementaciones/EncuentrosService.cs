@@ -175,6 +175,8 @@ namespace MisMarcadores.Logic
             Deporte deporteActual = _deportesRepository.ObtenerDeportePorNombre(deporte);
             if (deporteActual == null)
                 throw new NoExisteDeporteException();
+            if (deporteActual.EsIndividual)
+                throw new TipoDeFixtureIncompatibleException();
             List<Participante> participantes = _participantesRepository.ObtenerParticipantesPorDeporte(deporte);
             if (participantes == null || participantes.Count == 1)
                 throw new NoExistenParticipantesException();
