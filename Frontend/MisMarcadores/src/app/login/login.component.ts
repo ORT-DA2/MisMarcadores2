@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionService } from '../servicios/session.service';
-import { UserService } from '../servicios/usuario.service';
+import { SesionService } from '../servicios/sesion.service';
+import { UsuarioService } from '../servicios/usuario.service';
 import { LoginRequest } from '../interfaces/login-request';
-import { Session } from '../interfaces/session';
+import { Sesion } from '../interfaces/sesion';
 import { Router } from '@angular/router';
 import { NotificationService } from '../core/notification.service';
 
@@ -17,32 +17,33 @@ export class LoginComponent implements OnInit {
   submitted: boolean;
 
   constructor(
-    private sessionService: SessionService,
-    private userService: UserService,
+    private sesionService: SesionService,
+    private userService: UsuarioService,
     private router: Router,
     private notificationService: NotificationService) {
-    this.model = { nombreUsuario: '', contrasena: '' };
+    this.model = { NombreUsuario: '', Contrasena: '' };
   }
 
   ngOnInit() {
   }
 
   onSubmit() {
-    this.userService.postLogin(this.model).subscribe((response: Session) => {
+    this.userService.postLogin(this.model).subscribe((response: Sesion) => {
       if (response) {
         this.notificationService.display({ message: 'Usuario Logueado!', severity: 'info' });
 
-        this.sessionService.setSession(response);
+        this.sesionService.setSesion(response);
+        localStorage.setItem('nombreUsuario', this.model.NombreUsuario);
 
-        if (this.sessionService.isAuthenticated) {
-          this.router.navigate([this.sessionService.attemptedUrl]);
+        if (this.sesionService.isAuthenticated) {
+          this.router.navigate([this.sesionService.attemptedUrl]);
         }
       } else {
-        this.notificationService.display({ message: 'Invalid username or password', severity: 'error' });
+        this.notificationService.display({ message: 'Usuario o contraseña incorrectos.', severity: 'error' });
       }
 
     }, () => {
-      this.notificationService.display({ message: 'Error occurred', severity: 'error' });
+      this.notificationService.display({ message: 'Usuario o contraseña incorrectos.', severity: 'error' });
     });
   }
 
