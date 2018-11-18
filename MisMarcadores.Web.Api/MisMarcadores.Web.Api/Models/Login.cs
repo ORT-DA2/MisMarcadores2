@@ -8,7 +8,7 @@ namespace MisMarcadores.Web.Api.Models
         public string NombreUsuario { get; set; }
 
         [Required]
-        public string Contraseña { get; set; }
+        public string Contrasena { get; set; }
 
     }
 }

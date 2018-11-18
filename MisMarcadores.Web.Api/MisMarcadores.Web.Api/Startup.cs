@@ -15,6 +15,7 @@ using MisMarcadores.Web.Api.Models;
 using MisMarcadores.Repository;
 using MisMarcadores.Data.DataAccess;
 using MisMarcadores.Web.Api.Filters;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace MisMarcadores.Web.Api
 {
@@ -30,7 +31,17 @@ namespace MisMarcadores.Web.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
+
+            // add asp net core mvc
+            services.AddMvc(o => o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter()));
             services.AddDbContext<MisMarcadoresContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MisMarcadoresDB")));
             services.AddScoped<DbContext, MisMarcadoresContext>();
 
@@ -64,6 +75,9 @@ namespace MisMarcadores.Web.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseStatusCodePages();
+
+            app.UseCors("CorsPolicy");
 
             app.UseMvc(routes => {
                 routes.MapRoute(
