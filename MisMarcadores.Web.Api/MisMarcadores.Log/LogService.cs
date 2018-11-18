@@ -40,17 +40,15 @@ namespace MisMarcadores.Log
             return LogsEnFecha;
         }
 
-        public void InsertarAccion(string nombreUsuario)
+        public void InsertarAccion(string nombreUsuario, string accion)
         {
             MisMarcadores.Data.Entities.Log aInsertar = new MisMarcadores.Data.Entities.Log();
-            aInsertar.Accion = "Login";
+            aInsertar.Accion = accion;
             aInsertar.Fecha = DateTime.Now;
             aInsertar.Usuario = nombreUsuario;
             _logRepository.Insert(aInsertar);
             _unitOfWork.Save();
         }
-
-
     }
 
     public class FilterDateTime

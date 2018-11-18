@@ -44,7 +44,7 @@ namespace MisMarcadores.Web.Api.Controllers
             try
             {
                 Sesion sesionCreada = _sesionesService.Login(datosLogin.NombreUsuario, datosLogin.Contraseña);
-                _logService.InsertarAccion(datosLogin.NombreUsuario);
+                _logService.InsertarAccion(datosLogin.NombreUsuario, "Login");
                 return Ok(new { token = sesionCreada.Token });
             }
             catch (NullReferenceException)

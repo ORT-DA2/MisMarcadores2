@@ -34,6 +34,22 @@ namespace MisMarcadores.Logic
                 throw new NoExisteDeporteException();
 
             ICollection<ParticipanteEncuentro> Puntajes = encuentro.ParticipanteEncuentro;
+
+            if (Puntajes==null)
+                throw new NoExisteParticipanteException();
+
+            if (Puntajes.Count == 0)
+                throw new NoExisteParticipanteException();
+
+            if (Puntajes.Count < 2)
+                throw new CantidadIncorrectaDePartcipantesException();
+
+            if (!deporte.EsIndividual && Puntajes.Count != 2)
+                throw new CantidadIncorrectaDePartcipantesException();
+
+            if (HayPartcipanteRepetido(Puntajes))
+                throw new ParticipantesRepetidoException();
+
             foreach (ParticipanteEncuentro p in Puntajes)
             {
                 p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
@@ -41,17 +57,7 @@ namespace MisMarcadores.Logic
                     throw new NoCoincideDeporteException();               
             }
             
-            if (Puntajes.Count == 0)
-                throw new NoExisteParticipanteException();
-
-            if (Puntajes.Count < 2)              
-                    throw new CantidadIncorrectaDePartcipantesException();
-
-            if (!deporte.EsIndividual && Puntajes.Count != 2)
-                throw new CantidadIncorrectaDePartcipantesException();
-
-            if (HayPartcipanteRepetido(Puntajes))
-                throw new ParticipantesRepetidoException();
+            
 
 
             //if (_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteLocal.Id) ||
@@ -125,9 +131,12 @@ namespace MisMarcadores.Logic
         {
              
             Encuentro encuentro = _encuentrosRepository.ObtenerEncuentroPorId(id);
-            foreach (ParticipanteEncuentro p in encuentro.ParticipanteEncuentro)
+            if (encuentro != null)
             {
-                p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
+                foreach (ParticipanteEncuentro p in encuentro.ParticipanteEncuentro)
+                {
+                    p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
+                }
             }
             return encuentro;
         }
@@ -136,13 +145,17 @@ namespace MisMarcadores.Logic
         {
 
             IEnumerable<Encuentro>  encuentros = _encuentrosRepository.ObtenerEncuentros();
-            foreach (Encuentro e in encuentros)
+            if (encuentros != null)
             {
-                foreach (ParticipanteEncuentro p in e.ParticipanteEncuentro)
+                foreach (Encuentro e in encuentros)
                 {
-                    p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
+                    foreach (ParticipanteEncuentro p in e.ParticipanteEncuentro)
+                    {
+                        p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
+                    }
                 }
             }
+            
 
             return encuentros;
         }
@@ -175,8 +188,10 @@ namespace MisMarcadores.Logic
             Deporte deporteActual = _deportesRepository.ObtenerDeportePorNombre(deporte);
             if (deporteActual == null)
                 throw new NoExisteDeporteException();
+            if (deporteActual.EsIndividual)
+                throw new TipoDeFixtureIncompatibleException();
             List<Participante> participantes = _participantesRepository.ObtenerParticipantesPorDeporte(deporte);
-            if (participantes == null || participantes.Count == 1)
+            if (participantes == null || participantes.Count == 1 || participantes.Count == 0)
                 throw new NoExistenParticipantesException();
             Fixture fixture = GenerarFixture(fechaInicio, tipo, participantes);
             List<Encuentro> encuentros = fixture.GenerarFixture();

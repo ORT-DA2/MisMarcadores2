@@ -9,7 +9,8 @@ namespace MisMarcadores.Logic
     {
         private readonly DateTime fechaInicio;
         private readonly List<Participante> participantes;
-        
+     
+
         public FixtureLiga(DateTime fechaInicio, List<Participante> participantes)
         {
             this.fechaInicio = fechaInicio;
@@ -26,12 +27,17 @@ namespace MisMarcadores.Logic
                 {
                     if (i != j)
                     {
-                        Encuentro encuentro = new Encuentro
-                        {
-                            //ParticipanteLocal = participantes[i],
-                            //ParticipanteVisitante = participantes[j],
-                            FechaHora = fechaInicio.AddDays(fechaEncuentro)
-                        };
+                        Encuentro encuentro = new Encuentro();
+                        encuentro.FechaHora = fechaInicio.AddDays(fechaEncuentro);
+                        encuentro.Id = new Guid();
+                        ICollection<ParticipanteEncuentro> participanteEncuentros = new List<ParticipanteEncuentro>();
+                        ParticipanteEncuentro participanteEncuentroUno = new ParticipanteEncuentro();
+                        participanteEncuentroUno.ParticipanteId = participantes[i].Id;
+                        ParticipanteEncuentro participanteEncuentroDos = new ParticipanteEncuentro();
+                        participanteEncuentroDos.ParticipanteId = participantes[j].Id;
+                        participanteEncuentros.Add(participanteEncuentroUno);
+                        participanteEncuentros.Add(participanteEncuentroDos);
+                        encuentro.ParticipanteEncuentro = participanteEncuentros;
                         encuentros.Add(encuentro);
                         fechaEncuentro += 3;
                     }
