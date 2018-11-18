@@ -1,8 +1,9 @@
 export interface UsuarioRequest {
+    id: string;
+    nombreUsuario: string;
     nombre: string;
     apellido: string;
     mail: string;
-    nombreUsuario: string;
-    contrasena: string;
+    contraseña: string;
     administrador: boolean;
 }
