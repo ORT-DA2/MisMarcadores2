@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MisMarcadores.Logic
 {
-    class TipoDeFixtureIncompatibleException : LogicException
+    public class TipoDeFixtureIncompatibleException : LogicException
     {
     }
 }

@@ -26,13 +26,6 @@ namespace MisMarcadores.Logic.Tests
             return participantes.FirstOrDefault();
         }
 
-        public static Encuentro ObtenerEncuentroFalso()
-        {
-            List<Encuentro> encuentros = ObtenerEncuentrosFalsos().ToList();
-            return encuentros.FirstOrDefault();
-        }
-
-
         public static List<Usuario> ObtenerUsuariosFalsos()
         {
             return new List<Usuario>
@@ -224,12 +217,27 @@ namespace MisMarcadores.Logic.Tests
         }
 
 
-        public static Encuentro ObtenerEncuentroUno() {
-            return new Encuentro {
-                FechaHora = DateTime.Now,
-                Deporte = new Deporte { Nombre = "Futbol" },
-                Id = Guid.NewGuid(),
-            };
+        public static Encuentro ObtenerEncuentroFalso() {
+            Encuentro encuentro = new Encuentro();
+            encuentro.FechaHora = DateTime.Now;
+            encuentro.Id = Guid.NewGuid();
+            Deporte deporte = new Deporte();
+            deporte.Nombre = "Futbol";
+            deporte.Id = Guid.NewGuid();
+            encuentro.Deporte = deporte;    
+            ICollection<ParticipanteEncuentro> participanteEncuentros = new List<ParticipanteEncuentro>();
+            ParticipanteEncuentro participanteEncuentroUno = new ParticipanteEncuentro();
+            Participante participanteUno = ObtenerParticipanteUno();
+            Participante participanteDos = ObtenerParticipanteDos();
+            participanteEncuentroUno.ParticipanteId = participanteUno.Id;
+            participanteEncuentroUno.Participante = participanteUno;
+            ParticipanteEncuentro participanteEncuentroDos = new ParticipanteEncuentro();
+            participanteEncuentroDos.ParticipanteId = participanteDos.Id;
+            participanteEncuentroDos.Participante = participanteDos;
+            participanteEncuentros.Add(participanteEncuentroUno);
+            participanteEncuentros.Add(participanteEncuentroDos);
+            encuentro.ParticipanteEncuentro = participanteEncuentros;
+            return encuentro;
         }
 
         public static Encuentro ObtenerEncuentroDos()
@@ -274,7 +282,7 @@ namespace MisMarcadores.Logic.Tests
 
         public static List<ParticipanteEncuentro> ObtenerParticipantesEncuentro() {
             List<ParticipanteEncuentro> participantesEncuentro = new List<ParticipanteEncuentro>();
-            Encuentro encuentro = ObtenerEncuentroUno();
+            Encuentro encuentro = ObtenerEncuentroFalso();
             Participante participanteUno = ObtenerParticipanteUno();
             Participante participanteDos = ObtenerParticipanteDos();
             ParticipanteEncuentro participanteEncuentroUno = new ParticipanteEncuentro();
@@ -303,7 +311,7 @@ namespace MisMarcadores.Logic.Tests
         public static List<Encuentro> ObtenerEncuentrosFalsos()
         {
             List<Encuentro> encuentros = new List<Encuentro>();
-            Encuentro encuentroUno = ObtenerEncuentroUno();
+            Encuentro encuentroUno = ObtenerEncuentroFalso();
             Encuentro encuentroDos = ObtenerEncuentroDos();
             encuentros.Add(encuentroUno);
             encuentros.Add(encuentroDos);

@@ -66,6 +66,12 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return StatusCode(409, "Ya existe un encuentro en esa fecha para el/los equipos seleccionados.");
             }
+            catch (TipoDeFixtureIncompatibleException)
+            {
+                return StatusCode(409, "El tipo de deporte no es compatible con el fixture deseado");
+            }
+
+            
         }
 
     }

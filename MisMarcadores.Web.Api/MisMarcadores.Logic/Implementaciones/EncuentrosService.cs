@@ -178,7 +178,7 @@ namespace MisMarcadores.Logic
             if (deporteActual.EsIndividual)
                 throw new TipoDeFixtureIncompatibleException();
             List<Participante> participantes = _participantesRepository.ObtenerParticipantesPorDeporte(deporte);
-            if (participantes == null || participantes.Count == 1)
+            if (participantes == null || participantes.Count == 1 || participantes.Count == 0)
                 throw new NoExistenParticipantesException();
             Fixture fixture = GenerarFixture(fechaInicio, tipo, participantes);
             List<Encuentro> encuentros = fixture.GenerarFixture();
