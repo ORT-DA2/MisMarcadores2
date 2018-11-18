@@ -1,0 +1,18 @@
+<div id="navbar">
+    <div
+      *ngFor="let item of items" class="navitem"
+
+      [class.selected]="item.uri === uri"
+      [class.notselected]="item.uri !== uri"
+
+      [routerLink]="item.uri">
+        <p>{{ item.name }}</p>
+    </div>
+
+    <div class="divider"></div>
+    
+    <div class="logout" >
+      <p class="username">{{nombreUsuario}}</p>
+      <p class="navitem dark" (click)="logout()">Cerrar Sesión</p>
+    </div>
+</div>
