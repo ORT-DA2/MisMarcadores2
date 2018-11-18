@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Session } from '../interfaces/session';
+import { Sesion } from '../interfaces/sesion';
 
 const tokenKey = 'currentToken';
 
 @Injectable()
-export class SessionService {
+export class SesionService {
 
     attemptedUrl: string;
     tokenChanged = new Subject<string>();
 
     constructor() {
-        this.attemptedUrl = 'home';
+        this.attemptedUrl = '/home';
     }
 
     isAuthenticated(): boolean {
-        return this.getToken() !== null;
+        return this.getToken() !== 'no-token';
     }
 
     setToken(token: string): void {
@@ -27,20 +27,14 @@ export class SessionService {
     }
 
     getToken(): string {
-        return localStorage.getItem('token');
+        return localStorage.getItem('token') || 'no-token';
     }
 
-    setSession(session: Session) {
-        localStorage.setItem('token', session.id);
-        localStorage.setItem('role', session.admin);
-    }
-
-    isAdmin(): boolean {
-        return localStorage.getItem('role') === 'Admin';
+    setSesion(sesion: Sesion) {
+        localStorage.setItem('token', sesion.token);
     }
 
     logOff() {
         localStorage.removeItem('token');
-        localStorage.removeItem('role');
     }
 }

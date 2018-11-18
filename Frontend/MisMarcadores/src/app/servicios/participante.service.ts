@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
-import { SessionService } from './session.service';
+import { SesionService } from './sesion.service';
 import { environment } from '../../environments/environment';
 import { Participante } from '../interfaces/participante-request.interface';
 
@@ -11,11 +11,11 @@ export class ParticipanteService {
 
   private headers: HttpHeaders;
 
-    constructor(private http: HttpClient, private sessionService: SessionService) {
+    constructor(private http: HttpClient, private sesionService: SesionService) {
     }
 
     getHeader(): HttpHeaders {
-      return new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': this.sessionService.getToken() });
+      return new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': this.sesionService.getToken() });
     }
 
     getParticipantes(): Observable<Participante[]> {
