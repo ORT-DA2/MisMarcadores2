@@ -9,7 +9,7 @@ namespace MisMarcadores.Logic
     {
         private readonly DateTime fechaInicio;
         private readonly List<Participante> participantes;
-        //private readonly List<ParticipanteEncuentro> participantes;
+     
 
         public FixtureLiga(DateTime fechaInicio, List<Participante> participantes)
         {

@@ -18,12 +18,20 @@ namespace MisMarcadores.Logic.Tests
             var encuentrosEsperados = TestHelper.ObtenerEncuentrosFalsos();
 
             var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
+
+            for (int i = 0; i < 2; i++)            
+                for (int j = 0; j < 2; j++)               
+                  mockParticipantesRepository
+                 .Setup(r => r.ObtenerParticipantePorId(encuentrosEsperados.ToList()[i].ParticipanteEncuentro.ToList()[j].ParticipanteId))
+                 .Returns(encuentrosEsperados.ToList()[i].ParticipanteEncuentro.ToList()[j].Participante);
+                        
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockEncuentrosRepository
                 .Setup(r => r.ObtenerEncuentros())
                 .Returns(encuentrosEsperados);
-
-            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, null);
+        
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, mockParticipantesRepository.Object);
 
             //Act
             IEnumerable<Encuentro> obtainedResult = businessLogic.ObtenerEncuentros();
@@ -42,6 +50,7 @@ namespace MisMarcadores.Logic.Tests
 
             var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+
             mockEncuentrosRepository
                 .Setup(r => r.ObtenerEncuentros())
                 .Returns(encuentrosEsperados);
@@ -64,13 +73,17 @@ namespace MisMarcadores.Logic.Tests
             var fakeId = fakeEncuentro.Id;
 
             var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockEncuentrosRepository
                 .Setup(r => r.ObtenerEncuentroPorId(fakeId))
                 .Returns(fakeEncuentro);
+            mockParticipantesRepository
+                 .Setup(r => r.ObtenerParticipantePorId(fakeEncuentro.ParticipanteEncuentro.ToList()[0].ParticipanteId))
+                 .Returns(fakeEncuentro.ParticipanteEncuentro.ToList()[0].Participante);
 
-            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, null);
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, mockParticipantesRepository.Object);
 
             //Act
             Encuentro obtainedResult = businessLogic.ObtenerEncuentroPorId(fakeId);
@@ -115,25 +128,17 @@ namespace MisMarcadores.Logic.Tests
             var mockDeportesRepository = new Mock<IDeportesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            //mockDeportesRepository
-            //      .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre))
-            //      .Returns(fakeEncuentro.Deporte);
-            //mockEncuentrosRepository
-            //    .Setup(r => r.ObtenerEncuentroPorId.
-            //    .Returns(fakeEncuentro.Id);
-            //mockParticipantesRepository
-            //     .Setup(r => r.ObtenerParticipantePorDeporte(fakeEncuentro.Deporte.Nombre, fakeEncuentro.ParticipanteEncuentro.))
-            //     .Returns(fakeEncuentro.ParticipanteLocal);
-            //mockParticipantesRepository
-            //     .Setup(r => r.ObtenerParticipantePorDeporte(fakeEncuentro.Deporte.Nombre, fakeEncuentro.ParticipanteVisitante.Nombre))
-            //     .Returns(fakeEncuentro.ParticipanteVisitante);
-            //mockEncuentrosRepository
-            //    .Setup(r => r.ExisteEncuentroEnFecha(fakeEncuentro.FechaHora, fakeEncuentro.ParticipanteLocal.Id))
-            //    .Returns(false);
-            //mockEncuentrosRepository
-            //    .Setup(r => r.ExisteEncuentroEnFecha(fakeEncuentro.FechaHora, fakeEncuentro.ParticipanteVisitante.Id))
-            //    .Returns(false);
-            //mockEncuentrosRepository.Setup(r => r.Insert(fakeEncuentro));
+            mockDeportesRepository
+                   .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre))
+                   .Returns(fakeEncuentro.Deporte);
+
+            mockParticipantesRepository
+                 .Setup(r => r.ObtenerParticipantePorId(fakeEncuentro.ParticipanteEncuentro.ToList()[0].ParticipanteId))
+                 .Returns(fakeEncuentro.ParticipanteEncuentro.ToList()[0].Participante);
+
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantePorId(fakeEncuentro.ParticipanteEncuentro.ToList()[1].ParticipanteId))
+                .Returns(fakeEncuentro.ParticipanteEncuentro.ToList()[1].Participante);
 
             var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object,
                 mockDeportesRepository.Object, mockParticipantesRepository.Object);
@@ -147,16 +152,29 @@ namespace MisMarcadores.Logic.Tests
 
         [TestMethod]
         [ExpectedException(typeof(EncuentroDataException))]
-        public void AgregarEncuentroParticipanteNombreVacioTest()
+        public void AgregarEncuentroConDatosInvalidosTest()
         {
-            var fakeEncuentro = TestHelper.ObtenerEncuentroParticipanteNombreVacio();
+            var fakeEncuentro = TestHelper.ObtenerEncuentroSinDeporte();
+
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
             var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            var mockDeportesRepository = new Mock<IDeportesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            mockEncuentrosRepository
-                .Setup(r => r.Insert(fakeEncuentro));
+            mockDeportesRepository
+                   .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre))
+                   .Returns(fakeEncuentro.Deporte);
 
-            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, null);
+            mockParticipantesRepository
+                 .Setup(r => r.ObtenerParticipantePorId(fakeEncuentro.ParticipanteEncuentro.ToList()[0].ParticipanteId))
+                 .Returns(fakeEncuentro.ParticipanteEncuentro.ToList()[0].Participante);
+
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantePorId(fakeEncuentro.ParticipanteEncuentro.ToList()[1].ParticipanteId))
+                .Returns(fakeEncuentro.ParticipanteEncuentro.ToList()[1].Participante);
+
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object,
+                mockDeportesRepository.Object, mockParticipantesRepository.Object);
 
             //Act
             businessLogic.AgregarEncuentro(fakeEncuentro);
@@ -190,118 +208,117 @@ namespace MisMarcadores.Logic.Tests
 
         [TestMethod]
         [ExpectedException(typeof(NoExisteParticipanteException))]
-        public void AgregarEncuentroParticipanteLocalNoExistenteErrorTest()
+        public void AgregarEncuentroSinParticipanteErrorTest()
         {
-            //var fakeEncuentro = TestHelper.ObtenerEncuentroFalso();
+            var fakeEncuentro = TestHelper.ObtenerEncuentroSinParticipantes();
 
-            //var mockParticipantesRepository = new Mock<IParticipantesRepository>();
-            //var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
-            //var mockDeportesRepository = new Mock<IDeportesRepository>();
-            //var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
+            var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            var mockDeportesRepository = new Mock<IDeportesRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            //mockDeportesRepository
-            //     .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre))
-            //     .Returns(fakeEncuentro.Deporte);
-            //mockParticipantesRepository
-            //     .Setup(r => r.ObtenerParticipantePorDeporte(fakeEncuentro.Deporte.Nombre, fakeEncuentro.ParticipanteLocal.Nombre))
-            //     .Returns((Participante)null);
-            //mockEncuentrosRepository.Setup(r => r.Insert(fakeEncuentro));
+            mockDeportesRepository
+                 .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre))
+                 .Returns(fakeEncuentro.Deporte);                   
+            mockEncuentrosRepository.Setup(r => r.Insert(fakeEncuentro));
 
-            //var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, 
-            //    mockDeportesRepository.Object, mockParticipantesRepository.Object);
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object,
+                mockDeportesRepository.Object, mockParticipantesRepository.Object);
 
-            ////Act
-            //businessLogic.AgregarEncuentro(fakeEncuentro);
+            //Act
+            businessLogic.AgregarEncuentro(fakeEncuentro);
 
-            ////Assert
-            //mockParticipantesRepository.VerifyAll();
+            //Assert
+            mockParticipantesRepository.VerifyAll();
+        }
+        
+        [TestMethod]
+        [ExpectedException(typeof(CantidadIncorrectaDePartcipantesException))]
+        public void AgregarEncuentroConCantidadIncorrectaParticipantesError()
+        {
+            var fakeEncuentro = TestHelper.ObtenerEncuentroNumeroIncorrectoParticipantes();
+
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
+            var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            var mockDeportesRepository = new Mock<IDeportesRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockDeportesRepository
+                 .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre))
+                 .Returns(fakeEncuentro.Deporte);
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantePorId(fakeEncuentro.ParticipanteEncuentro.ToList()[0].ParticipanteId))
+                .Returns(fakeEncuentro.ParticipanteEncuentro.ToList()[0].Participante);
+            mockEncuentrosRepository.Setup(r => r.Insert(fakeEncuentro));
+
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object,
+                mockDeportesRepository.Object, mockParticipantesRepository.Object);
+
+            //Act
+            businessLogic.AgregarEncuentro(fakeEncuentro);
+
+            //Assert
+            mockParticipantesRepository.VerifyAll();
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ExisteEncuentroEnFecha))]
-        public void AgregarEncuentroParticipanteLocalExisteEncuentroEnFechaErrorTest()
+        [ExpectedException(typeof(ParticipantesRepetidoException))]
+        public void AgregarEncuentroParticipanteRepetido()
         {
-            //var fakeEncuentro = TestHelper.ObtenerEncuentroFalso();
+            //Arrange
+            var fakeEncuentro = TestHelper.ObtenerEncuentroParticipanteRepetido();
 
-            //var mockParticipantesRepository = new Mock<IParticipantesRepository>();
-            //var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
-            //var mockDeportesRepository = new Mock<IDeportesRepository>();
-            //var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
+            var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            var mockDeportesRepository = new Mock<IDeportesRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            //mockDeportesRepository
-            //     .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre))
-            //     .Returns(fakeEncuentro.Deporte);
-            //mockParticipantesRepository
-            //     .Setup(r => r.ObtenerParticipantePorDeporte(fakeEncuentro.Deporte.Nombre, fakeEncuentro.ParticipanteLocal.Nombre))
-            //     .Returns(fakeEncuentro.ParticipanteLocal);
-            //mockParticipantesRepository
-            //     .Setup(r => r.ObtenerParticipantePorDeporte(fakeEncuentro.Deporte.Nombre, fakeEncuentro.ParticipanteVisitante.Nombre))
-            //     .Returns(fakeEncuentro.ParticipanteVisitante);
-            //mockEncuentrosRepository
-            //    .Setup(r => r.ExisteEncuentroEnFecha(fakeEncuentro.FechaHora, fakeEncuentro.ParticipanteLocal.Id))
-            //    .Returns(true);
-            //mockEncuentrosRepository.Setup(r => r.Insert(fakeEncuentro));
+            mockDeportesRepository
+                   .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre))
+                   .Returns(fakeEncuentro.Deporte);
 
-            //var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object,
-            //    mockDeportesRepository.Object, mockParticipantesRepository.Object);
+            mockParticipantesRepository
+                 .Setup(r => r.ObtenerParticipantePorId(fakeEncuentro.ParticipanteEncuentro.ToList()[0].ParticipanteId))
+                 .Returns(fakeEncuentro.ParticipanteEncuentro.ToList()[0].Participante);
 
-            ////Act
-            //businessLogic.AgregarEncuentro(fakeEncuentro);
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantePorId(fakeEncuentro.ParticipanteEncuentro.ToList()[1].ParticipanteId))
+                .Returns(fakeEncuentro.ParticipanteEncuentro.ToList()[1].Participante);
 
-            ////Assert
-            //mockParticipantesRepository.VerifyAll();
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object,
+                mockDeportesRepository.Object, mockParticipantesRepository.Object);
+
+            //Act
+            businessLogic.AgregarEncuentro(fakeEncuentro);
+
+            //Assert
+            mockEncuentrosRepository.VerifyAll();
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(ExisteEncuentroEnFecha))]
-        public void AgregarEncuentroParticipanteVisitanteExisteEncuentroEnFechaErrorTest()
-        {
-            //var fakeEncuentro = TestHelper.ObtenerEncuentroFalso();
-
-            //var mockParticipantesRepository = new Mock<IParticipantesRepository>();
-            //var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
-            //var mockDeportesRepository = new Mock<IDeportesRepository>();
-            //var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            //mockDeportesRepository
-            //     .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre))
-            //     .Returns(fakeEncuentro.Deporte);
-            //mockParticipantesRepository
-            //     .Setup(r => r.ObtenerParticipantePorDeporte(fakeEncuentro.Deporte.Nombre, fakeEncuentro.ParticipanteLocal.Nombre))
-            //     .Returns(fakeEncuentro.ParticipanteLocal);
-            //mockParticipantesRepository
-            //     .Setup(r => r.ObtenerParticipantePorDeporte(fakeEncuentro.Deporte.Nombre, fakeEncuentro.ParticipanteVisitante.Nombre))
-            //     .Returns(fakeEncuentro.ParticipanteVisitante);
-            //mockEncuentrosRepository
-            //    .Setup(r => r.ExisteEncuentroEnFecha(fakeEncuentro.FechaHora, fakeEncuentro.ParticipanteVisitante.Id))
-            //    .Returns(true);
-            //mockEncuentrosRepository.Setup(r => r.Insert(fakeEncuentro));
-
-            //var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object,
-            //    mockDeportesRepository.Object, mockParticipantesRepository.Object);
-
-            ////Act
-            //businessLogic.AgregarEncuentro(fakeEncuentro);
-
-            ////Assert
-            //mockParticipantesRepository.VerifyAll();
-        }
-
+             
         [TestMethod]
         public void BorrarEncuentroOkTest()
         {
             //Arrange
             var fakeEncuentro = TestHelper.ObtenerEncuentroFalso();
             var fakeEncuentroId = fakeEncuentro.Id;
-
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+
             mockEncuentrosRepository
                 .Setup(r => r.ObtenerEncuentroPorId(fakeEncuentroId)).Returns(fakeEncuentro);
+
+            mockParticipantesRepository
+                 .Setup(r => r.ObtenerParticipantePorId(fakeEncuentro.ParticipanteEncuentro.ToList()[0].ParticipanteId))
+                 .Returns(fakeEncuentro.ParticipanteEncuentro.ToList()[0].Participante);
+
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantePorId(fakeEncuentro.ParticipanteEncuentro.ToList()[1].ParticipanteId))
+                .Returns(fakeEncuentro.ParticipanteEncuentro.ToList()[1].Participante);
             mockEncuentrosRepository
                 .Setup(r => r.BorrarEncuentro(fakeEncuentroId));
 
-            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, null);
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, mockParticipantesRepository.Object);
 
             //Act
             businessLogic.BorrarEncuentro(fakeEncuentroId);
@@ -320,7 +337,7 @@ namespace MisMarcadores.Logic.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
             mockEncuentrosRepository
-                .Setup(r => r.ObtenerEncuentroPorId(fakeEncuentroId)).Returns((Encuentro) null);
+                .Setup(r => r.ObtenerEncuentroPorId(fakeEncuentroId)).Returns((Encuentro)null);
 
             var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, null);
 
@@ -330,27 +347,7 @@ namespace MisMarcadores.Logic.Tests
             //Assert
             mockEncuentrosRepository.VerifyAll();
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(EncuentroDataException))]
-        public void ActualizarEncuentroDatosInvalidosTest()
-        {
-            var fakeEncuentro = TestHelper.ObtenerEncuentroParticipanteNombreVacio();
-            var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            mockEncuentrosRepository
-                .Setup(r => r.ModificarEncuentro(fakeEncuentro));
-
-            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, null, null);
-
-            //Act
-            businessLogic.AgregarEncuentro(fakeEncuentro);
-
-            //Assert
-            mockEncuentrosRepository.VerifyAll();
-        }
-
+            
         [TestMethod]
         [ExpectedException(typeof(NoExisteDeporteException))]
         public void ActualizarEncuentroDeporteNoExistenteErrorTest()
@@ -372,73 +369,6 @@ namespace MisMarcadores.Logic.Tests
 
             //Assert
             mockEncuentrosRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(NoExisteParticipanteException))]
-        public void ActualizarEncuentroParticipanteNoExistenteTest()
-        {
-            ////Arrange
-            //var fakeEncuentro = TestHelper.ObtenerEncuentroFalso();
-            //var fakeParticipanteId = fakeEncuentro.ParticipanteLocal.Id;
-            //var mockParticipantesRepository = new Mock<IParticipantesRepository>();
-            //var mockDeportesRepository = new Mock<IDeportesRepository>();
-            //var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
-            //var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            //mockDeportesRepository
-            //     .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre))
-            //     .Returns(fakeEncuentro.Deporte);
-            //mockParticipantesRepository
-            //    .Setup(r => r.ObtenerParticipantePorDeporte(fakeEncuentro.Deporte.Nombre, fakeEncuentro.ParticipanteLocal.Nombre))
-            //    .Returns((Participante)null);
-
-            //var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object, mockDeportesRepository.Object, mockParticipantesRepository.Object);
-
-            ////Act
-            //businessLogic.ModificarEncuentro(fakeEncuentro.Id, fakeEncuentro);
-
-            ////Assert
-            //mockParticipantesRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ExisteEncuentroEnFecha))]
-        public void ActualizarEncuentroParticipanteExisteEncuentroEnFechaErrorTest()
-        {
-            //var fakeEncuentro = TestHelper.ObtenerEncuentroFalso();
-            //var fakeNuevoEncuentro = TestHelper.ObtenerNuevoEncuentroFalso();
-
-            //var mockParticipantesRepository = new Mock<IParticipantesRepository>();
-            //var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
-            //var mockDeportesRepository = new Mock<IDeportesRepository>();
-            //var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            //mockDeportesRepository
-            //     .Setup(r => r.ObtenerDeportePorNombre(fakeNuevoEncuentro.Deporte.Nombre))
-            //     .Returns(fakeEncuentro.Deporte);
-            //mockParticipantesRepository
-            //     .Setup(r => r.ObtenerParticipantePorDeporte(fakeNuevoEncuentro.Deporte.Nombre, fakeNuevoEncuentro.ParticipanteLocal.Nombre))
-            //     .Returns(fakeNuevoEncuentro.ParticipanteLocal);
-            //mockParticipantesRepository
-            //     .Setup(r => r.ObtenerParticipantePorDeporte(fakeNuevoEncuentro.Deporte.Nombre, fakeNuevoEncuentro.ParticipanteVisitante.Nombre))
-            //     .Returns(fakeNuevoEncuentro.ParticipanteVisitante);
-            //mockEncuentrosRepository
-            //     .Setup(r => r.ObtenerEncuentroPorId(fakeEncuentro.Id))
-            //     .Returns(fakeEncuentro);
-            //mockEncuentrosRepository
-            //    .Setup(r => r.ExisteEncuentroEnFecha(fakeNuevoEncuentro.FechaHora, fakeNuevoEncuentro.ParticipanteLocal.Id))
-            //    .Returns(true);
-            //mockEncuentrosRepository.Setup(r => r.ModificarEncuentro(fakeEncuentro));
-
-            //var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object,
-            //    mockDeportesRepository.Object, mockParticipantesRepository.Object);
-
-            ////Act
-            //businessLogic.ModificarEncuentro(fakeEncuentro.Id, fakeNuevoEncuentro);
-
-            ////Assert
-            //mockParticipantesRepository.VerifyAll();
         }
 
         [TestMethod]
@@ -487,6 +417,40 @@ namespace MisMarcadores.Logic.Tests
             mockEncuentrosRepository.VerifyAll();
             Assert.IsNotNull(obtainedResult);
             Assert.AreEqual(encuentrosEsperados, obtainedResult);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NoCoincideDeporteException))]
+        public void AgregarEncuentroNoCoincideDeporteErrorTest()
+        {
+            //Arrange
+            var fakeEncuentro = TestHelper.ObtenerEncuentroFalso();
+
+            var mockParticipantesRepository = new Mock<IParticipantesRepository>();
+            var mockEncuentrosRepository = new Mock<IEncuentrosRepository>();
+            var mockDeportesRepository = new Mock<IDeportesRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockDeportesRepository
+                   .Setup(r => r.ObtenerDeportePorNombre(fakeEncuentro.Deporte.Nombre))
+                   .Returns(new Deporte { Nombre = "Tenis"});
+
+            mockParticipantesRepository
+                 .Setup(r => r.ObtenerParticipantePorId(fakeEncuentro.ParticipanteEncuentro.ToList()[0].ParticipanteId))
+                 .Returns(fakeEncuentro.ParticipanteEncuentro.ToList()[0].Participante);
+
+            mockParticipantesRepository
+                .Setup(r => r.ObtenerParticipantePorId(fakeEncuentro.ParticipanteEncuentro.ToList()[1].ParticipanteId))
+                .Returns(fakeEncuentro.ParticipanteEncuentro.ToList()[1].Participante);
+
+            var businessLogic = new EncuentrosService(mockUnitOfWork.Object, mockEncuentrosRepository.Object,
+                mockDeportesRepository.Object, mockParticipantesRepository.Object);
+
+            //Act
+            businessLogic.AgregarEncuentro(fakeEncuentro);
+
+            //Assert
+            mockEncuentrosRepository.VerifyAll();
         }
     }
 }
