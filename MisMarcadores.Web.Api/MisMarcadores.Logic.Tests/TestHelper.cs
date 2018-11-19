@@ -26,36 +26,6 @@ namespace MisMarcadores.Logic.Tests
             return participantes.FirstOrDefault();
         }
 
-        public static Encuentro ObtenerEncuentroFalso()
-        {
-            List<Encuentro> encuentros = ObtenerEncuentrosFalsos().ToList();
-            return encuentros.FirstOrDefault();
-        }
-
-        public static Encuentro ObtenerNuevoEncuentroFalso()
-        {
-            return new Encuentro
-            {
-                Id = Guid.NewGuid(),
-                FechaHora = DateTime.Today.AddDays(5),
-                //ParticipanteLocal = new Participante
-                //{
-                //    Id = Guid.NewGuid(),
-                //    Nombre = "Defensor",
-                //    Foto = "",
-                //    Deporte = new Deporte { Nombre = "Futbol" }
-                //},
-                //ParticipanteVisitante = new Participante
-                //{
-                //    Id = Guid.NewGuid(),
-                //    Nombre = "Danubio",
-                //    Foto = "",
-                //    Deporte = new Deporte { Nombre = "Futbol" }
-                //},
-                Deporte = new Deporte { Nombre = "Futbol" }
-            };
-        }
-
         public static List<Usuario> ObtenerUsuariosFalsos()
         {
             return new List<Usuario>
@@ -195,6 +165,8 @@ namespace MisMarcadores.Logic.Tests
             };
         }
 
+
+
         public static List<Participante> ObtenerParticipantesFalsos()
         {
             return new List<Participante>
@@ -244,6 +216,157 @@ namespace MisMarcadores.Logic.Tests
             };
         }
 
+
+        public static Encuentro ObtenerEncuentroFalso()
+        {
+            Encuentro encuentro = new Encuentro();
+            encuentro.FechaHora = DateTime.Now;
+            encuentro.Id = Guid.NewGuid();
+            Deporte deporte = new Deporte();
+            deporte.Nombre = "Futbol";
+            deporte.Id = Guid.NewGuid();
+            encuentro.Deporte = deporte;
+            ICollection<ParticipanteEncuentro> participanteEncuentros = new List<ParticipanteEncuentro>();
+            ParticipanteEncuentro participanteEncuentroUno = new ParticipanteEncuentro();
+            Participante participanteUno = ObtenerParticipanteUno();
+            Participante participanteDos = ObtenerParticipanteDos();
+            participanteEncuentroUno.ParticipanteId = participanteUno.Id;
+            participanteEncuentroUno.Participante = participanteUno;
+            ParticipanteEncuentro participanteEncuentroDos = new ParticipanteEncuentro();
+            participanteEncuentroDos.ParticipanteId = participanteDos.Id;
+            participanteEncuentroDos.Participante = participanteDos;
+            participanteEncuentros.Add(participanteEncuentroUno);
+            participanteEncuentros.Add(participanteEncuentroDos);
+            encuentro.ParticipanteEncuentro = participanteEncuentros;
+            return encuentro;
+        }
+
+        public static Encuentro ObtenerEncuentroParticipanteRepetido()
+        {
+            Encuentro encuentro = new Encuentro();
+            encuentro.FechaHora = DateTime.Now;
+            encuentro.Id = Guid.NewGuid();
+            Deporte deporte = new Deporte();
+            deporte.Nombre = "Futbol";
+            deporte.Id = Guid.NewGuid();
+            encuentro.Deporte = deporte;
+            ICollection<ParticipanteEncuentro> participanteEncuentros = new List<ParticipanteEncuentro>();
+            ParticipanteEncuentro participanteEncuentroUno = new ParticipanteEncuentro();
+            Participante participanteUno = ObtenerParticipanteUno();
+            participanteEncuentroUno.ParticipanteId = participanteUno.Id;
+            participanteEncuentroUno.Participante = participanteUno;
+            participanteEncuentros.Add(participanteEncuentroUno);
+            participanteEncuentros.Add(participanteEncuentroUno);
+            encuentro.ParticipanteEncuentro = participanteEncuentros;
+            return encuentro; ;
+        }
+
+        public static Encuentro ObtenerEncuentroFalsoDos()
+        {
+            Encuentro encuentro = new Encuentro();
+            encuentro.FechaHora = DateTime.Now;
+            encuentro.Id = Guid.NewGuid();
+            Deporte deporte = new Deporte();
+            deporte.Nombre = "Futbol";
+            deporte.Id = Guid.NewGuid();
+            encuentro.Deporte = deporte;
+            ICollection<ParticipanteEncuentro> participanteEncuentros = new List<ParticipanteEncuentro>();
+            ParticipanteEncuentro participanteEncuentroUno = new ParticipanteEncuentro();
+            Participante participanteUno = ObtenerParticipanteUno();
+            Participante participanteDos = ObtenerParticipanteDos();
+            participanteEncuentroUno.ParticipanteId = participanteUno.Id;
+            participanteEncuentroUno.Participante = participanteUno;
+            ParticipanteEncuentro participanteEncuentroDos = new ParticipanteEncuentro();
+            participanteEncuentroDos.ParticipanteId = participanteDos.Id;
+            participanteEncuentroDos.Participante = participanteDos;
+            participanteEncuentros.Add(participanteEncuentroUno);
+            participanteEncuentros.Add(participanteEncuentroDos);
+            encuentro.ParticipanteEncuentro = participanteEncuentros;
+            return encuentro;
+        }
+        public static Encuentro ObtenerEncuentroSinParticipantes()
+        {
+            Encuentro encuentro = new Encuentro();
+            encuentro.FechaHora = DateTime.Now;
+            encuentro.Id = Guid.NewGuid();
+            Deporte deporte = new Deporte();
+            deporte.Nombre = "Futbol";
+            deporte.Id = Guid.NewGuid();
+            encuentro.Deporte = deporte;
+            ICollection<ParticipanteEncuentro> participanteEncuentros = new List<ParticipanteEncuentro>();
+            return encuentro;
+        }
+
+        public static Encuentro ObtenerEncuentroNumeroIncorrectoParticipantes()
+        {
+            Encuentro encuentro = new Encuentro();
+            encuentro.FechaHora = DateTime.Now;
+            encuentro.Id = Guid.NewGuid();
+            Deporte deporte = new Deporte();
+            deporte.Nombre = "Futbol";
+            deporte.Id = Guid.NewGuid();
+            encuentro.Deporte = deporte;
+            ICollection<ParticipanteEncuentro> participanteEncuentros = new List<ParticipanteEncuentro>();
+            ParticipanteEncuentro participanteEncuentroUno = new ParticipanteEncuentro();
+            Participante participanteUno = ObtenerParticipanteUno();
+            participanteEncuentroUno.ParticipanteId = participanteUno.Id;
+            participanteEncuentroUno.Participante = participanteUno;
+            participanteEncuentros.Add(participanteEncuentroUno);
+            encuentro.ParticipanteEncuentro = participanteEncuentros;
+            return encuentro;
+        }
+
+        public static Participante ObtenerParticipanteUno()
+        {
+            return new Participante
+            {
+                Id = Guid.NewGuid(),
+                Nombre = "Defensor",
+                Foto = "",
+                Deporte = new Deporte { Nombre = "Futbol" }
+            };
+        }
+        public static Participante ObtenerParticipanteDos()
+        {
+            return new Participante
+            {
+                Id = Guid.NewGuid(),
+                Nombre = "Danubio",
+                Foto = "",
+                Deporte = new Deporte { Nombre = "Futbol" }
+            };
+        }
+        public static Participante ObtenerParticipanteSinNombre()
+        {
+            return new Participante
+            {
+                Id = Guid.NewGuid(),
+                Nombre = "",
+                Foto = "",
+                Deporte = new Deporte { Nombre = "Futbol" }
+            };
+        }
+
+        public static List<ParticipanteEncuentro> ObtenerParticipantesEncuentro()
+        {
+            List<ParticipanteEncuentro> participantesEncuentro = new List<ParticipanteEncuentro>();
+            Encuentro encuentro = ObtenerEncuentroFalso();
+            Participante participanteUno = ObtenerParticipanteUno();
+            Participante participanteDos = ObtenerParticipanteDos();
+            ParticipanteEncuentro participanteEncuentroUno = new ParticipanteEncuentro();
+            participanteEncuentroUno.Encuentro = encuentro;
+            participanteEncuentroUno.EncuentroId = encuentro.Id;
+            participanteEncuentroUno.ParticipanteId = participanteUno.Id;
+            participanteEncuentroUno.Participante = participanteUno;
+            ParticipanteEncuentro participanteEncuentroDos = new ParticipanteEncuentro();
+            participanteEncuentroDos.Encuentro = encuentro;
+            participanteEncuentroDos.EncuentroId = encuentro.Id;
+            participanteEncuentroDos.ParticipanteId = participanteDos.Id;
+            participanteEncuentroDos.Participante = participanteDos;
+            participantesEncuentro.Add(participanteEncuentroUno);
+            participantesEncuentro.Add(participanteEncuentroDos);
+            return participantesEncuentro;
+        }
         public static Participante ObtenerParticipanteNombreVacio()
         {
             return new Participante
@@ -255,73 +378,39 @@ namespace MisMarcadores.Logic.Tests
         }
         public static List<Encuentro> ObtenerEncuentrosFalsos()
         {
-            return new List<Encuentro>
-            {
-                new Encuentro
-                {
-                    Id = Guid.NewGuid(),
-                    FechaHora = DateTime.Today,
-                    //ParticipanteLocal = new Participante
-                    //    {
-                    //        Id = Guid.NewGuid(),
-                    //        Nombre = "Capitol",
-                    //        Foto = "",
-                    //        Deporte = new Deporte {Nombre = "Basket"}
-                    //    },
-                    //ParticipanteVisitante = new Participante
-                    //    {
-                    //        Id = Guid.NewGuid(),
-                    //        Nombre = "Atenas",
-                    //        Foto = "",
-                    //        Deporte = new Deporte {Nombre = "Basket"}
-                    //    },
-                    Deporte = new Deporte {Nombre = "Basket"}
-                },
-                new Encuentro
-                {
-                    Id = Guid.NewGuid(),
-                    FechaHora = DateTime.Today,
-                    //ParticipanteLocal = new Participante
-                    //    {
-                    //        Id = Guid.NewGuid(),
-                    //        Nombre = "Defensor",
-                    //        Foto = "",
-                    //        Deporte = new Deporte {Nombre = "Futbol"}
-                    //    },
-                    //ParticipanteVisitante = new Participante
-                    //    {
-                    //        Id = Guid.NewGuid(),
-                    //        Nombre = "Danubio",
-                    //        Foto = "",
-                    //        Deporte = new Deporte {Nombre = "Futbol"}
-                    //    },
-                    Deporte = new Deporte {Nombre = "Futbol"}
-                }
-            };
+            List<Encuentro> encuentros = new List<Encuentro>();
+            Encuentro encuentroUno = ObtenerEncuentroFalso();
+            Encuentro encuentroDos = ObtenerEncuentroFalsoDos();
+            encuentros.Add(encuentroUno);
+            encuentros.Add(encuentroDos);
+            return encuentros;
+
         }
 
-        public static Encuentro ObtenerEncuentroParticipanteNombreVacio()
+        public static Encuentro ObtenerEncuentroSinDeporte()
         {
-            return new Encuentro
-            {
-                Id = Guid.NewGuid(),
-                FechaHora = DateTime.Today,
-                //ParticipanteLocal = new Participante
-                //{
-                //    Id = Guid.NewGuid(),
-                //    Nombre = "",
-                //    Foto = "",
-                //    Deporte = new Deporte { Nombre = "Basket" }
-                //},
-                //ParticipanteVisitante = new Participante
-                //{
-                //    Id = Guid.NewGuid(),
-                //    Nombre = "Atenas",
-                //    Foto = "",
-                //    Deporte = new Deporte { Nombre = "Basket" }
-                //},
-                Deporte = new Deporte { Nombre = "Basket" }
-            };
+            Encuentro encuentro = new Encuentro();
+            encuentro.FechaHora = DateTime.Now;
+            encuentro.Id = Guid.NewGuid();
+            Deporte deporte = new Deporte();
+            deporte.Id = Guid.NewGuid();
+            encuentro.Deporte = deporte;
+            ICollection<ParticipanteEncuentro> participanteEncuentros = new List<ParticipanteEncuentro>();
+            ParticipanteEncuentro participanteEncuentroUno = new ParticipanteEncuentro();
+            Participante participanteUno = ObtenerParticipanteUno();
+            Participante participanteDos = ObtenerParticipanteDos();
+            participanteEncuentroUno.ParticipanteId = participanteUno.Id;
+            participanteEncuentroUno.Participante = participanteUno;
+            ParticipanteEncuentro participanteEncuentroDos = new ParticipanteEncuentro();
+            participanteEncuentroDos.ParticipanteId = participanteDos.Id;
+            participanteEncuentroDos.Participante = participanteDos;
+            participanteEncuentros.Add(participanteEncuentroUno);
+            participanteEncuentros.Add(participanteEncuentroDos);
+            encuentro.ParticipanteEncuentro = participanteEncuentros;
+            return encuentro;
+
         }
+
+    
     }
 }

@@ -11,6 +11,14 @@ namespace MisMarcadores.Logic
     {
         private IUnitOfWork _unitOfWork;
         private ISesionesRepository _sesionesRepository;
+        private ILogRepository _logRepository;
+
+        public SesionesService(IUnitOfWork unitOfWork, ISesionesRepository sesionesRepository, ILogRepository logRepository)
+        {
+            _unitOfWork = unitOfWork;
+            _sesionesRepository = sesionesRepository;
+            _logRepository = logRepository;
+        }
 
         public SesionesService(IUnitOfWork unitOfWork, ISesionesRepository sesionesRepository)
         {
@@ -50,5 +58,7 @@ namespace MisMarcadores.Logic
         {
             return _sesionesRepository.ObtenerUsuarioPorToken(token);
         }
+
+      
     }
 }
