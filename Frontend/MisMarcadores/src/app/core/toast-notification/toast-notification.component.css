@@ -2,8 +2,13 @@
     width: 35%;
     position: fixed;
     opacity: 0.9;
-    left: 80%;
-    top: 3%;
+    text-align: center;
+    font-size: 18px;
+    left: 50%;
+    top: 10%;
     transform: translate(-50%, 0px);
     z-index: 9999;
+}
+.btn-alert {
+    padding-left: 0;
 }
