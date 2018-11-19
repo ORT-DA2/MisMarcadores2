@@ -9,10 +9,10 @@ import { UsuarioRequest } from '../interfaces/usuario-request.interface';
 
 @Injectable()
 export class UsuarioService {
-  private nombreUsuario: string;
+  //  private nombreUsuario: string;
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private baseApiService: BaseApiService,
     private auth: SesionService,
   ) { }
@@ -21,14 +21,30 @@ export class UsuarioService {
     return this.baseApiService.post<LoginRequest, Sesion>('sesiones', request);
   }
 
-  getUsuario(): Observable<UsuarioRequest> {
-    this.nombreUsuario = localStorage.getItem('nombreUsuario');
-    console.log(this.nombreUsuario);
-    return this.baseApiService.get<UsuarioRequest>(`usuarios/${this.nombreUsuario}`, true);
+  obtenerUsuario(nombreUsuario: string): Observable<UsuarioRequest> {
+    return this.baseApiService.get<UsuarioRequest>(`usuarios/${nombreUsuario}`, true);
+  }
+
+  obtenerUsuarioActual(): Observable<UsuarioRequest> {
+    const usuarioActual = localStorage.getItem('nombreUsuario');
+    return this.baseApiService.get<UsuarioRequest>(`usuarios/${usuarioActual}`, true);
   }
 
   agregarUsuario(request: UsuarioRequest): Observable<any> {
     return this.baseApiService.post<UsuarioRequest, any>('usuarios', request, true);
+  }
+
+  obtenerUsuarios(): Observable<Array<UsuarioRequest>> {
+    return this.baseApiService.get<Array<UsuarioRequest>>('usuarios', true);
+  }
+
+  editarUsuario(request: UsuarioRequest) {
+    const nombreUsuario = request.nombreUsuario;
+    return this.baseApiService.put<UsuarioRequest, any>(`usuarios/${nombreUsuario}`, request, true);
+  }
+
+  borrarUsuario(nombreUsuario: string) {
+    return this.baseApiService.delete(`usuarios/${nombreUsuario}`, true);
   }
 
 }
