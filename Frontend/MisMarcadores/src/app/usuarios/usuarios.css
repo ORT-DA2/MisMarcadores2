@@ -1,0 +1,19 @@
+#form {
+    margin:auto;
+    float: none;
+}
+#buttons {
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+}
+a {
+    color: #2b3e72; 
+}
+#usuarios {
+    margin: 30px auto;
+}
+
+.btn-link {
+    color: #fff;    
+}

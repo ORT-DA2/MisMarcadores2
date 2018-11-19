@@ -1,0 +1,52 @@
+<div id="usuarios-list">
+    <div class="spinner" *ngIf="loading">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <div class='panel panel-primary' *ngIf="!loading">
+        <div class='panel-heading'>
+            Usuarios
+        </div>
+        <div class='panel-body'>
+            <div class='table-responsive'>
+                <table class='table'>
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Mail</th>
+                            <th>Administrador</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor='let aUser of usuarios'>
+                            <td>{{aUser.nombreUsuario}}</td>
+                            <td>{{aUser.nombre}}</td>
+                            <td>{{aUser.apellido}}</td>
+                            <td>{{aUser.mail}}</td>
+                            <td>{{aUser.administrador | yesNo}}</td>
+                            <td>
+                                <button class='btn btn-primary' (click)="editarUsuario(aUser.nombreUsuario)">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button class='btn btn-primary' (click)="borrarUsuario(aUser.nombreUsuario)">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <button class='btn btn-primary btn-agregar' (click)="agregarUsuario()">
+        <i class="glyphicon glyphicon-plus"></i>
+        Agregar
+    </button>
+</div>
