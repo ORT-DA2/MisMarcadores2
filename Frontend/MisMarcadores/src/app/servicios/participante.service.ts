@@ -15,7 +15,7 @@ export class ParticipanteService {
     }
 
     getHeader(): HttpHeaders {
-      return new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': this.sesionService.getToken() });
+      return new HttpHeaders({ 'Content-Type': 'application/json', 'tokenSesion': this.sesionService.getToken() });
     }
 
     getParticipantes(): Observable<Participante[]> {
