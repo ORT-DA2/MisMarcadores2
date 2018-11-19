@@ -20,9 +20,17 @@ export class BaseApiService {
         return this.http.post<any>(`${environment.apiUrl}/${url}`, request, { headers: this.getHeader(isTokenRequired) });
     }
 
+    put<T, Y>(url: string, request: T, isTokenRequired: boolean = false): Observable<Y> {
+        return this.http.put<any>(`${environment.apiUrl}/${url}`, request, { headers: this.getHeader(isTokenRequired) });
+    }
+
+    delete(url: string, isTokenRequired: boolean = false) {
+        return this.http.delete<any>(`${environment.apiUrl}/${url}`, { headers: this.getHeader(isTokenRequired) });
+    }
+
     private getHeader(tokenRequired: boolean): HttpHeaders {
         return tokenRequired ?
-            new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': this.sesionService.getToken() }) :
+            new HttpHeaders({ 'Content-Type': 'application/json', 'tokenSesion': this.sesionService.getToken() }) :
             new HttpHeaders({ 'Content-Type': 'application/json' });
     }
 
