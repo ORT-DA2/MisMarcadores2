@@ -16,9 +16,8 @@
 
 .navitem{
   position: relative;
-
   padding: 0px 10px;
-  color: #9facbd;
+  color: #fff;
   text-align: center;
   text-decoration: none;
   font-weight: bold;
@@ -35,13 +34,8 @@
   color: #3c4859;
 }
 
-.dark{
-  color: #333333;
-}
-
 .logout{
   display: flex;
-  flex-flow: column;
   align-content: center;
   align-items: center;
 }

@@ -30,12 +30,10 @@ export class NavegacionComponent implements OnInit {
     this.router.events.subscribe(event => {
       this.uri = location.pathname.split('/')[1];
     });
-    this.self.getUsuario().subscribe(
+    this.self.obtenerUsuarioActual().subscribe(
       data => {
-        console.log(data);
         this.nombreUsuario = data.nombreUsuario;
-        
-        if(data.administrador){
+        if  (data.administrador)  {
           this.loadAdminMenu();
         }
       }
@@ -44,6 +42,8 @@ export class NavegacionComponent implements OnInit {
 
   private loadAdminMenu(): void {
     this.items.push({ name: 'Usuarios', uri: 'usuarios' });
+    this.items.push({ name: 'Deportes', uri: 'deportes' });
+    this.items.push({ name: 'Participantes', uri: 'participantes' });
     this.items.push({ name: 'Fixtures', uri: 'fixture' });
   }
 
