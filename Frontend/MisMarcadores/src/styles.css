@@ -9,6 +9,10 @@ h1, h2, h3, h4, h5, h6, label, p{
     color: white;
 }
 
+p {
+    margin-bottom: 0;
+}
+
 .ng-valid[required],
 .ng-valid.required {
     border-left: 5px solid #42A948;
@@ -16,10 +20,6 @@ h1, h2, h3, h4, h5, h6, label, p{
 
 .ng-invalid:not(form) {
     border-left: 5px solid #a94442;
-}
-
-.app-margin-bottom {
-    margin-bottom: 1em;
 }
 
 .app-margin-left {
