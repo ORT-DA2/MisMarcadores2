@@ -1,1 +1,25 @@
-<p> Deportes </p>
+<div id="deportes" class="container">
+    <div class="col-xs-8 hidden-print ng-scope" id="form">
+        <h2>{{pageTitle}}</h2>
+        <form name="form" (ngSubmit)="f.form.valid && submitForm()" #f="ngForm" novalidate>
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !name.valid }">
+                <label for="name">Nombre</label>
+                <input type="text" class="form-control" name="name" [(ngModel)]="model.name" #name="ngModel" required />
+                <div *ngIf="f.submitted && !name.valid" class="help-block">El nombre no puede ser vacío</div>
+            </div> 
+            <div *ngIf="!isEditing" class="form-group" [ngClass]="{ 'has-error': f.submitted && !individual.valid }">
+                <label for="individual">¿Es multiple?:</label>
+                <select class="form-control" [(ngModel)]="model.individual" name="individual" #individual="ngModel" required>
+                    <option value="" class=""></option>
+                    <option [value]="true">Si</option>
+                    <option [value]="false">No</option>
+                </select>
+                <div *ngIf="f.submitted && !individual.valid" class="help-block">Debe seleccionar una opción</div>
+            </div>
+            <div class="form-group" id="buttons">
+                <button [disabled]="loading" class="btn btn-primary">{{btnText}}</button>
+                <a [routerLink]="['/deportes']" class="btn btn-link">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

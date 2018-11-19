@@ -1,0 +1,15 @@
+button {
+    display: block;
+}
+.btn-agregar {
+    margin: 30px auto;
+}
+.panel-primary {
+    background: #fff;
+}
+#deportes-list {
+    display: table;
+    text-align: center;
+    margin: auto;
+    padding-top: 45px;
+}

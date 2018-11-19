@@ -1,0 +1,46 @@
+<div id="deportes-list">
+    <div class="spinner" *ngIf="loading">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <div class='panel panel-primary' *ngIf="!loading">
+        <div class='panel-heading'>
+            Deportes
+        </div>
+        <div class='panel-body'>
+            <div class='table-responsive'>
+                <table class='table'>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Individual</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor='let aDeporte of deportes'>
+                            <td>{{aDeporte.nombre}}</td>
+                            <td>{{aDeporte.individual | yesNo}}</td>
+                            <td>
+                                <button class='btn btn-primary' (click)="editarDeporte(aDeporte.nombre)">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button class='btn btn-primary' (click)="borrarDeporte(aDeporte.nombre)">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <button class='btn btn-primary btn-agregar' (click)="agregarDeporte()">
+        <i class="glyphicon glyphicon-plus"></i>
+        Agregar
+    </button>
+</div>
