@@ -19,5 +19,6 @@ namespace MisMarcadores.Logic
         void BorrarEncuentro(Guid id);
         void BorrarTodos();
         bool FixtureGenerado(DateTime fechaInicio, String deporte, String tipo);
+        bool ExisteEcuentroMismoDiaParaParticipantes(Encuentro encuentro);
     }
 }

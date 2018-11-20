@@ -129,6 +129,10 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("Se ha ingresado un participante duplicado");
             }
+            catch (ExisteEncuentroMismoDiaException)
+            {
+                return BadRequest("Algun participante tiene un encuentro ya fijado para la fecha del encuentro actual");
+            }
             
         }
 
@@ -182,6 +186,10 @@ namespace MisMarcadores.Web.Api.Controllers
             catch (ExisteEncuentroEnFecha)
             {
                 return StatusCode(409, "Ya existe un encuentro en esa fecha para el/los equipos seleccionados.");
+            }
+            catch (ExisteEncuentroMismoDiaException)
+            {
+                return BadRequest("Algun participante tiene un encuentro ya fijado para la fecha del encuentro actual");
             }
         }
 
