@@ -1,0 +1,52 @@
+<div id="participantes-list">
+    <div class="spinner" *ngIf="loading">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <div class='panel panel-primary' *ngIf="!loading">
+        <div class='panel-heading'>
+            Participantes
+        </div>
+        <div class='panel-body'>
+            <div class='table-responsive'>
+                <table class='table'>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Foto</th>
+                            <th>Deporte</th>
+                            <th>Es Equipo</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor='let aParticipante of participantes'>
+                            <td>{{aParticipante.nombre}}</td>
+                            <td>
+                                <img src={{aParticipante.foto}} style="height:20px;width:20px" />
+                            </td>
+                            <td>{{aParticipante.deporte}}</td>
+                            <td>{{aParticipante.esEquipo | yesNo}}</td>
+                            <td>
+                                <button class='btn btn-primary' (click)="editarParticipante(aParticipante.id)">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button class='btn btn-primary' (click)="borrarParticipante(aParticipante.id)">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <button class='btn btn-primary btn-agregar' (click)="agregarParticipante()">
+        <i class="glyphicon glyphicon-plus"></i>
+        Agregar
+    </button>
+</div>

@@ -1,0 +1,34 @@
+<div id="participantes" class="container">
+    <div class="col-xs-4 hidden-print ng-scope" id="form">
+        <h2>{{pageTitle}}</h2>
+        <form name="form" (ngSubmit)="f.form.valid && submitForm()" #f="ngForm" novalidate>
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !nombre.valid }">
+                <label for="nombre">Nombre</label>
+                <input type="text" class="form-control" name="nombre" [(ngModel)]="model.nombre" #nombre="ngModel" required />
+                <div *ngIf="f.submitted && !nombre.valid" class="help-block">El nombre no puede ser vacío</div>
+            </div>
+            <div class="form-group img-picker" [ngClass]="{ 'has-error': f.submitted && !foto.valid }" style="color:white">
+                <label for="foto">Foto</label>
+                <input type="file" (change)="onFileChanged($event)" name="foto" [(ngModel)]="model.foto" #foto="ngModel"/>
+            </div>
+            <div *ngIf="!isEditing" class="form-group" [ngClass]="{ 'has-error': f.submitted && !deporte.valid }">
+                <label for="deporte">Deporte</label>
+                <input type="text" class="form-control" name="deporte" [(ngModel)]="model.deporte" #deporte="ngModel" required />
+                <div *ngIf="f.submitted && !deporte.valid" class="help-block">El nombre del deporte no puede ser vacío</div>
+            </div>
+            <div *ngIf="!isEditing" class="form-group" [ngClass]="{ 'has-error': f.submitted && !equipo.valid }">
+                <label for="equipo">Tipo:</label>
+                <select class="form-control" [(ngModel)]="model.equipo" name="equipo" #equipo="ngModel" required>
+                    <option value="" class=""></option>
+                    <option [value]="true">Equipo</option>
+                    <option [value]="false">Atleta</option>
+                </select>
+                <div *ngIf="f.submitted && !equipo.valid" class="help-block">Debe seleccionar una opción</div>
+            </div>
+            <div class="form-group" id="buttons">
+                <button [disabled]="loading" class="btn btn-primary">{{btnText}}</button>
+                <a [routerLink]="['/participantes']" class="btn btn-link">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
