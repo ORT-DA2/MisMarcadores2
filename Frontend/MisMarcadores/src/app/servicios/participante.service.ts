@@ -3,38 +3,39 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import { SesionService } from './sesion.service';
-import { environment } from '../../environments/environment';
-import { Participante } from '../interfaces/participante-request.interface';
+import { BaseApiService } from './base-api.service';
+import { Participante } from '../clases/participante';
+import { ParticipanteRequest } from '../interfaces/participante-request.interface';
 
 @Injectable()
 export class ParticipanteService {
 
   private headers: HttpHeaders;
 
-    constructor(private http: HttpClient, private sesionService: SesionService) {
+    constructor(
+      private http: HttpClient,
+      private baseApiService: BaseApiService,
+      private auth: SesionService) {
     }
 
-    getHeader(): HttpHeaders {
-      return new HttpHeaders({ 'Content-Type': 'application/json', 'tokenSesion': this.sesionService.getToken() });
+    obtenerParticipantes(): Observable<Array<Participante>> {
+      return this.baseApiService.get<Array<Participante>>('participantes', true);
     }
 
-    getParticipantes(): Observable<Participante[]> {
-      return this.http.get<Participante[]>(`${environment.apiUrl}/participantes`, { headers: this.getHeader() });
+    obtenerParticipante(id: string): Observable<Participante> {
+      return this.baseApiService.get<Participante>(`participantes/${id}`, true);
     }
 
-    getParticipante(id: string): Observable<Participante> {
-      if (id) {
-        return this.http.get<Participante>(`${environment.apiUrl}/participantes/${id}`, { headers: this.getHeader() });
-      }
-      return of(null);
+    agregarParticipante(request: ParticipanteRequest): Observable<any> {
+      return this.baseApiService.post<ParticipanteRequest, any>('participantes', request, true);
     }
 
-    post(dto: Participante): Observable<any> {
-      return this.http.post(`${environment.apiUrl}/participantes`, dto, { headers: this.getHeader(), observe: 'response' });
+    editarParticipante(id: string, request: ParticipanteRequest) {
+      return this.baseApiService.put<ParticipanteRequest, any>(`participantes/${id}`, request, true);
     }
 
-    put(dto: Participante): Observable<any> {
-      return this.http.put(`${environment.apiUrl}/participantes`, dto, { headers: this.getHeader(), observe: 'response' });
+    borrarParticipante(id: string) {
+      return this.baseApiService.delete(`participantes/${id}`, true);
     }
 
 }

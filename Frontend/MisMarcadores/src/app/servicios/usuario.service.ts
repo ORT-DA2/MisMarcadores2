@@ -9,7 +9,6 @@ import { UsuarioRequest } from '../interfaces/usuario-request.interface';
 
 @Injectable()
 export class UsuarioService {
-  //  private nombreUsuario: string;
 
   constructor(
     private http: HttpClient,
