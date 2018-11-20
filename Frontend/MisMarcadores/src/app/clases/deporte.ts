@@ -1,6 +1,6 @@
 export class Deporte {
     id: string;
     nombre: string;
-    individual: boolean;
+    esIndividual: boolean;
     constructor() {}
 }
