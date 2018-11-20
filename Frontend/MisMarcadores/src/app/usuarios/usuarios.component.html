@@ -1,5 +1,5 @@
 <div id="usuarios" class="container">
-    <div class="col-xs-8 hidden-print ng-scope" id="form">
+    <div class="col-xs-4 hidden-print ng-scope" id="form">
         <h2>{{pageTitle}}</h2>
         <form name="form" (ngSubmit)="f.form.valid && submitForm()" #f="ngForm" novalidate>
             <div *ngIf="!isEditing" class="form-group" [ngClass]="{ 'has-error': f.submitted && !userName.valid }">
