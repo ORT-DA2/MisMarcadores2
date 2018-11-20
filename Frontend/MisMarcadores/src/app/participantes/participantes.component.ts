@@ -41,7 +41,8 @@ export class ParticipantesComponent implements OnInit {
         this.selectedFile = event.target.files[0];
         const myReader: FileReader = new FileReader();
         myReader.onloadend = (e) => {
-            this.foto = myReader.result;
+            const loader: string = myReader.result as string;
+            this.foto = loader;
         };
         myReader.readAsDataURL(this.selectedFile);
     }

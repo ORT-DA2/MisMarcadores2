@@ -4,11 +4,7 @@
 
 export const environment = {
   production: false,
-<<<<<<< HEAD
   apiUrl: 'http://192.168.7.118:81/api'
-=======
-  apiUrl: 'http://localhost:50495/api'
->>>>>>> develop
 };
 
 /*
