@@ -47,7 +47,7 @@ export class DeporteComponent implements OnInit {
   }
 
   submitForm() {
-      this.setearUsuario();
+      this.setearDeporte();
       if (this.isEditing) {
           this.editarDeporte();
       } else {
@@ -81,17 +81,17 @@ export class DeporteComponent implements OnInit {
 
   handleError(error: HttpErrorResponse): void {
       this.notificationService.display({ message: error.error, severity: 'error' });
-    }
+}
 
-  setearUsuario() {
+  setearDeporte() {
       this.deporte = new Deporte();
       this.deporte.nombre = this.model.name;
-      this.deporte.individual = this.model.individual;
+      this.deporte.esIndividual = this.model.individual;
   }
 
   setearModelo() {
       this.model.name = this.deporte.nombre;
-      this.model.individual = this.deporte.individual;
+      this.model.individual = this.deporte.esIndividual;
   }
 
 }

@@ -22,7 +22,7 @@
                     <tbody>
                         <tr *ngFor='let aDeporte of deportes'>
                             <td>{{aDeporte.nombre}}</td>
-                            <td>{{aDeporte.individual | yesNo}}</td>
+                            <td>{{aDeporte.esIndividual | yesNo}}</td>
                             <td>
                                 <button class='btn btn-primary' (click)="editarDeporte(aDeporte.nombre)">
                                     <i class="glyphicon glyphicon-edit"></i>
