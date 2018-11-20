@@ -1,7 +1,7 @@
-export interface Participante {
+export interface ParticipanteRequest {
     id: string;
     nombre: string;
     foto: string;
-    deporte: string;
+    nombreDeporte: string;
     esEquipo: boolean;
 }
