@@ -15,12 +15,15 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { UsuariosListComponent } from './usuarios/usuarios-list.component';
 import { DeporteComponent } from './deportes/deporte.component';
 import { DeportesListComponent } from './deportes/deportes-list.component';
+import { ParticipantesComponent } from './participantes/participantes.component';
+import { ParticipantesListComponent } from './participantes/participantes-list.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SesionService } from './servicios/sesion.service';
 import { HomeModule } from './home/home.component';
 import { YesNoPipe } from './pipes/yesNo.pipe';
 import { UsuarioService } from './servicios/usuario.service';
 import { DeporteService } from './servicios/deporte.service';
+import { ParticipanteService } from './servicios/participante.service';
 import { BaseApiService } from './servicios/base-api.service';
 import { CoreModule } from './core/core.module';
 
@@ -32,6 +35,9 @@ const appRoutes: Routes = [
   { path: 'deportes', component: DeportesListComponent, canActivate: [TokenGuard] },
   { path: 'deportes/agregar', component: DeporteComponent, canActivate: [TokenGuard] },
   { path: 'deportes/:nombre', component: DeporteComponent, canActivate: [TokenGuard] },
+  { path: 'participantes', component: ParticipantesListComponent, canActivate: [TokenGuard] },
+  { path: 'participantes/agregar', component: ParticipantesComponent, canActivate: [TokenGuard] },
+  { path: 'participantes/:idParticipante', component: ParticipantesComponent, canActivate: [TokenGuard] },
   { path: '**', component: PageNotFoundComponent }
 
 ];
@@ -48,6 +54,8 @@ const appRoutes: Routes = [
     UsuariosComponent,
     DeportesListComponent,
     DeporteComponent,
+    ParticipantesComponent,
+    ParticipantesListComponent,
     YesNoPipe
   ],
   imports: [
@@ -66,6 +74,7 @@ const appRoutes: Routes = [
     SesionService,
     UsuarioService,
     DeporteService,
+    ParticipanteService,
     BaseApiService
   ],
   bootstrap: [AppComponent]
