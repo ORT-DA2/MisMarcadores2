@@ -8,7 +8,6 @@ namespace MisMarcadores.Web.Api.Models
         [Required]
         public string Nombre { get; set; }
 
-        [Required(AllowEmptyStrings = true)]
         public string Foto { get; set; }
 
         [Required]

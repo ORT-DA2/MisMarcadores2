@@ -35,9 +35,13 @@ namespace MisMarcadores.Logic
             if (_participantesRepository.ObtenerParticipantePorDeporte(participante.Deporte.Nombre, participante.Nombre) !=null)
                 throw new ExisteParticipanteException();
 
+            if (participante.EsEquipo == deporte.EsIndividual)
+                throw new ParticipanteDistintoTipoDeporteException();
+
             if (participante.Foto != null) {
                 try {
-                    Convert.FromBase64String(participante.Foto);
+                    string[] pd = participante.Foto.Split(',');
+                    Convert.FromBase64String(pd[1]);
                 }
                 catch (FormatException e) {
                     throw e;
@@ -102,7 +106,8 @@ namespace MisMarcadores.Logic
             {
                 try
                 {
-                    Convert.FromBase64String(participante.Foto);
+                    string[] pd = participante.Foto.Split(',');
+                    Convert.FromBase64String(pd[1]);
                 }
                 catch (FormatException e)
                 {

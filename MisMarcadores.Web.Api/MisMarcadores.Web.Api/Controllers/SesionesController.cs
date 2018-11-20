@@ -43,7 +43,7 @@ namespace MisMarcadores.Web.Api.Controllers
             if (!ModelState.IsValid) return BadRequest("Datos invalidos");
             try
             {
-                Sesion sesionCreada = _sesionesService.Login(datosLogin.NombreUsuario, datosLogin.Contraseña);
+                Sesion sesionCreada = _sesionesService.Login(datosLogin.NombreUsuario, datosLogin.Contrasena);
                 _logService.InsertarAccion(datosLogin.NombreUsuario, "Login");
                 return Ok(new { token = sesionCreada.Token });
             }

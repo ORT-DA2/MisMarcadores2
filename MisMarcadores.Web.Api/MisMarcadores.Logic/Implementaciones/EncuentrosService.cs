@@ -50,20 +50,15 @@ namespace MisMarcadores.Logic
             if (HayPartcipanteRepetido(Puntajes))
                 throw new ParticipantesRepetidoException();
 
+            if (ExisteEcuentroMismoDiaParaParticipantes(encuentro))
+                throw new ExisteEncuentroMismoDiaException();
+
             foreach (ParticipanteEncuentro p in Puntajes)
             {
                 p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
                 if (!p.Participante.Deporte.Equals(deporte))
                     throw new NoCoincideDeporteException();               
             }
-            
-            
-
-
-            //if (_encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteLocal.Id) ||
-            //    _encuentrosRepository.ExisteEncuentroEnFecha(encuentro.FechaHora, participanteVisitante.Id))
-            //    throw new ExisteEncuentroEnFecha();
-
 
             encuentro.ParticipanteEncuentro = Puntajes;
             encuentro.Deporte.Id = deporte.Id;
@@ -106,6 +101,9 @@ namespace MisMarcadores.Logic
             }
 
             DateTime nuevaFecha = encuentro.FechaHora;
+
+            if (ExisteEcuentroMismoDiaParaParticipantes(encuentro))
+                throw new ExisteEncuentroMismoDiaException();
 
             if (Puntajes.Count == 0)
                 throw new NoExisteParticipanteException();
@@ -212,6 +210,41 @@ namespace MisMarcadores.Logic
                 }
             }
             return generado;
+        }
+
+        public bool ExisteEcuentroMismoDiaParaParticipantes(Encuentro encuentro) {
+            foreach (var item in encuentro.ParticipanteEncuentro)
+            {
+                if (ExisteEncuentroMismoDiaParaUnParcipante(item.ParticipanteId, encuentro.FechaHora))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool ExisteEncuentroMismoDiaParaUnParcipante(Guid participanteId, DateTime date ) {
+
+            Participante participante = _participantesRepository.ObtenerParticipantePorId(participanteId);
+            ICollection<Encuentro> encuentros = _encuentrosRepository.ObtenerEncuentros();
+            if (encuentros!=null)
+            {
+                foreach (var encuentro in encuentros)
+                {
+                    foreach (var puntaje in encuentro.ParticipanteEncuentro)
+                    {
+                        if (puntaje.ParticipanteId.Equals(participante.Id) && EsElMismoDia(date, encuentro.FechaHora))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }           
+            return false;
+        }
+
+        private bool EsElMismoDia(DateTime diaUno, DateTime diaDos) {
+            return (diaUno.Year == diaDos.Year && diaUno.Month == diaDos.Month && diaUno.Day == diaDos.Day);
         }
 
         private bool ExisteEncuentroParticipante(DateTime fecha, List<Participante> participantes)
