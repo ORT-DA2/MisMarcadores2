@@ -116,6 +116,8 @@ namespace MisMarcadores.Logic.Tests
             mockEncuentrosRepository.VerifyAll();
             Assert.IsNull(obtainedResult);
         }
+       
+
 
         [TestMethod]
         public void AgregarEncuentroOkTest()
