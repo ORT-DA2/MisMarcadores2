@@ -8,7 +8,7 @@
                 <div *ngIf="f.submitted && !name.valid" class="help-block">El nombre no puede ser vacío</div>
             </div> 
             <div *ngIf="!isEditing" class="form-group" [ngClass]="{ 'has-error': f.submitted && !individual.valid }">
-                <label for="individual">¿Es multiple?:</label>
+                <label for="individual">¿Es individual?:</label>
                 <select class="form-control" [(ngModel)]="model.individual" name="individual" #individual="ngModel" required>
                     <option value="" class=""></option>
                     <option [value]="true">Si</option>
