@@ -22,13 +22,12 @@ export class ParticipantesListComponent implements OnInit {
 
     private result(data: Array<Participante>): void {
         this.participantes = data;
-        console.log(this.participantes);
         this.loading = false;
     }
 
     obtenerParticipantes() {
         this._participantesService.obtenerParticipantes()
-            .subscribe(((data: Array<Participante>) => this.result(data)),
+            .then(((data: Array<Participante>) => this.result(data)),
                 ((error: any) => console.log(error))
             );
     }

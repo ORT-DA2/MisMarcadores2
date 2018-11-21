@@ -5,6 +5,8 @@ import { ParticipanteRequest } from '../clases/participante-request';
 import { ParticipanteService } from '../servicios/participante.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../core/notification.service';
+import { DeporteRequest } from '../interfaces/deporte-request.interface';
+import { DeporteService } from '../servicios/deporte.service';
 
 @Component({
     templateUrl: './participantes.component.html',
@@ -15,6 +17,7 @@ export class ParticipantesComponent implements OnInit {
     pageTitle = 'Nuevo participante';
     model: any = {};
     participante: Participante;
+    deportes: Array<DeporteRequest>;
     participanteRequest: ParticipanteRequest;
     selectedFile: File;
     foto: string;
@@ -25,6 +28,7 @@ export class ParticipantesComponent implements OnInit {
     constructor(private route: ActivatedRoute,
         private router: Router,
         private _participantesService: ParticipanteService,
+        private _deportesService: DeporteService,
         private notificationService: NotificationService) { }
 
     ngOnInit(): void {
@@ -35,7 +39,20 @@ export class ParticipantesComponent implements OnInit {
             this.btnText = 'Actualizar';
             this.obtenerDatosParticipante(this.idActual);
         }
+        this.obtenerDeportes();
     }
+
+    private result(data: Array<DeporteRequest>): void {
+        this.deportes = data;
+    }
+
+    obtenerDeportes() {
+        this._deportesService.obtenerDeportes()
+            .subscribe(((data: Array<DeporteRequest>) => this.result(data)),
+                ((error: any) => console.log(error))
+            );
+    }
+
 
     onFileChanged(event) {
         this.selectedFile = event.target.files[0];
@@ -101,13 +118,11 @@ export class ParticipantesComponent implements OnInit {
         this.participanteRequest.nombre = this.model.nombre;
         this.participanteRequest.foto = this.foto;
         this.participanteRequest.nombreDeporte = this.model.deporte;
-        this.participanteRequest.esEquipo = this.model.equipo;
     }
 
     setearModelo() {
         this.model.nombre = this.participante.nombre;
         this.model.foto = this.participante.foto;
         this.model.deporte = this.participante.deporte.nombre;
-        this.model.equipo = this.participante.esEquipo;
     }
 }
