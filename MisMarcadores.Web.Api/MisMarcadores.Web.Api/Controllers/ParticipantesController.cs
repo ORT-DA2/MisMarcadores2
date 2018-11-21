@@ -108,10 +108,6 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("El nombre del deporte no existe en la BD.");
             }
-            catch (ParticipanteDistintoTipoDeporteException)
-            {
-                return StatusCode(409, "El participante no puede ser agregado a un deporte " + (participanteModelo.EsEquipo ? "individual." : "que admite atletas."));
-            }
             catch (ExisteParticipanteException)
             {
                 return StatusCode(409, "El nombre del participante ya existe para este deporte en la BD.");

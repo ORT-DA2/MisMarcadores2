@@ -35,9 +35,6 @@ namespace MisMarcadores.Logic
             if (_participantesRepository.ObtenerParticipantePorDeporte(participante.Deporte.Nombre, participante.Nombre) !=null)
                 throw new ExisteParticipanteException();
 
-            if (participante.EsEquipo == deporte.EsIndividual)
-                throw new ParticipanteDistintoTipoDeporteException();
-
             if (participante.Foto != null) {
                 try {
                     string[] pd = participante.Foto.Split(',');
