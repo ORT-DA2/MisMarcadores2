@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginRequest } from '../interfaces/login-request';
 import { BaseApiService } from './base-api.service';
 import { Sesion } from '../interfaces/sesion';
-import { SesionService } from '../servicios/sesion.service';
 import { UsuarioRequest } from '../interfaces/usuario-request.interface';
 
 @Injectable()
@@ -12,9 +11,7 @@ export class UsuarioService {
 
   constructor(
     private http: HttpClient,
-    private baseApiService: BaseApiService,
-    private auth: SesionService,
-  ) { }
+    private baseApiService: BaseApiService) { }
 
   postLogin(request: LoginRequest): Observable<Sesion> {
     return this.baseApiService.post<LoginRequest, Sesion>('sesiones', request);
