@@ -16,11 +16,13 @@ namespace MisMarcadores.Web.Api.Controllers
     {
         private IEncuentrosService _encuentrosService { get; set; }
         private ISesionesService _sesionesService { get; set; }
+        private IParticipantesService _participantesService { get; set; }
 
-        public EncuentrosController(IEncuentrosService encuentrosService, ISesionesService sesionesService)
+        public EncuentrosController(IEncuentrosService encuentrosService, ISesionesService sesionesService,IParticipantesService participantesService)
         {
             _encuentrosService = encuentrosService;
             _sesionesService = sesionesService;
+            _participantesService = participantesService;
         }
 
         // GET: api/Encuentros
@@ -63,8 +65,18 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return NotFound();
             }
+            List<Encuentro> encuentrosActualizados = new List<Encuentro>();
+            foreach (Encuentro encuentro in encuentros)
+            {
+                Encuentro e = encuentro;
+                foreach (var pe in e.ParticipanteEncuentro)
+                {
+                    pe.Participante = _participantesService.ObtenerParticipantePorId(pe.ParticipanteId);
+                }
+                encuentrosActualizados.Add(e);
+            }
             List<MostrarEncuentro> enceuntromodel = new List<MostrarEncuentro>();
-            foreach (Encuentro item in encuentros)
+            foreach (Encuentro item in encuentrosActualizados)
             {
                 enceuntromodel.Add(new MostrarEncuentro(item));
             }
@@ -80,8 +92,18 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return NotFound();
             }
+            List<Encuentro> encuentrosActualizados = new List<Encuentro>();
+            foreach (Encuentro encuentro in encuentros)
+            {
+                Encuentro e = encuentro;
+                foreach (var pe in e.ParticipanteEncuentro)
+                {
+                    pe.Participante = _participantesService.ObtenerParticipantePorId(pe.ParticipanteId);
+                }
+                encuentrosActualizados.Add(e);
+            }
             List<MostrarEncuentro> enceuntromodel = new List<MostrarEncuentro>();
-            foreach (Encuentro item in encuentros)
+            foreach (Encuentro item in encuentrosActualizados)
             {
                 enceuntromodel.Add(new MostrarEncuentro(item));
             }
