@@ -16,7 +16,8 @@ export class NavegacionComponent implements OnInit {
 
   public items: NavBarItem[] = [
     { name: 'Inicio', uri: 'home' },
-    { name: 'Favoritos', uri: 'favoritos' }
+    { name: 'Favoritos', uri: 'favoritos' },
+    { name: 'Encuentros', uri: 'encuentros' }
   ];
 
   constructor(
