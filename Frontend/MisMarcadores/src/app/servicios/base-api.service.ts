@@ -12,8 +12,11 @@ export class BaseApiService {
     private basicHeaderConfig = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     get<T>(url: string, isTokenRequired: boolean = false): Observable<T> {
-        console.log(this.sesionService.getToken());
         return this.http.get<T>(`${environment.apiUrl}/${url}`, { headers: this.getHeader(isTokenRequired) });
+    }
+
+    getPromise<T>(url: string, isTokenRequired: boolean = false): Promise<T> {
+        return this.http.get<T>(`${environment.apiUrl}/${url}`, { headers: this.getHeader(isTokenRequired) }).toPromise();
     }
 
     post<T, Y>(url: string, request: T, isTokenRequired: boolean = false): Observable<Y> {
