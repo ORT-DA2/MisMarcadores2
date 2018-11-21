@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
-import { SesionService } from './sesion.service';
 import { BaseApiService } from './base-api.service';
 import { Participante } from '../clases/participante';
 import { ParticipanteRequest } from '../interfaces/participante-request.interface';
@@ -14,12 +13,11 @@ export class ParticipanteService {
 
     constructor(
       private http: HttpClient,
-      private baseApiService: BaseApiService,
-      private auth: SesionService) {
+      private baseApiService: BaseApiService) {
     }
 
-    obtenerParticipantes(): Observable<Array<Participante>> {
-      return this.baseApiService.get<Array<Participante>>('participantes', true);
+    obtenerParticipantes(): Promise<Array<Participante>> {
+      return this.baseApiService.getPromise<Array<Participante>>('participantes', true);
     }
 
     obtenerParticipante(id: string): Observable<Participante> {
