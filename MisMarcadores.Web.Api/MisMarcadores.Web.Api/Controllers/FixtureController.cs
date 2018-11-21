@@ -62,7 +62,7 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return StatusCode(409, "Para armar fixtures por fase de grupos la cantidad de equipos en el deporte debe ser multiplo de 4.");
             }
-            catch (ExisteEncuentroEnFecha)
+            catch (ExisteEncuentroEnFechaException)
             {
                 return StatusCode(409, "Ya existe un encuentro en esa fecha para el/los equipos seleccionados.");
             }

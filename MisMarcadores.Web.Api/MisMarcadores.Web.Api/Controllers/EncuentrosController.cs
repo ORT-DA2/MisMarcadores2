@@ -135,7 +135,7 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("El/los equipos no existen en la BD.");
             }
-            catch (ExisteEncuentroEnFecha)
+            catch (ExisteEncuentroEnFechaException)
             {
                 return StatusCode(409, "Ya existe un encuentro en esa fecha para el/los equipos seleccionados.");
             }
@@ -205,7 +205,7 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("El/los equipos no existen en la BD.");
             }
-            catch (ExisteEncuentroEnFecha)
+            catch (ExisteEncuentroEnFechaException)
             {
                 return StatusCode(409, "Ya existe un encuentro en esa fecha para el/los equipos seleccionados.");
             }

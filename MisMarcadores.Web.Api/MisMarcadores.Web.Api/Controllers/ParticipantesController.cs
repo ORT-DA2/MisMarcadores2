@@ -100,7 +100,7 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("La imagen debe tener un formato de base 64.");
             }
-            catch (ParticipanteDataExceptiom)
+            catch (ParticipanteDataException)
             {
                 return BadRequest("Datos invalidos");
             }
@@ -133,7 +133,7 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("La imagen debe tener un formato de base 64.");
             }
-            catch (ParticipanteDataExceptiom)
+            catch (ParticipanteDataException)
             {
                 return BadRequest("Datos invalidos");
             }

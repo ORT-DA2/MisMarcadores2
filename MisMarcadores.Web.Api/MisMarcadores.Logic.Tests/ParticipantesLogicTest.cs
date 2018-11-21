@@ -81,7 +81,7 @@ namespace MisMarcadores.Logic.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ParticipanteDataExceptiom))]
+        [ExpectedException(typeof(ParticipanteDataException))]
         public void AgregarParticipanteNombreVacioTest()
         {
             var fakeParticipante = TestHelper.ObtenerParticipanteNombreVacio();
@@ -272,7 +272,7 @@ namespace MisMarcadores.Logic.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ParticipanteDataExceptiom))]
+        [ExpectedException(typeof(ParticipanteDataException))]
         public void ActualizarParticipanteDatosErroneosTest()
         {
             //Arrange

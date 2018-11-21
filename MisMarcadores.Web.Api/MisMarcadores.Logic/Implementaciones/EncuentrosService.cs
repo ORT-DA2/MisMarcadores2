@@ -28,38 +28,28 @@ namespace MisMarcadores.Logic
         {
             if (DatosInvalidosEncuentro(encuentro))
                 throw new EncuentroDataException();
-
             Deporte deporte = _deportesRepository.ObtenerDeportePorNombre(encuentro.Deporte.Nombre);
             if (deporte == null)
                 throw new NoExisteDeporteException();
-
             ICollection<ParticipanteEncuentro> Puntajes = encuentro.ParticipanteEncuentro;
-
             if (Puntajes==null)
                 throw new NoExisteParticipanteException();
-
             if (Puntajes.Count == 0)
                 throw new NoExisteParticipanteException();
-
             if (Puntajes.Count < 2)
                 throw new CantidadIncorrectaDePartcipantesException();
-
             if (!deporte.EsIndividual && Puntajes.Count != 2)
                 throw new CantidadIncorrectaDePartcipantesException();
-
             if (HayPartcipanteRepetido(Puntajes))
                 throw new ParticipantesRepetidoException();
-
             if (ExisteEcuentroMismoDiaParaParticipantes(encuentro))
                 throw new ExisteEncuentroMismoDiaException();
-
             foreach (ParticipanteEncuentro p in Puntajes)
             {
                 p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
                 if (!p.Participante.Deporte.Equals(deporte))
                     throw new NoCoincideDeporteException();               
             }
-
             encuentro.ParticipanteEncuentro = Puntajes;
             encuentro.Deporte.Id = deporte.Id;
             _encuentrosRepository.Insert(encuentro);
@@ -83,15 +73,12 @@ namespace MisMarcadores.Logic
         {
             if (DatosInvalidosEncuentro(encuentro))
                 throw new EncuentroDataException();
-
             Deporte deporte = _deportesRepository.ObtenerDeportePorNombre(encuentro.Deporte.Nombre);
             if (deporte == null)
                 throw new NoExisteDeporteException();    
-
             Encuentro encuentroActual = ObtenerEncuentroPorId(id);
             if (encuentroActual == null)
                 throw new NoExisteEncuentroException();
-
             ICollection<ParticipanteEncuentro> Puntajes = encuentro.ParticipanteEncuentro;
             foreach (ParticipanteEncuentro p in Puntajes)
             {
@@ -99,24 +86,17 @@ namespace MisMarcadores.Logic
                 if (!p.Participante.Deporte.Equals(deporte))
                     throw new NoCoincideDeporteException();
             }
-
             DateTime nuevaFecha = encuentro.FechaHora;
-
             if (ExisteEcuentroMismoDiaParaParticipantes(encuentro))
                 throw new ExisteEncuentroMismoDiaException();
-
             if (Puntajes.Count == 0)
                 throw new NoExisteParticipanteException();
-
             if (Puntajes.Count < 2)
                 throw new CantidadIncorrectaDePartcipantesException();
-
             if (!deporte.EsIndividual && Puntajes.Count != 2)
                 throw new CantidadIncorrectaDePartcipantesException();
-
             if (HayPartcipanteRepetido(Puntajes))
                 throw new ParticipantesRepetidoException();
-
             encuentro = encuentroActual;
             encuentro.FechaHora = nuevaFecha;
             encuentro.ParticipanteEncuentro = Puntajes;
