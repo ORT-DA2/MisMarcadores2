@@ -17,6 +17,8 @@ import { DeporteComponent } from './deportes/deporte.component';
 import { DeportesListComponent } from './deportes/deportes-list.component';
 import { ParticipantesComponent } from './participantes/participantes.component';
 import { ParticipantesListComponent } from './participantes/participantes-list.component';
+import { EncuentrosComponent } from './encuentros/encuentros.component';
+import { EncuentrosListComponent } from './encuentros/encuentros-list.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SesionService } from './servicios/sesion.service';
 import { HomeModule } from './home/home.component';
@@ -24,6 +26,7 @@ import { YesNoPipe } from './pipes/yesNo.pipe';
 import { UsuarioService } from './servicios/usuario.service';
 import { DeporteService } from './servicios/deporte.service';
 import { ParticipanteService } from './servicios/participante.service';
+import { EncuentroService } from './servicios/encuentro.service';
 import { BaseApiService } from './servicios/base-api.service';
 import { CoreModule } from './core/core.module';
 
@@ -38,8 +41,10 @@ const appRoutes: Routes = [
   { path: 'participantes', component: ParticipantesListComponent, canActivate: [TokenGuard] },
   { path: 'participantes/agregar', component: ParticipantesComponent, canActivate: [TokenGuard] },
   { path: 'participantes/:idParticipante', component: ParticipantesComponent, canActivate: [TokenGuard] },
+  { path: 'encuentros', component: EncuentrosListComponent, canActivate: [TokenGuard] },
+  { path: 'encuentros/agregar', component: EncuentrosComponent, canActivate: [TokenGuard] },
+  { path: 'encuentros/:idParticipante', component: EncuentrosComponent, canActivate: [TokenGuard] },
   { path: '**', component: PageNotFoundComponent }
-
 ];
 
 @NgModule({
@@ -56,6 +61,8 @@ const appRoutes: Routes = [
     DeporteComponent,
     ParticipantesComponent,
     ParticipantesListComponent,
+    EncuentrosComponent,
+    EncuentrosListComponent,
     YesNoPipe
   ],
   imports: [
@@ -75,6 +82,7 @@ const appRoutes: Routes = [
     UsuarioService,
     DeporteService,
     ParticipanteService,
+    EncuentroService,
     BaseApiService
   ],
   bootstrap: [AppComponent]
