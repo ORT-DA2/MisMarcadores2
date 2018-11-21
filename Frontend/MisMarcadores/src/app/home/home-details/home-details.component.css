@@ -1,0 +1,10 @@
+.auto-welcome {
+    text-align: center;
+    width:100%;
+    height: 100%;
+    margin: 20% auto;
+}
+
+.home-welcome {
+    font-size: 72px;
+}
