@@ -178,12 +178,19 @@ namespace MisMarcadores.Logic
             Fixture fixture = GenerarFixture(fechaInicio, tipo, participantes);
             List<Encuentro> encuentros = fixture.GenerarFixture();
             bool generado = true;
+                
             foreach (Encuentro encuentro in encuentros)
             {
                 if (ExisteEncuentroParticipante(encuentro.FechaHora, participantes))
                     generado = false;
                     break;
             }
+            foreach (Encuentro encuentro in encuentros)
+            {
+                if (ExisteEcuentroMismoDiaParaParticipantes(encuentro))
+                    throw new ExisteEncuentroMismoDiaException();
+            }
+            
             if (generado)
             {
                 foreach (Encuentro encuentro in encuentros)
@@ -218,7 +225,7 @@ namespace MisMarcadores.Logic
         public bool PuntajesCorrectosIndividual(Encuentro encuentro)
         {
             List<ParticipanteEncuentro> puntajes = encuentro.ParticipanteEncuentro.ToList();
-            var puntajesAceptables = Enumerable.Range(0, 3).ToList();
+            var puntajesAceptables = Enumerable.Range(0, 4).ToList();
             foreach (var puntaje in puntajes)
             {
                 if (puntajesAceptables.Contains(puntaje.PuntosObtenidos))
