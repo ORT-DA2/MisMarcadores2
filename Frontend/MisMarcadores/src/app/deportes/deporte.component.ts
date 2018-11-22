@@ -36,7 +36,7 @@ export class DeporteComponent implements OnInit {
 
   obtenerDatosDeporte(nombre: string) {
       this._deportesService.obtenerDeporte(nombre)
-          .subscribe((obtainedDeporte: Deporte) => {
+          .then((obtainedDeporte: Deporte) => {
               this.deporte = obtainedDeporte;
               this.setearModelo();
           },
