@@ -98,7 +98,10 @@ namespace MisMarcadores.Logic
             if (participanteActual == null)
                 throw new NoExisteParticipanteException();
             if (_participantesRepository.ObtenerParticipantePorDeporte(participante.Deporte.Nombre, participante.Nombre) != null)
-                throw new ExisteParticipanteException();
+                if (_participantesRepository.ObtenerParticipantePorDeporte(participante.Deporte.Nombre, participante.Nombre).Id != id)
+                {
+                    throw new ExisteParticipanteException();
+                }             
             if (participante.Foto != null)
             {
                 try
