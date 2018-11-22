@@ -120,13 +120,14 @@ export class EncuentrosComponent implements OnInit {
     }
 
     crearEncuentro() {
-        console.log(this.posicion);
         this._encuentrosService.agregarEncuentro(this.encuentroRequest)
             .subscribe(
                 data => {
                     this.router.navigate(['/encuentros']);
                 },
                 error => {
+                    this.encuentroRequest.participanteEncuentro = new Array<ParticipanteEncuentro>();
+                    this.resultados = new Array<ParticipanteEncuentro>();
                     this.handleError(error);
                 }
             );
@@ -139,6 +140,8 @@ export class EncuentrosComponent implements OnInit {
                     this.router.navigate(['/encuentros']);
                 },
                 error => {
+                    this.encuentroRequest.participanteEncuentro = new Array<ParticipanteEncuentro>();
+                    this.resultados = new Array<ParticipanteEncuentro>();
                     this.handleError(error);
                 }
             );
@@ -170,7 +173,6 @@ export class EncuentrosComponent implements OnInit {
                 this.resultados.push(encuentro);
                 i++;
             });
-            console.log(this.resultados);
         }
         this.encuentroRequest.participanteEncuentro = this.resultados;
     }
