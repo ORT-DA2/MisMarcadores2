@@ -26,7 +26,7 @@ namespace MisMarcadores.Web.Api.Controllers
  
         // GET: api/Log
         [HttpGet]
-        public IActionResult Get([FromBody] FilterDateTime filter)
+        public IActionResult Get([FromQuery] FilterDateTime filter)
         {
             IEnumerable<MisMarcadores.Data.Entities.Log> datos = _logService.ObtenerLogEntreFechas(filter);
             if (datos == null)
