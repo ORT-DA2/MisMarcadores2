@@ -99,8 +99,11 @@ namespace MisMarcadores.Web.Api.Controllers
                 foreach (var pe in e.ParticipanteEncuentro)
                 {
                     pe.Participante = _participantesService.ObtenerParticipantePorId(pe.ParticipanteId);
+                    if (pe.Participante.Id.Equals(id))
+                    {
+                        encuentrosActualizados.Add(e);
+                    }
                 }
-                encuentrosActualizados.Add(e);
             }
             List<MostrarEncuentro> enceuntromodel = new List<MostrarEncuentro>();
             foreach (Encuentro item in encuentrosActualizados)
