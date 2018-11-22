@@ -26,7 +26,7 @@ namespace MisMarcadores.Logic
         {
             if (!CampoValido(participante.Nombre) ||
                 !CampoValido(participante.Deporte.Nombre))
-                throw new ParticipanteDataExceptiom();
+                throw new ParticipanteDataException();
 
             Deporte deporte = _deportesRepository.ObtenerDeportePorNombre(participante.Deporte.Nombre);
             if (deporte == null)
@@ -34,9 +34,6 @@ namespace MisMarcadores.Logic
 
             if (_participantesRepository.ObtenerParticipantePorDeporte(participante.Deporte.Nombre, participante.Nombre) !=null)
                 throw new ExisteParticipanteException();
-
-            if (participante.EsEquipo == deporte.EsIndividual)
-                throw new ParticipanteDistintoTipoDeporteException();
 
             if (participante.Foto != null) {
                 try {
@@ -95,7 +92,7 @@ namespace MisMarcadores.Logic
         public void ModificarParticipante(Guid id, Participante participante)
         {
             if (!CampoValido(participante.Nombre))
-                throw new ParticipanteDataExceptiom();
+                throw new ParticipanteDataException();
 
             Participante participanteActual = ObtenerParticipantePorId(id);
             if (participanteActual == null)

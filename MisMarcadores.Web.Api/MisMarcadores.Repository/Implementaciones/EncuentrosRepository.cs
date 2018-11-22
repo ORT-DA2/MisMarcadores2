@@ -37,8 +37,7 @@ namespace MisMarcadores.Repository
         }
 
         public bool ExisteEncuentroEnFecha(DateTime fecha, Guid idParticipante)
-        {
-            //return context.Encuentros.Any(x => (x.ParticipanteLocal.Id == idParticipante || x.ParticipanteVisitante.Id == idParticipante ) && x.FechaHora.Date.Equals(fecha.Date));
+        { 
             return false;
         }
 
@@ -59,7 +58,7 @@ namespace MisMarcadores.Repository
         {
             return context.Encuentros.Include(e => e.Deporte).Include(pe => pe.ParticipanteEncuentro).FirstOrDefault(e => e.Id.Equals(id));
         
-            // return context.Encuentros.Include(e => e.Deporte).Include(e => e.ParticipanteLocal).Include(e => e.ParticipanteVisitante).FirstOrDefault(e => e.Id.Equals(id));
+           
         }
 
         public List<Encuentro> ObtenerEncuentros()
@@ -70,16 +69,15 @@ namespace MisMarcadores.Repository
 
         public List<Encuentro> ObtenerEncuentrosPorDeporte(string nombre)
         {
-            // return context.Encuentros.Include(e => e.Deporte).Include(e => e.ParticipanteLocal).Include(e => e.ParticipanteVisitante).Where(x => x.Deporte.Nombre.Equals(nombre)).ToList();
 
-            return context.Encuentros.Include(e => e.Deporte).Where(x => x.Deporte.Nombre.Equals(nombre)).ToList();
+            return context.Encuentros.Include(e => e.Deporte).Include(pe => pe.ParticipanteEncuentro).Where(x => x.Deporte.Nombre.Equals(nombre)).ToList();
         }
 
         public List<Encuentro> ObtenerEncuentrosPorParticipante(Guid idParticipante)
         {
-            return context.Encuentros.Include(e => e.Deporte).ToList();
+            return context.Encuentros.Include(e => e.Deporte).Include(pe => pe.ParticipanteEncuentro).ToList();
 
-            // return context.Encuentros.Include(e => e.Deporte).Include(e => e.ParticipanteLocal).Include(e => e.ParticipanteVisitante).Where(x => (x.ParticipanteLocal.Id == idParticipante || x.ParticipanteVisitante.Id == idParticipante)).ToList();
+            
         }
     }
 }

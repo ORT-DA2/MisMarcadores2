@@ -13,9 +13,6 @@ namespace MisMarcadores.Web.Api.Models
         [Required]
         public string NombreDeporte { get; set; }
 
-        [Required]
-        public bool EsEquipo { get; set; }
-
         public Participante TransformarAParticipante()
         {
             return new Participante
@@ -23,7 +20,6 @@ namespace MisMarcadores.Web.Api.Models
                 Nombre = this.Nombre,
                 Foto = this.Foto,
                 Deporte = new Deporte { Nombre = this.NombreDeporte },
-                EsEquipo = this.EsEquipo
             };
         }
     }

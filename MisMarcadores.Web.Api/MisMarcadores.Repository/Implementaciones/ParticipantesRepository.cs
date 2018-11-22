@@ -20,7 +20,17 @@ namespace MisMarcadores.Repository
             {
                 context.Favoritos.Remove(favorito);
             }
-
+            List<Encuentro> encuentros = context.Encuentros.Include(e => e.ParticipanteEncuentro).ToList();
+            foreach (var encuentro in encuentros)
+            {
+                List<ParticipanteEncuentro> participanteEncuentros = encuentro.ParticipanteEncuentro.ToList();
+                foreach (var pe in participanteEncuentros)
+                {
+                    if (pe.ParticipanteId.Equals(id))
+                        context.Encuentros.Remove(encuentro);
+                }
+            }
+            
             context.Participantes.Remove(participante);
         }
 

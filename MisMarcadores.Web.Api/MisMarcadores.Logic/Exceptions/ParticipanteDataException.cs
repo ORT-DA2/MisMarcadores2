@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MisMarcadores.Logic
 {
-    public class ExisteEncuentroEnFecha : LogicException
+    public class ParticipanteDataException : LogicException
     {
     }
 }

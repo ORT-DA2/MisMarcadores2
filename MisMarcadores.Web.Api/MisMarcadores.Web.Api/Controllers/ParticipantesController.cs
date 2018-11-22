@@ -100,17 +100,13 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("La imagen debe tener un formato de base 64.");
             }
-            catch (ParticipanteDataExceptiom)
+            catch (ParticipanteDataException)
             {
                 return BadRequest("Datos invalidos");
             }
             catch (NoExisteDeporteException)
             {
                 return BadRequest("El nombre del deporte no existe en la BD.");
-            }
-            catch (ParticipanteDistintoTipoDeporteException)
-            {
-                return StatusCode(409, "El participante no puede ser agregado a un deporte " + (participanteModelo.EsEquipo ? "individual." : "que admite atletas."));
             }
             catch (ExisteParticipanteException)
             {
@@ -133,7 +129,7 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("La imagen debe tener un formato de base 64.");
             }
-            catch (ParticipanteDataExceptiom)
+            catch (ParticipanteDataException)
             {
                 return BadRequest("Datos invalidos");
             }

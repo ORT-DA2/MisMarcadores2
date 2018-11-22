@@ -9,10 +9,12 @@ namespace MisMarcadores.Logic
     {
         private readonly DateTime fechaInicio;
         private readonly List<Participante> participantes;
-     
+ 
+
 
         public FixtureLiga(DateTime fechaInicio, List<Participante> participantes)
         {
+         
             this.fechaInicio = fechaInicio;
             this.participantes = participantes;
         }
@@ -38,6 +40,7 @@ namespace MisMarcadores.Logic
                         participanteEncuentros.Add(participanteEncuentroUno);
                         participanteEncuentros.Add(participanteEncuentroDos);
                         encuentro.ParticipanteEncuentro = participanteEncuentros;
+                        
                         encuentros.Add(encuentro);
                         fechaEncuentro += 3;
                     }

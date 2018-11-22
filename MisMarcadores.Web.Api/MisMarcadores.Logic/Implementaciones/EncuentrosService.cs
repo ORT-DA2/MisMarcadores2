@@ -28,38 +28,30 @@ namespace MisMarcadores.Logic
         {
             if (DatosInvalidosEncuentro(encuentro))
                 throw new EncuentroDataException();
-
             Deporte deporte = _deportesRepository.ObtenerDeportePorNombre(encuentro.Deporte.Nombre);
             if (deporte == null)
                 throw new NoExisteDeporteException();
-
             ICollection<ParticipanteEncuentro> Puntajes = encuentro.ParticipanteEncuentro;
-
             if (Puntajes==null)
                 throw new NoExisteParticipanteException();
-
             if (Puntajes.Count == 0)
                 throw new NoExisteParticipanteException();
-
             if (Puntajes.Count < 2)
                 throw new CantidadIncorrectaDePartcipantesException();
-
             if (!deporte.EsIndividual && Puntajes.Count != 2)
                 throw new CantidadIncorrectaDePartcipantesException();
-
             if (HayPartcipanteRepetido(Puntajes))
                 throw new ParticipantesRepetidoException();
-
             if (ExisteEcuentroMismoDiaParaParticipantes(encuentro))
                 throw new ExisteEncuentroMismoDiaException();
-
+            if (!PuntajesCorrectos(encuentro, deporte))
+                throw new ResultadoIncorrectoException();
             foreach (ParticipanteEncuentro p in Puntajes)
             {
                 p.Participante = _participantesRepository.ObtenerParticipantePorId(p.ParticipanteId);
                 if (!p.Participante.Deporte.Equals(deporte))
                     throw new NoCoincideDeporteException();               
             }
-
             encuentro.ParticipanteEncuentro = Puntajes;
             encuentro.Deporte.Id = deporte.Id;
             _encuentrosRepository.Insert(encuentro);
@@ -83,15 +75,12 @@ namespace MisMarcadores.Logic
         {
             if (DatosInvalidosEncuentro(encuentro))
                 throw new EncuentroDataException();
-
             Deporte deporte = _deportesRepository.ObtenerDeportePorNombre(encuentro.Deporte.Nombre);
             if (deporte == null)
                 throw new NoExisteDeporteException();    
-
             Encuentro encuentroActual = ObtenerEncuentroPorId(id);
             if (encuentroActual == null)
                 throw new NoExisteEncuentroException();
-
             ICollection<ParticipanteEncuentro> Puntajes = encuentro.ParticipanteEncuentro;
             foreach (ParticipanteEncuentro p in Puntajes)
             {
@@ -99,24 +88,19 @@ namespace MisMarcadores.Logic
                 if (!p.Participante.Deporte.Equals(deporte))
                     throw new NoCoincideDeporteException();
             }
-
             DateTime nuevaFecha = encuentro.FechaHora;
-
             if (ExisteEcuentroMismoDiaParaParticipantes(encuentro))
                 throw new ExisteEncuentroMismoDiaException();
-
             if (Puntajes.Count == 0)
                 throw new NoExisteParticipanteException();
-
             if (Puntajes.Count < 2)
                 throw new CantidadIncorrectaDePartcipantesException();
-
             if (!deporte.EsIndividual && Puntajes.Count != 2)
                 throw new CantidadIncorrectaDePartcipantesException();
-
             if (HayPartcipanteRepetido(Puntajes))
                 throw new ParticipantesRepetidoException();
-
+            if (!PuntajesCorrectos(encuentro, deporte))
+                throw new ResultadoIncorrectoException();
             encuentro = encuentroActual;
             encuentro.FechaHora = nuevaFecha;
             encuentro.ParticipanteEncuentro = Puntajes;
@@ -194,12 +178,19 @@ namespace MisMarcadores.Logic
             Fixture fixture = GenerarFixture(fechaInicio, tipo, participantes);
             List<Encuentro> encuentros = fixture.GenerarFixture();
             bool generado = true;
+                
             foreach (Encuentro encuentro in encuentros)
             {
                 if (ExisteEncuentroParticipante(encuentro.FechaHora, participantes))
                     generado = false;
                     break;
             }
+            foreach (Encuentro encuentro in encuentros)
+            {
+                if (ExisteEcuentroMismoDiaParaParticipantes(encuentro))
+                    throw new ExisteEncuentroMismoDiaException();
+            }
+            
             if (generado)
             {
                 foreach (Encuentro encuentro in encuentros)
@@ -223,6 +214,45 @@ namespace MisMarcadores.Logic
             return false;
         }
 
+        public bool PuntajesCorrectos(Encuentro encuentro, Deporte deporte) {
+            if (deporte.EsIndividual)
+                return PuntajesCorrectosIndividual(encuentro);
+            else
+                return PuntajesCorrectosEquipo(encuentro);
+        }
+
+
+        public bool PuntajesCorrectosIndividual(Encuentro encuentro)
+        {
+            List<ParticipanteEncuentro> puntajes = encuentro.ParticipanteEncuentro.ToList();
+            var puntajesAceptables = Enumerable.Range(0, 4).ToList();
+            foreach (var puntaje in puntajes)
+            {
+                if (puntajesAceptables.Contains(puntaje.PuntosObtenidos))
+                {
+                    if (puntaje.PuntosObtenidos != 0)
+                    {
+                        puntajesAceptables.Remove(puntaje.PuntosObtenidos);
+                    }
+                }
+                else
+                {
+                    return false;
+                }                   
+            }
+            return true;
+        }
+        public bool PuntajesCorrectosEquipo(Encuentro encuentro)
+        {
+            List<ParticipanteEncuentro> puntajes = encuentro.ParticipanteEncuentro.ToList();
+            if ((puntajes[0].PuntosObtenidos == 3 && puntajes[1].PuntosObtenidos == 0) ||
+                (puntajes[0].PuntosObtenidos == 0 && puntajes[1].PuntosObtenidos == 3) ||
+                (puntajes[0].PuntosObtenidos == 1 && puntajes[1].PuntosObtenidos == 1))
+            {
+                return true;
+            }
+            return false;
+        }
         private bool ExisteEncuentroMismoDiaParaUnParcipante(Guid participanteId, DateTime date ) {
 
             Participante participante = _participantesRepository.ObtenerParticipantePorId(participanteId);
