@@ -37,8 +37,7 @@ namespace MisMarcadores.Repository
         }
 
         public bool ExisteEncuentroEnFecha(DateTime fecha, Guid idParticipante)
-        {
-            //return context.Encuentros.Any(x => (x.ParticipanteLocal.Id == idParticipante || x.ParticipanteVisitante.Id == idParticipante ) && x.FechaHora.Date.Equals(fecha.Date));
+        { 
             return false;
         }
 

@@ -18,7 +18,7 @@ namespace MisMarcadores.Web.Api.Controllers
         private ISesionesService _sesionesService { get; set; }
         private IParticipantesService _participantesService { get; set; }
 
-        public EncuentrosController(IEncuentrosService encuentrosService, ISesionesService sesionesService,IParticipantesService participantesService)
+        public EncuentrosController(IEncuentrosService encuentrosService, ISesionesService sesionesService, IParticipantesService participantesService)
         {
             _encuentrosService = encuentrosService;
             _sesionesService = sesionesService;
@@ -155,7 +155,10 @@ namespace MisMarcadores.Web.Api.Controllers
             {
                 return BadRequest("Algun participante tiene un encuentro ya fijado para la fecha del encuentro actual");
             }
-            
+            catch (ResultadoIncorrectoException)
+            {
+                return BadRequest("Los resultados ingresados no son correctos");
+            }
         }
 
         // POST: api/Encuentros/{idEncuentro}/comentario
@@ -236,7 +239,7 @@ namespace MisMarcadores.Web.Api.Controllers
         public IActionResult Delete()
         {
             this._encuentrosService.BorrarTodos();
-            return Ok();   
+            return Ok();
         }
     }
 }
