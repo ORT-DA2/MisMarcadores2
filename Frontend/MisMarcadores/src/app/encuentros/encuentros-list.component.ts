@@ -48,7 +48,7 @@ export class EncuentrosListComponent implements OnInit {
     }
 
     borrarEncuentro(id: string) {
-        this._encuentrosService.borrareEncuentro(id).subscribe(
+        this._encuentrosService.borrarEncuentro(id).subscribe(
             ((data: any) => this.obtenerEncuentros()),
             ((error: any) => console.log(error))
         );

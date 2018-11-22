@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import { BaseApiService } from './base-api.service';
 import { Encuentro } from '../clases/encuentro';
+import { Fixture } from '../clases/fixture';
 import { EncuentroResponse } from '../clases/encuentro-response';
 import { EncuentroRequest } from '../interfaces/encuentro-request.interface';
 
@@ -32,8 +33,12 @@ export class EncuentroService {
       return this.baseApiService.put<EncuentroRequest, any>(`encuentros/${id}`, request, true);
     }
 
-    borrareEncuentro(id: string) {
+    borrarEncuentro(id: string) {
       return this.baseApiService.delete(`encuentros/${id}`, true);
+    }
+
+    generarFixture(request: Fixture): Observable<any> {
+      return this.baseApiService.post<Fixture, any>('fixture', request, true);
     }
 
 }

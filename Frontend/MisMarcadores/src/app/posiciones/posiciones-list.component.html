@@ -4,7 +4,7 @@
             <div class='panel-heading'>
                 Posiciones
             </div>
-            <label for="deporte">Deporte</label>
+            <label for="deporte" style="color: black">Deporte</label>
             <select class="form-control" (change)="onChange($event.target.value)" name="deporte" [(ngModel)]="model.deporte" #deporte="ngModel" required>
                 <option *ngFor='let aDeporte of deportes' [value]="aDeporte.nombre">{{aDeporte.nombre}}</option>
             </select>
