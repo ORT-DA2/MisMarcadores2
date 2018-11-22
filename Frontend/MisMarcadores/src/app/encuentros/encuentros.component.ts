@@ -58,6 +58,7 @@ export class EncuentrosComponent implements OnInit {
             .then((obtainedDeporte: DeporteRequest) => {
                 this.deporteActual = obtainedDeporte;
                 this.obtenerParticipantes();
+                this.posicion = new Array<any>(this.participantes.length);
             },
             error => {
                 this.handleError(error);
@@ -119,6 +120,7 @@ export class EncuentrosComponent implements OnInit {
     }
 
     crearEncuentro() {
+        console.log(this.posicion);
         this._encuentrosService.agregarEncuentro(this.encuentroRequest)
             .subscribe(
                 data => {
@@ -159,6 +161,16 @@ export class EncuentrosComponent implements OnInit {
             encuentroVisitante.puntosObtenidos = this.model.puntosVisitante;
             this.resultados.push(encuentroLocal);
             this.resultados.push(encuentroVisitante);
+        } else {
+            let i = 0;
+            this.participantes.forEach(p => {
+                const encuentro = new ParticipanteEncuentro();
+                encuentro.participanteId = p.id;
+                encuentro.puntosObtenidos = this.posicion[i];
+                this.resultados.push(encuentro);
+                i++;
+            });
+            console.log(this.resultados);
         }
         this.encuentroRequest.participanteEncuentro = this.resultados;
     }
