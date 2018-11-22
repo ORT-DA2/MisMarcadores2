@@ -21,6 +21,10 @@ export class EncuentroService {
       return this.baseApiService.get<Array<Encuentro>>('encuentros', true);
     }
 
+    obtenerEncuentrosPorDeporte(nombre: string): Promise<Array<Encuentro>> {
+      return this.baseApiService.getPromise<Array<Encuentro>>(`encuentros/deporte/${nombre}`, true);
+    }
+
     obtenerEncuentro(id: string): Promise<EncuentroResponse> {
       return this.baseApiService.getPromise<EncuentroResponse>(`encuentros/${id}`, true);
     }

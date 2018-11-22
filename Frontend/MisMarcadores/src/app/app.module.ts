@@ -20,6 +20,7 @@ import { FixtureComponent } from './fixtures/fixtures.component';
 import { ParticipantesListComponent } from './participantes/participantes-list.component';
 import { EncuentrosComponent } from './encuentros/encuentros.component';
 import { PosicionesComponent } from './posiciones/posiciones-list.component';
+import { ReporteEquipoComponent } from './reportes/reporte-equipos/reporte-equipo.component';
 import { EncuentrosListComponent } from './encuentros/encuentros-list.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SesionService } from './servicios/sesion.service';
@@ -48,6 +49,7 @@ const appRoutes: Routes = [
   { path: 'encuentros/:idEncuentro', component: EncuentrosComponent, canActivate: [TokenGuard] },
   { path: 'posiciones', component: PosicionesComponent, canActivate: [TokenGuard] },
   { path: 'fixture', component: FixtureComponent, canActivate: [TokenGuard] },
+  { path: 'reporteEquipo', component: ReporteEquipoComponent, canActivate: [TokenGuard] },
   { path: '**', component: PageNotFoundComponent }
 ];
 
@@ -69,6 +71,7 @@ const appRoutes: Routes = [
     EncuentrosComponent,
     EncuentrosListComponent,
     FixtureComponent,
+    ReporteEquipoComponent,
     YesNoPipe
   ],
   imports: [
