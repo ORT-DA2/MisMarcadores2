@@ -1,0 +1,32 @@
+<div>
+    <div id="fixtures">
+        <div class='panel panel-primary' >
+            <div class='panel-heading'>
+                Fixtures
+            </div>
+            <form name="form" (ngSubmit)="f.form.valid && submitForm()" #f="ngForm" novalidate>
+                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !fecha.valid }">
+                    <label for="fecha" style="color: black">Fecha</label>
+                    <input type="date" class="form-control" name="fecha" [(ngModel)]="model.fecha" #fecha="ngModel" required />
+                    <div *ngIf="f.submitted && !fecha.valid" class="help-block">La fecha no puede ser vacía</div>
+                </div>
+                <label for="deporte" style="color: black">Deporte</label>
+                <select class="form-control" (change)="onChange($event.target.value)" name="deporte" [(ngModel)]="model.deporte" #deporte="ngModel" required>
+                    <option *ngFor='let aDeporte of deportes' [value]="aDeporte.nombre">{{aDeporte.nombre}}</option>
+                </select>
+                <label for="tipo" style="color: black">Tipo</label>
+                <select [(ngModel)]="model.tipo" name="model.tipo" class="form-control" required>
+                    <option value="Liga"> Liga </option>
+                    <option value="Grupos"> Grupos </option>
+                </select>
+                <div class="form-group" id="buttons">
+                    <button class='btn btn-primary btn-agregar' >
+                        <i class="glyphicon glyphicon-plus"></i>
+                        Generar
+                    </button>
+                    <a [routerLink]="['/home']" class="btn btn-link">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
