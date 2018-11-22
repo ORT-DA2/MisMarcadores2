@@ -17,12 +17,16 @@ export class DeporteService {
     return this.baseApiService.post<DeporteRequest, any>('deportes', request, true);
   }
 
-  obtenerDeporte(nombre: string): Observable<DeporteRequest> {
-    return this.baseApiService.get<DeporteRequest>(`deportes/${nombre}`, true);
+  obtenerDeporte(nombre: string): Promise<DeporteRequest> {
+    return this.baseApiService.getPromise<DeporteRequest>(`deportes/${nombre}`, true);
   }
 
-  obtenerDeportes(): Observable<Array<DeporteRequest>> {
-    return this.baseApiService.get<Array<DeporteRequest>>('deportes', true);
+  obtenerDeportes(): Promise<Array<DeporteRequest>> {
+    return this.baseApiService.getPromise<Array<DeporteRequest>>('deportes', true);
+  }
+
+  obtenerPosicionesDeporte(nombre: string): Promise<Array<DeporteRequest>> {
+    return this.baseApiService.getPromise<Array<DeporteRequest>>(`deportes/${nombre}/posiciones`, true);
   }
 
   editarDeporte(nombre: string, request: DeporteRequest) {

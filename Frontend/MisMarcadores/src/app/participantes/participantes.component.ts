@@ -48,7 +48,7 @@ export class ParticipantesComponent implements OnInit {
 
     obtenerDeportes() {
         this._deportesService.obtenerDeportes()
-            .subscribe(((data: Array<DeporteRequest>) => this.result(data)),
+            .then(((data: Array<DeporteRequest>) => this.result(data)),
                 ((error: any) => console.log(error))
             );
     }

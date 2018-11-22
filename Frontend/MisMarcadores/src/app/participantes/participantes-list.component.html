@@ -16,17 +16,21 @@
                             <th>Nombre</th>
                             <th>Foto</th>
                             <th>Deporte</th>
+                            <th>Favorito</th>
                             <th>Editar</th>
                             <th>Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor='let aParticipante of participantes'>
+                        <tr *ngFor='let aParticipante of participantes; let i = index'>
                             <td>{{aParticipante.nombre}}</td>
                             <td>
                                 <img *ngIf="aParticipante.foto != null" src={{aParticipante.foto}} style="height:50px;width:50px" />
                             </td>
                             <td>{{aParticipante.deporte}}</td>
+                            <td>
+                                <input type="checkbox" [(ngModel)]="isChecked" (change)="checkValue(aParticipante.id, isChecked?'follow':'unfollow')" [checked]="favoritos != null && favoritos.indexOf(aParticipante.Id) == -1 ? false : true" />
+                            </td>
                             <td>
                                 <button class='btn btn-primary' (click)="editarParticipante(aParticipante.id)">
                                     <i class="glyphicon glyphicon-edit"></i>

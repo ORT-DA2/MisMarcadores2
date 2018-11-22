@@ -3,5 +3,4 @@ export interface ParticipanteRequest {
     nombre: string;
     foto: string;
     nombreDeporte: string;
-    esEquipo: boolean;
 }

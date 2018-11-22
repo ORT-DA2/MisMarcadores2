@@ -3,5 +3,4 @@ export class ParticipanteRequest {
     nombre: string;
     foto: string;
     nombreDeporte: string;
-    esEquipo: boolean;
 }

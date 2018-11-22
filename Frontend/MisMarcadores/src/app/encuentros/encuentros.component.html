@@ -7,7 +7,7 @@
                 <input type="date" class="form-control" name="fecha" [(ngModel)]="model.fecha" #fecha="ngModel" required />
                 <div *ngIf="f.submitted && !fecha.valid" class="help-block">La fecha no puede ser vacía</div>
             </div>
-            <div *ngIf="!isEditing" class="form-group" [ngClass]="{ 'has-error': f.submitted && !deporte.valid }">
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !deporte.valid }">
                 <label for="deporte">Deporte</label>
                 <select class="form-control" (change)="onChange($event.target.value)" name="deporte" [(ngModel)]="model.deporte" #deporte="ngModel" required>
                     <option *ngFor='let aDeporte of deportes' [value]="aDeporte.nombre">{{aDeporte.nombre}}</option>
@@ -34,16 +34,12 @@
                     </div>
                 </div>
                 <div *ngIf="deporteActual != null && deporteActual.esIndividual && participantes.length>1">
-                    <label for="participantes">Participante:</label>
-                    <div class="participantes-individual" style="display:flex; flex-direction:row;">
-                        <select class="form-control" [(ngModel)]="model.participanteVisitante" name="participanteVisitante" #participanteVisitante="ngModel" required>
-                            <option *ngFor='let aParticipante of participantes' [value]="aParticipante.id">{{aParticipante.nombre}}</option>
-                        </select>
-                        <div class="form-group" >
-                            <label for="posicion">Posicion:</label>
-                            <input type="number" class="form-control" name="posicion[i + 1]" [(ngModel)]="model.posicion[i + 1]" #posicion="ngModel" required />
-                            <div *ngIf="f.submitted" class="help-block">La posicion no puede ser vacía</div>
-                        </div>
+                    <label for="participantesLabel">Participante:</label>
+                    <div *ngFor='let aParticipante of participantes ; let i = index' class="participantes-individual" style="display:flex; flex-direction:row; margin: 10px auto;">
+                        <input [attr.id]="aParticipante.id" [value]="aParticipante.nombre" class="form-control" [ngModel]="aParticipante.nombre"  name="participante-{{i}}" required readonly/>
+                        <label for="posicion">Posicion:</label>
+                        <input [attr.id]="aParticipante.id" type="number" class="form-control" [(ngModel)]="posicion[i]" required/>
+                        <div *ngIf="f.submitted && !posicion.valid" class="help-block">La posicion no puede ser vacía</div>
                     </div>
                 </div>
                 <div class="form-group" id="buttons">

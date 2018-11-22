@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Participante } from '../clases/participante';
+import { UsuarioService } from '../servicios/usuario.service';
 import { ParticipanteService } from '../servicios/participante.service';
 
 @Component({
@@ -9,10 +10,14 @@ import { ParticipanteService } from '../servicios/participante.service';
 })
 export class ParticipantesListComponent implements OnInit {
 
-    participantes: Array<Participante>;
+    participantes: Array<Participante> = new Array<Participante>();
+    favoritos: Array<string>;
+    toDos: string[];
     loading = false;
 
-    constructor(private router: Router, private _participantesService: ParticipanteService) {
+    constructor(private router: Router,
+        private _participantesService: ParticipanteService,
+        private _usuariosService: UsuarioService) {
     }
 
     ngOnInit(): void {
@@ -25,11 +30,33 @@ export class ParticipantesListComponent implements OnInit {
         this.loading = false;
     }
 
+    checkValue(id: string, event: any) {
+        console.log(id);
+        console.log(event);
+    }
+
     obtenerParticipantes() {
         this._participantesService.obtenerParticipantes()
-            .then(((data: Array<Participante>) => this.result(data)),
-                ((error: any) => console.log(error))
-            );
+            .then((data: Array<Participante>) => {
+                this.result(data);
+                this.obtenerFavoritos();
+                console.log(this.participantes);
+            },
+            error => {
+                console.log(error);
+            }
+        );
+    }
+
+    obtenerFavoritos() {
+        this._usuariosService.obtenerFavoritos()
+            .then((data: Array<string>) => {
+                this.favoritos = data;
+            },
+            error => {
+                console.log(error);
+            }
+        );
     }
 
     agregarParticipante() {

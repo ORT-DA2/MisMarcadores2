@@ -34,6 +34,10 @@ export class UsuarioService {
     return this.baseApiService.get<Array<UsuarioRequest>>('usuarios', true);
   }
 
+  obtenerFavoritos(): Promise<Array<string>> {
+    return this.baseApiService.getPromise<Array<string>>('favoritos', true);
+  }
+
   editarUsuario(request: UsuarioRequest) {
     const nombreUsuario = request.nombreUsuario;
     return this.baseApiService.put<UsuarioRequest, any>(`usuarios/${nombreUsuario}`, request, true);

@@ -5,7 +5,6 @@ export class Participante {
     nombre: string;
     foto: string;
     deporte: Deporte;
-    esEquipo: boolean;
     constructor() {
         this.deporte = new Deporte();
     }

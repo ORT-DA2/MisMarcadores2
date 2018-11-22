@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import { BaseApiService } from './base-api.service';
 import { Encuentro } from '../clases/encuentro';
+import { EncuentroResponse } from '../clases/encuentro-response';
 import { EncuentroRequest } from '../interfaces/encuentro-request.interface';
 
 @Injectable()
@@ -19,8 +20,8 @@ export class EncuentroService {
       return this.baseApiService.get<Array<Encuentro>>('encuentros', true);
     }
 
-    obtenerEncuentro(id: string): Observable<Encuentro> {
-      return this.baseApiService.get<Encuentro>(`encuentros/${id}`, true);
+    obtenerEncuentro(id: string): Promise<EncuentroResponse> {
+      return this.baseApiService.getPromise<EncuentroResponse>(`encuentros/${id}`, true);
     }
 
     agregarEncuentro(request: EncuentroRequest): Observable<any> {

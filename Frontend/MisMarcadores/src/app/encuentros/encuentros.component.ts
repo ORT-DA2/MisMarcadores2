@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Encuentro } from '../clases/encuentro';
+import { EncuentroResponse } from '../clases/encuentro-response';
 import { Participante } from '../clases/participante';
 import { EncuentroRequest } from '../clases/encuentro-request';
 import { DeporteRequest } from '../interfaces/deporte-request.interface';
@@ -19,8 +19,9 @@ import { NotificationService } from '../core/notification.service';
 export class EncuentrosComponent implements OnInit {
     pageTitle = 'Nuevo encuentro';
     model: any = {};
-    encuentro: Encuentro;
+    encuentro: EncuentroResponse;
     deportes: Array<DeporteRequest>;
+    posicion: Array<any>;
     resultados: Array<ParticipanteEncuentro> = new Array<ParticipanteEncuentro>();
     participantes: Array<Participante> = new Array<Participante>();
     deporteActual: DeporteRequest;
@@ -28,7 +29,6 @@ export class EncuentrosComponent implements OnInit {
     isEditing: boolean;
     idActual: string;
     btnText = 'Agregar';
-    mar = true;
 
     constructor(private route: ActivatedRoute,
         private router: Router,
@@ -51,13 +51,13 @@ export class EncuentrosComponent implements OnInit {
     onChange(deporteSeleccionado) {
         this.participantes = new Array<Participante>();
         this.obtenerDeporte(deporteSeleccionado);
-        this.obtenerParticipantes();
     }
 
     obtenerDeporte(nombre: string) {
         this._deportesService.obtenerDeporte(nombre)
-            .subscribe((obtainedDeporte: DeporteRequest) => {
+            .then((obtainedDeporte: DeporteRequest) => {
                 this.deporteActual = obtainedDeporte;
+                this.obtenerParticipantes();
             },
             error => {
                 this.handleError(error);
@@ -67,19 +67,26 @@ export class EncuentrosComponent implements OnInit {
 
     obtenerDeportes() {
         this._deportesService.obtenerDeportes()
-            .subscribe(((data: Array<DeporteRequest>) => this.deportes = data),
+            .then(((data: Array<DeporteRequest>) => this.deportes = data),
                 ((error: any) => console.log(error))
             );
     }
 
-    obtenerParticipantes() {
+    obtenerParticipantes(ids: Array<string> = null) {
         let participantesActuales: Array<Participante> = new Array<Participante>();
         this._participantesService.obtenerParticipantes()
         .then((data: Array<Participante>) => {
                 participantesActuales = data;
                 participantesActuales.forEach(p => {
                     if (p.deporte.toString() === this.deporteActual.nombre) {
-                        this.participantes.push(p);
+                        if (ids == null) {
+                            console.log(p);
+                            this.participantes.push(p);
+                        } else {
+                            if (p.id in ids) {
+                                this.participantes.push(p);
+                            }
+                        }
                     }
                 });
             },
@@ -91,8 +98,9 @@ export class EncuentrosComponent implements OnInit {
 
     obtenerDatosEncuentro(id: string) {
         this._encuentrosService.obtenerEncuentro(id)
-            .subscribe((obtainedEncuentro: Encuentro) => {
+            .then((obtainedEncuentro: EncuentroResponse) => {
                 this.encuentro = obtainedEncuentro;
+                this.obtenerDeporte(this.encuentro.nombreDeporte);
                 this.setearModelo();
             },
             error => {
@@ -149,14 +157,13 @@ export class EncuentrosComponent implements OnInit {
             const encuentroVisitante = new ParticipanteEncuentro();
             encuentroVisitante.participanteId = this.model.participanteVisitante;
             encuentroVisitante.puntosObtenidos = this.model.puntosVisitante;
+            this.resultados.push(encuentroLocal);
             this.resultados.push(encuentroVisitante);
         }
         this.encuentroRequest.participanteEncuentro = this.resultados;
     }
 
     setearModelo() {
-        this.model.fecha = this.encuentro.fecha;
         this.model.deporte = this.encuentro.nombreDeporte;
-        //  this.model.participante = this.encuentro.participanteEncuentro;
     }
 }
