@@ -175,7 +175,6 @@ namespace MisMarcadores.Logic.Tests
                 {
                     Id = Guid.NewGuid(),
                     Nombre = "Defensor",
-                    Foto = "",
                     Deporte = new Deporte {Nombre = "Futbol"}
                 },
                 new Participante

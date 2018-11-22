@@ -429,3 +429,4 @@ MisMarcadores.Web.Api/NDependOut/2018_11/20_22_35/NDependReportFiles/Error.png
 MisMarcadores.Web.Api/NDependOut/2018_11/20_22_35/NDependReportFiles/Empty.png
 MisMarcadores.Web.Api/NDependOut/2018_11/20_22_35/NDependReportFiles/ComponentDependenciesMatrix.png
 MisMarcadores.Web.Api/NDependOut/2018_11/20_22_35/NDependReportFiles/Severity_Blocker.png
+*.cd
