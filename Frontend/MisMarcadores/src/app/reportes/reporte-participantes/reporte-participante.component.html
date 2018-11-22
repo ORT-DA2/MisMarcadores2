@@ -1,31 +1,36 @@
 <div>
-    <div id="posiciones-list">
+    <div id="reportes-list">
         <div class='panel panel-primary' >
             <div class='panel-heading'>
-                Posiciones
+                Encuentros por participantes
             </div>
-            <label for="deporte" style="color: black">Deporte</label>
+            <label for="participanteLabel" style="color: black">Participante</label>
             <select class="form-control" (change)="onChange($event.target.value)" name="deporte" [(ngModel)]="model.deporte" #deporte="ngModel" required>
-                <option *ngFor='let aDeporte of deportes' [value]="aDeporte.nombre">{{aDeporte.nombre}}</option>
+                <option *ngFor='let aParticipante of participantes' [value]="aParticipante.id">{{aParticipante.nombre}}</option>
             </select>
         </div>
+        <div id="reportes-list" *ngIf="participanteActual != null" style="background-color:white;">
+            <table class='table'>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Deporte</th>
+                        <th>Participantes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor='let aEncuentro of encuentros'>
+                        <td>{{aEncuentro.fecha | date:'yyyy-MM-dd'}}</td>
+                        <td>{{aEncuentro.nombreDeporte}}</td>
+                        <td>
+                            <ul>
+                                <li *ngFor='let aParticipante of toArray(aEncuentro.puntajes)' >{{aParticipante.participante}}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div id="posiciones-list" *ngIf="deporteActual != null" style="background-color:white;">
-        <table class='table'>
-            <thead>
-                <tr>
-                    <th>Puesto</th>
-                    <th>Nombre</th>
-                    <th>Puntos</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor='let aPosicion of posiciones'>
-                    <td>{{aPosicion.puesto}}</td>
-                    <td>{{aPosicion.nombre}}</td>
-                    <td>{{aPosicion.puntos}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    
 </div>

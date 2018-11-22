@@ -1,47 +1,54 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
-import { Participante } from '../clases/participante';
-import { Posicion } from '../clases/posicion';
-import { DeporteService } from '../servicios/deporte.service';
-import { DeporteRequest } from '../interfaces/deporte-request.interface';
+import { EncuentroResponse } from '../../clases/encuentro-response';
+import { Participante } from '../../clases/participante';
+import { ParticipanteRequest } from '../../clases/participante-request';
+import { EncuentroService } from '../../servicios/encuentro.service';
+import { ParticipanteService } from 'src/app/servicios/participante.service';
 
 @Component({
-    templateUrl: './posiciones-list.component.html',
-    styleUrls: ['./posiciones-list.css']
+    templateUrl: './reporte-participante.component.html',
+    styleUrls: ['./reporte-participante.css']
 })
 
-export class PosicionesComponent implements OnInit {
+export class ReporteParticipanteComponent implements OnInit {
 
     model: any = {};
     loading = false;
-    posiciones: Array<Posicion>;
-    deportes: Array<DeporteRequest>;
-    deporteActual: DeporteRequest;
+    encuentros: Array<EncuentroResponse>;
+    participantes: Array<Participante>;
+    participanteActual: Participante;
 
     constructor(private route: ActivatedRoute,
         private router: Router,
-        private _deportesService: DeporteService) {
+        private _participantesService: ParticipanteService,
+        private _encuentrosService: EncuentroService) {
     }
 
     ngOnInit(): void {
         this.loading = true;
-        this.obtenerDeportes();
+        this.obtenerParticipantes();
     }
 
-    private result(data: Array<DeporteRequest>): void {
-        this.deportes = data;
+    private result(data: Array<Participante>): void {
+        this.participantes = data;
         this.loading = false;
     }
 
-    onChange(deporteSeleccionado) {
-        this.obtenerDeporte(deporteSeleccionado);
-        this.obtenerPosiciones(deporteSeleccionado);
+    onChange(participanteSeleccionado) {
+        console.log(participanteSeleccionado);
+        this.obtenerParticipante(participanteSeleccionado);
+        this.obtenerEncuentros(participanteSeleccionado);
     }
 
-    obtenerDeporte(nombre: string) {
-        this._deportesService.obtenerDeporte(nombre)
-            .then((obtainedDeporte: DeporteRequest) => {
-                this.deporteActual = obtainedDeporte;
+    toArray(answers: object) {
+        return Object.keys(answers).map(key => answers[key])
+    }
+
+    obtenerParticipante(id: string) {
+        this._participantesService.obtenerParticipante(id)
+            .then((obtainedParticipante: Participante) => {
+                this.participanteActual = obtainedParticipante;
             },
             error => {
                 console.log(error);
@@ -49,17 +56,17 @@ export class PosicionesComponent implements OnInit {
         );
     }
 
-    obtenerDeportes() {
-        this._deportesService.obtenerDeportes()
-            .then(((data: Array<DeporteRequest>) => this.result(data)),
+    obtenerParticipantes() {
+        this._participantesService.obtenerParticipantes()
+            .then(((data: Array<Participante>) => this.result(data)),
                 ((error: any) => console.log(error))
             );
     }
 
-    obtenerPosiciones(nombre: string) {
-        this._deportesService.obtenerPosicionesDeporte(nombre)
+    obtenerEncuentros(id: string) {
+        this._encuentrosService.obtenerEncuentrosPorParticipante(id)
             .then((data: any) => {
-                this.posiciones = data;
+                this.encuentros = data;
             },
             error => {
                 console.log(error);

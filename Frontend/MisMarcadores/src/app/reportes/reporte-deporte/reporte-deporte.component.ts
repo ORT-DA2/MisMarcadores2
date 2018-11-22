@@ -6,11 +6,11 @@ import { EncuentroService } from '../../servicios/encuentro.service';
 import { DeporteRequest } from '../../interfaces/deporte-request.interface';
 
 @Component({
-    templateUrl: './reporte-equipo.component.html',
-    styleUrls: ['./reporte-equipo.css']
+    templateUrl: './reporte-deporte.component.html',
+    styleUrls: ['./reporte-deporte.css']
 })
 
-export class ReporteEquipoComponent implements OnInit {
+export class ReporteDeporteComponent implements OnInit {
 
     model: any = {};
     loading = false;

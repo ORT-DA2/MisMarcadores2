@@ -20,8 +20,8 @@ export class ParticipanteService {
       return this.baseApiService.getPromise<Array<Participante>>('participantes', true);
     }
 
-    obtenerParticipante(id: string): Observable<Participante> {
-      return this.baseApiService.get<Participante>(`participantes/${id}`, true);
+    obtenerParticipante(id: string): Promise<Participante> {
+      return this.baseApiService.getPromise<Participante>(`participantes/${id}`, true);
     }
 
     agregarParticipante(request: ParticipanteRequest): Observable<any> {

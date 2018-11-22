@@ -66,7 +66,7 @@ export class ParticipantesComponent implements OnInit {
 
     obtenerDatosParticipante(id: string) {
         this._participantesService.obtenerParticipante(id)
-            .subscribe((obtainedParticipante: Participante) => {
+            .then((obtainedParticipante: Participante) => {
                 this.participante = obtainedParticipante;
                 this.setearModelo();
             },

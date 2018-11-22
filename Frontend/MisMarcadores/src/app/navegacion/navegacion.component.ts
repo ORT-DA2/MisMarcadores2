@@ -46,7 +46,8 @@ export class NavegacionComponent implements OnInit {
     this.items.push({ name: 'Deportes', uri: 'deportes' });
     this.items.push({ name: 'Participantes', uri: 'participantes' });
     this.items.push({ name: 'Fixtures', uri: 'fixture' });
-    this.items.push({ name: 'Reporte Equipo', uri: 'reporteEquipo' });
+    this.items.push({ name: 'Reporte Deporte', uri: 'reporteDeporte' });
+    this.items.push({ name: 'Reporte Participante', uri: 'reporteParticipante' });
   }
 
   public logout(): void {
